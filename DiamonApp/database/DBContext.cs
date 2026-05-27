@@ -1,11 +1,4 @@
-﻿using System.Diagnostics;
-using DiamonApp.classes;
-using DiamonApp.Classes;
-using DiamondApp.classes;
-using DiamondApp.Hash;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-
+﻿using DiamonApp.classes;
 namespace DiamonApp.DataBase
 {
     /// <summary>

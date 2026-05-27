@@ -1,11 +1,4 @@
-﻿using DiamonApp.Classes;
-using DiamonApp.DataBase;
-using DiamonApp.Enums;
-using DiamondApp.Resourses;
-using DiamondApp.Hash;
-using Draft_Diamond_BD;
-
-namespace DiamonApp
+﻿namespace DiamonApp
 {
     /// <summary>
     /// Форма регистрации новых пользователей

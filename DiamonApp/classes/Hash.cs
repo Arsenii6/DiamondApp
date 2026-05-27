@@ -1,8 +1,4 @@
-﻿using System;
-using System.Security.Cryptography;
-using System.Text;
-
-namespace DiamondApp.Hash
+﻿namespace DiamondApp.Hash
 {
     /// <summary>
     /// Предоставляет методы для хэширования строк

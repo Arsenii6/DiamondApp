@@ -1,11 +1,4 @@
-﻿using DiamonApp.Classes;
-using DiamonApp.DataBase;
-using DiamondApp.Resourses;
-using System;
-using System.Linq;
-using System.Windows.Forms;
-
-namespace Draft_Diamond_BD
+﻿namespace Draft_Diamond_BD
 {
     /// <summary>
     /// Форма изменения карточки товара

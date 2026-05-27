@@ -2,150 +2,126 @@
 {
     partial class ChangeCategory
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem backToolStripMenuItem;
+        private System.Windows.Forms.Label labelTitle;
+        private System.Windows.Forms.Label labelOld;
+        private System.Windows.Forms.ComboBox comboBoxOldName;
+        private System.Windows.Forms.Label labelNew;
+        private System.Windows.Forms.TextBox comboBoxNewName;
+        private System.Windows.Forms.Button buttonChangeCategory;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
+            if (disposing && (components != null)) components.Dispose();
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            labelChangeCategory = new Label();
-            sqliteCommand1 = new Microsoft.Data.Sqlite.SqliteCommand();
-            labelOldName = new Label();
-            comboBoxOldName = new ComboBox();
-            comboBoxNewName = new ComboBox();
-            labelNewName = new Label();
-            buttonChangeCategory = new Button();
             menuStrip1 = new MenuStrip();
             backToolStripMenuItem = new ToolStripMenuItem();
+            labelTitle = new Label();
+            labelOld = new Label();
+            comboBoxOldName = new ComboBox();
+            labelNew = new Label();
+            comboBoxNewName = new TextBox();
+            buttonChangeCategory = new Button();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
-            // labelChangeCategory
-            // 
-            labelChangeCategory.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            labelChangeCategory.AutoSize = true;
-            labelChangeCategory.Font = new Font("Microsoft Sans Serif", 18F);
-            labelChangeCategory.Location = new Point(237, 55);
-            labelChangeCategory.Name = "labelChangeCategory";
-            labelChangeCategory.Size = new Size(324, 36);
-            labelChangeCategory.TabIndex = 0;
-            labelChangeCategory.Text = "Изменить категорию";
-            // 
-            // sqliteCommand1
-            // 
-            sqliteCommand1.CommandTimeout = 30;
-            sqliteCommand1.Connection = null;
-            sqliteCommand1.Transaction = null;
-            sqliteCommand1.UpdatedRowSource = System.Data.UpdateRowSource.None;
-            // 
-            // labelOldName
-            // 
-            labelOldName.Anchor = AnchorStyles.None;
-            labelOldName.AutoSize = true;
-            labelOldName.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            labelOldName.Location = new Point(152, 137);
-            labelOldName.Name = "labelOldName";
-            labelOldName.Size = new Size(113, 50);
-            labelOldName.TabIndex = 4;
-            labelOldName.Text = "Название \r\nкатегории:";
-            // 
-            // comboBoxOldName
-            // 
-            comboBoxOldName.BackColor = SystemColors.ControlDarkDark;
-            comboBoxOldName.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxOldName.FormattingEnabled = true;
-            comboBoxOldName.Location = new Point(288, 160);
-            comboBoxOldName.Name = "comboBoxOldName";
-            comboBoxOldName.Size = new Size(217, 28);
-            comboBoxOldName.TabIndex = 12;
-            // 
-            // comboBoxNewName
-            // 
-            comboBoxNewName.BackColor = SystemColors.ControlDarkDark;
-            comboBoxNewName.DropDownStyle = ComboBoxStyle.Simple;
-            comboBoxNewName.FormattingEnabled = true;
-            comboBoxNewName.Location = new Point(288, 263);
-            comboBoxNewName.Name = "comboBoxNewName";
-            comboBoxNewName.Size = new Size(217, 29);
-            comboBoxNewName.TabIndex = 14;
-            // 
-            // labelNewName
-            // 
-            labelNewName.Anchor = AnchorStyles.None;
-            labelNewName.AutoSize = true;
-            labelNewName.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            labelNewName.Location = new Point(152, 240);
-            labelNewName.Name = "labelNewName";
-            labelNewName.Size = new Size(103, 50);
-            labelNewName.TabIndex = 13;
-            labelNewName.Text = "Новое \r\nназвание:";
-            // 
-            // buttonChangeCategory
-            // 
-            buttonChangeCategory.BackColor = SystemColors.ScrollBar;
-            buttonChangeCategory.FlatStyle = FlatStyle.Flat;
-            buttonChangeCategory.Font = new Font("Microsoft Sans Serif", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            buttonChangeCategory.Location = new Point(256, 407);
-            buttonChangeCategory.Margin = new Padding(3, 4, 3, 4);
-            buttonChangeCategory.Name = "buttonChangeCategory";
-            buttonChangeCategory.Size = new Size(222, 61);
-            buttonChangeCategory.TabIndex = 15;
-            buttonChangeCategory.Text = "Изменить";
-            buttonChangeCategory.UseVisualStyleBackColor = false;
-            // 
             // menuStrip1
             // 
-            menuStrip1.ImageScalingSize = new Size(20, 20);
+            menuStrip1.BackColor = Color.White;
+            menuStrip1.ImageScalingSize = new Size(24, 24);
             menuStrip1.Items.AddRange(new ToolStripItem[] { backToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(767, 28);
-            menuStrip1.TabIndex = 16;
-            menuStrip1.Text = "menuStrip1";
+            menuStrip1.Size = new Size(460, 33);
+            menuStrip1.TabIndex = 6;
             // 
             // backToolStripMenuItem
             // 
             backToolStripMenuItem.Name = "backToolStripMenuItem";
-            backToolStripMenuItem.Size = new Size(65, 24);
+            backToolStripMenuItem.Size = new Size(77, 29);
             backToolStripMenuItem.Text = "Назад";
             backToolStripMenuItem.Click += backToolStripMenuItem_Click;
             // 
+            // labelTitle
+            // 
+            labelTitle.AutoSize = true;
+            labelTitle.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            labelTitle.Location = new Point(50, 46);
+            labelTitle.Name = "labelTitle";
+            labelTitle.Size = new Size(389, 48);
+            labelTitle.TabIndex = 5;
+            labelTitle.Text = "Изменить категорию";
+            // 
+            // labelOld
+            // 
+            labelOld.AutoSize = true;
+            labelOld.Font = new Font("Segoe UI", 11F);
+            labelOld.Location = new Point(50, 105);
+            labelOld.Name = "labelOld";
+            labelOld.Size = new Size(211, 30);
+            labelOld.TabIndex = 4;
+            labelOld.Text = "Текущая категория:";
+            // 
+            // comboBoxOldName
+            // 
+            comboBoxOldName.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxOldName.Font = new Font("Segoe UI", 11F);
+            comboBoxOldName.Location = new Point(50, 138);
+            comboBoxOldName.Name = "comboBoxOldName";
+            comboBoxOldName.Size = new Size(360, 38);
+            comboBoxOldName.TabIndex = 3;
+            // 
+            // labelNew
+            // 
+            labelNew.AutoSize = true;
+            labelNew.Font = new Font("Segoe UI", 11F);
+            labelNew.Location = new Point(50, 180);
+            labelNew.Name = "labelNew";
+            labelNew.Size = new Size(185, 30);
+            labelNew.TabIndex = 2;
+            labelNew.Text = "Новое название:";
+            // 
+            // comboBoxNewName
+            // 
+            comboBoxNewName.Font = new Font("Segoe UI", 11F);
+            comboBoxNewName.Location = new Point(50, 213);
+            comboBoxNewName.Name = "comboBoxNewName";
+            comboBoxNewName.Size = new Size(360, 37);
+            comboBoxNewName.TabIndex = 1;
+            // 
+            // buttonChangeCategory
+            // 
+            buttonChangeCategory.BackColor = Color.SteelBlue;
+            buttonChangeCategory.FlatAppearance.BorderSize = 0;
+            buttonChangeCategory.FlatStyle = FlatStyle.Flat;
+            buttonChangeCategory.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            buttonChangeCategory.ForeColor = Color.White;
+            buttonChangeCategory.Location = new Point(130, 275);
+            buttonChangeCategory.Name = "buttonChangeCategory";
+            buttonChangeCategory.Size = new Size(200, 44);
+            buttonChangeCategory.TabIndex = 0;
+            buttonChangeCategory.Text = "Изменить";
+            buttonChangeCategory.UseVisualStyleBackColor = false;
+            // 
             // ChangeCategory
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(767, 600);
+            BackColor = Color.LightBlue;
+            ClientSize = new Size(460, 365);
             Controls.Add(buttonChangeCategory);
             Controls.Add(comboBoxNewName);
-            Controls.Add(labelNewName);
+            Controls.Add(labelNew);
             Controls.Add(comboBoxOldName);
-            Controls.Add(labelOldName);
-            Controls.Add(labelChangeCategory);
+            Controls.Add(labelOld);
+            Controls.Add(labelTitle);
             Controls.Add(menuStrip1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MainMenuStrip = menuStrip1;
-            Margin = new Padding(3, 4, 3, 4);
-            MaximizeBox = false;
             Name = "ChangeCategory";
             Text = "Изменить категорию";
             menuStrip1.ResumeLayout(false);
@@ -153,17 +129,5 @@
             ResumeLayout(false);
             PerformLayout();
         }
-
-        #endregion
-
-        private Label labelChangeCategory;
-        private Microsoft.Data.Sqlite.SqliteCommand sqliteCommand1;
-        private Label labelOldName;
-        private ComboBox comboBoxOldName;
-        private ComboBox comboBoxNewName;
-        private Label labelNewName;
-        private Button buttonChangeCategory;
-        private MenuStrip menuStrip1;
-        private ToolStripMenuItem backToolStripMenuItem;
     }
 }

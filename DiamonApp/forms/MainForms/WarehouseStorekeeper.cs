@@ -1,11 +1,4 @@
-﻿using DiamonApp.Classes;
-using DiamonApp.DataBase;
-using DiamonApp.forms.differentFunctionsForms;
-using DiamondApp.forms.differentFunctionsForms;
-using DiamondApp.Resourses;
-using System.Data;
-
-namespace Draft_Diamond_BD
+﻿namespace Draft_Diamond_BD
 {
     /// <summary>
     /// Форма кладовщика
@@ -16,9 +9,9 @@ namespace Draft_Diamond_BD
         private DataGridView dgvWarehouseFalse;
         private string userLogin;
 
-        /// <summary>
-        /// Инициализирует форму кладовщика
-        /// </summary>
+        // Проценты остатка сезона для тепловой карты
+        private List<double> _seasonPercents = new();
+
         public WarehouseStorekeeper(string login)
         {
             InitializeComponent();
@@ -36,84 +29,79 @@ namespace Draft_Diamond_BD
             Logger.UserAction(userLogin, "Открыта форма кладовщика");
         }
 
-        /// <summary>
-        /// Создаёт DataGridView для просроченных товаров
-        /// </summary>
         private void CreateDataGridViewTrue()
-        {
-            dgvWarehouseFalse = new DataGridView
-            {
-                Location = new System.Drawing.Point(10, 450),
-                Size = new System.Drawing.Size(820, 250),
-                Margin = new Padding(10, 10, 10, 10),
-                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                BackgroundColor = System.Drawing.Color.DarkGray,
-                Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top,
-            };
-            Controls.Add(dgvWarehouseFalse);
-        }
-
-        /// <summary>
-        /// Создаёт DataGridView для активных товаров
-        /// </summary>
-        private void CreateDataGridViewFalse()
         {
             dgvWarehouseTrue = new DataGridView
             {
-                Location = new System.Drawing.Point(10, 120),
-                Size = new System.Drawing.Size(820, 250),
-                Margin = new Padding(10, 10, 10, 10),
+                Location = new System.Drawing.Point(20, 90),
+                Size = new System.Drawing.Size(1060, 280),
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                BackgroundColor = System.Drawing.Color.DarkGray,
+                BackgroundColor = System.Drawing.Color.White,
+                BorderStyle = BorderStyle.None,
+                RowHeadersVisible = false,
+                AllowUserToAddRows = false,
+                ReadOnly = true,
                 Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top,
+                Font = new System.Drawing.Font("Segoe UI", 10F),
             };
+            dgvWarehouseTrue.CellFormatting += DgvWarehouseTrue_CellFormatting;
             Controls.Add(dgvWarehouseTrue);
         }
 
-        /// <summary>
-        /// Фильтрация товаров по категориям в меню
-        /// </summary>
+        private void CreateDataGridViewFalse()
+        {
+            dgvWarehouseFalse = new DataGridView
+            {
+                Location = new System.Drawing.Point(20, 420),
+                Size = new System.Drawing.Size(1060, 240),
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                BackgroundColor = System.Drawing.Color.White,
+                BorderStyle = BorderStyle.None,
+                RowHeadersVisible = false,
+                AllowUserToAddRows = false,
+                ReadOnly = true,
+                Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top,
+                Font = new System.Drawing.Font("Segoe UI", 10F),
+            };
+            Controls.Add(dgvWarehouseFalse);
+
+            // Метка над таблицей списанных
+            var lbl = new Label
+            {
+                AutoSize = true,
+                Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold),
+                Location = new System.Drawing.Point(20, 390),
+                Text = "Списанные товары:"
+            };
+            Controls.Add(lbl);
+        }
+
         private void FilterProducts()
         {
             Logger.UserAction(userLogin, "Фильтрация продуктов по категориям");
             using (var db = new AllDB())
             {
-                var categoriesBases = db.Categories.ToList();
-
-                for (var i = 0; i < categoriesBases.Count; i++)
+                foreach (var cat in db.Categories.ToList())
                 {
-                    var categories = categoriesBases[i].NamesOfCategory;
-                    foreach (var category in categories)
+                    foreach (var category in cat.NamesOfCategory)
                     {
                         var alreadyExists = false;
                         foreach (ToolStripMenuItem existingItem in категорииToolStripMenuItem.DropDownItems)
                         {
-                            if (existingItem.Text == category)
-                            {
-                                alreadyExists = true;
-                                break;
-                            }
+                            if (existingItem.Text == category) { alreadyExists = true; break; }
                         }
-                        if (alreadyExists)
-                        {
-                            continue;
-                        }
+                        if (alreadyExists) continue;
+
                         var menuItem = new ToolStripMenuItem(category);
                         menuItem.Click += (s, e) =>
                         {
                             Logger.UserAction(userLogin, $"Фильтрация по категории: {category}");
                             using (var db = new AllDB())
                             {
-                                var products = db.Products.Where(p => p.Category == category).Select(p => new
-                                {
-                                    p.Name,
-                                    p.UniteOfMeasure,
-                                    p.PurchasePrice,
-                                    p.Category,
-                                    p.Rest,
-                                    p.Creator,
-                                }).ToList();
-                                dgvWarehouseTrue.DataSource = products;
+                                var raw = db.Products
+                                    .Where(p => p.Category == category && p.Status == true)
+                                    .ToList();
+                                BindProductsWithPercents(raw);
                             }
                         };
                         категорииToolStripMenuItem.DropDownItems.Add(menuItem);
@@ -122,9 +110,6 @@ namespace Draft_Diamond_BD
             }
         }
 
-        /// <summary>
-        /// Проверяет и обновляет статус просроченных товаров
-        /// </summary>
         private void ExpirationDateCheck()
         {
             using (var db = new AllDB())
@@ -134,76 +119,95 @@ namespace Draft_Diamond_BD
                     if (product.EndDateOfTheDay < DateTime.Today)
                     {
                         product.Status = false;
-                        Logger.UserAction(userLogin, $"Товар '{product.Name}' просрочен. Статус изменён на false");
+                        Logger.UserAction(userLogin, $"Товар '{product.Name}' просрочен");
                         db.SaveChanges();
                     }
                 }
             }
         }
 
-        /// <summary>
-        /// Загружает активные товары
-        /// </summary>
         public void LoadProductsTrue()
         {
             Logger.UserAction(userLogin, "Загрузка активных товаров");
             using (var db = new AllDB())
             {
                 ExpirationDateCheck();
-                var productsTrue = db.Products.Where(p => p.Status == true).Select(p => new
-                {
-                    p.Name,
-                    p.UniteOfMeasure,
-                    p.PurchasePrice,
-                    p.Category,
-                    p.Rest,
-                    p.EndDateOfTheDay,
-                    p.UntilTheEndOfTheSeason,
-                    p.Discount,
-                    p.FinalyPrice,
-                }).ToList();
-                dgvWarehouseTrue.DataSource = productsTrue;
-                SetupColumnsTrue();
+                var raw = db.Products.Where(p => p.Status == true).ToList();
+                BindProductsWithPercents(raw);
                 LoadProductsFalse();
             }
         }
 
         /// <summary>
-        /// Настраивает заголовки столбцов для активных товаров
+        /// Привязывает список товаров к гриду и рассчитывает проценты для тепловой карты.
+        /// Процент остатка = оставшиеся дни / (UntilTheEndOfTheSeason × 7) × 100
         /// </summary>
-        private void SetupColumnsTrue()
+        private void BindProductsWithPercents(List<DiamonApp.Classes.ProductClass> products)
         {
-            if (dgvWarehouseTrue.Columns[Resources.NameEng] != null)
-                dgvWarehouseTrue.Columns[Resources.NameEng].HeaderText = Resources.NameRus;
+            _seasonPercents.Clear();
 
-            if (dgvWarehouseTrue.Columns[Resources.UniteOfMeasureEng] != null)
-                dgvWarehouseTrue.Columns[Resources.UniteOfMeasureEng].HeaderText = Resources.UniteOfMeasureRus;
+            var display = products.Select(p =>
+            {
+                int daysLeft = (int)(p.EndDateOfTheDay - DateTime.Today).TotalDays;
+                int totalDays = p.UntilTheEndOfTheSeason * 7;
+                double percent;
 
-            if (dgvWarehouseTrue.Columns[Resources.PurchasePriceEng] != null)
-                dgvWarehouseTrue.Columns[Resources.PurchasePriceEng].HeaderText = Resources.PurchasePriceRus;
+                if (totalDays > 0)
+                    percent = (double)daysLeft / totalDays * 100.0;
+                else
+                    percent = daysLeft > 0 ? Math.Min((double)daysLeft / 365.0 * 100.0, 100.0) : 0;
 
-            if (dgvWarehouseTrue.Columns[Resources.CategoryEng] != null)
-                dgvWarehouseTrue.Columns[Resources.CategoryEng].HeaderText = Resources.CategoryRus;
+                if (percent < 0) percent = 0;
+                _seasonPercents.Add(percent);
 
-            if (dgvWarehouseTrue.Columns[Resources.RestEng] != null)
-                dgvWarehouseTrue.Columns[Resources.RestEng].HeaderText = Resources.RestRus;
+                return new
+                {
+                    Название = p.Name,
+                    Единица_измерения = p.UniteOfMeasure,
+                    Цена_закупки = AppCurrencyManager.Format(p.PurchasePrice),
+                    Текущий_остаток = p.Rest,
+                    Сезон_до = p.EndDateOfTheDay.ToString("d"),
+                    До_конца = p.UntilTheEndOfTheSeason,
+                    Скидка = p.Discount,
+                    Итоговая_стоимость = AppCurrencyManager.Format(p.FinalyPrice),
+                };
+            }).ToList();
 
-            if (dgvWarehouseTrue.Columns[Resources.EndDateOfTheDayEng] != null)
-                dgvWarehouseTrue.Columns[Resources.EndDateOfTheDayEng].HeaderText = Resources.EndDateOfTheDayRus;
-
-            if (dgvWarehouseTrue.Columns[Resources.UntilTheEndOfTheSeasonEng] != null)
-                dgvWarehouseTrue.Columns[Resources.UntilTheEndOfTheSeasonEng].HeaderText = Resources.UntilTheEndOfTheSeasonRus;
-
-            if (dgvWarehouseTrue.Columns[Resources.DiscountEng] != null)
-                dgvWarehouseTrue.Columns[Resources.DiscountEng].HeaderText = Resources.DiscountRus;
-
-            if (dgvWarehouseTrue.Columns[Resources.FinalyPriceEng] != null)
-                dgvWarehouseTrue.Columns[Resources.FinalyPriceEng].HeaderText = Resources.FinalyPriceRus;
+            dgvWarehouseTrue.DataSource = display;
+            SetupColumnsTrue();
         }
 
         /// <summary>
-        /// Загружает просроченные товары
+        /// Тепловая карта: > 50% — зелёный, 25–50% — жёлтый, < 25% — красный
         /// </summary>
+        private void DgvWarehouseTrue_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= _seasonPercents.Count) return;
+
+            double percent = _seasonPercents[e.RowIndex];
+            System.Drawing.Color color;
+
+            if (percent > 50)
+                color = System.Drawing.Color.FromArgb(144, 238, 144);   // зелёный
+            else if (percent >= 25)
+                color = System.Drawing.Color.FromArgb(255, 255, 102);   // жёлтый
+            else
+                color = System.Drawing.Color.FromArgb(255, 102, 102);   // красный
+
+            var row = dgvWarehouseTrue.Rows[e.RowIndex];
+            row.DefaultCellStyle.BackColor = color;
+            row.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(
+                Math.Max(0, color.R - 20),
+                Math.Max(0, color.G - 20),
+                Math.Max(0, color.B - 20));
+        }
+
+        private void SetupColumnsTrue()
+        {
+            foreach (DataGridViewColumn col in dgvWarehouseTrue.Columns)
+                col.HeaderText = col.HeaderText.Replace("_", " ");
+        }
+
         public void LoadProductsFalse()
         {
             Logger.UserAction(userLogin, "Загрузка просроченных товаров");
@@ -226,117 +230,63 @@ namespace Draft_Diamond_BD
                 }
                 decimal sum = 0;
                 foreach (var product in productsFalse)
-                {
                     sum += product.FinalyPrice;
-                }
+
                 labelResult.Text = Resources.Result + sum;
                 Logger.UserAction(userLogin, $"Сумма просроченных товаров: {sum}");
             }
         }
 
-        /// <summary>
-        /// Настраивает заголовки столбцов для просроченных товаров
-        /// </summary>
         private void SetupColumnsFalse()
         {
             if (dgvWarehouseFalse.Columns[Resources.NameEng] != null)
                 dgvWarehouseFalse.Columns[Resources.NameEng].HeaderText = Resources.NameRus;
-
             if (dgvWarehouseFalse.Columns[Resources.UniteOfMeasureEng] != null)
                 dgvWarehouseFalse.Columns[Resources.UniteOfMeasureEng].HeaderText = Resources.UniteOfMeasureRus;
-
             if (dgvWarehouseFalse.Columns[Resources.CategoryEng] != null)
                 dgvWarehouseFalse.Columns[Resources.CategoryEng].HeaderText = Resources.CategoryRus;
-
             if (dgvWarehouseFalse.Columns[Resources.FinalyPriceEng] != null)
                 dgvWarehouseFalse.Columns[Resources.FinalyPriceEng].HeaderText = Resources.FinalyPriceFalseRus;
-
             if (dgvWarehouseFalse.Columns[Resources.RestEng] != null)
                 dgvWarehouseFalse.Columns[Resources.RestEng].HeaderText = Resources.RestRus;
-
             if (dgvWarehouseFalse.Columns[Resources.EndDateOfTheDayEng] != null)
                 dgvWarehouseFalse.Columns[Resources.EndDateOfTheDayEng].HeaderText = Resources.EndDateOfTheDayRus;
         }
 
-        /// <summary>
-        /// Открывает форму создания отгрузки
-        /// </summary>
         private void CreateShipmentToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы создания отгрузки");
-            var createform = new CreatingShipmentForm(userLogin);
-            createform.Show();
+            new CreatingShipmentForm(userLogin).Show();
             Hide();
         }
 
-        /// <summary>
-        /// Выход из приложения
-        /// </summary>
         private void Exit_Click(object sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Выход из приложения");
             Application.Exit();
         }
 
-        /// <summary>
-        /// Смена аккаунта
-        /// </summary>
         private void changeAccountToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Смена аккаунта");
-            var newAuthorization = new Authorization();
-            newAuthorization.Show();
+            new Authorization().Show();
             Close();
         }
 
         /// <summary>
-        /// Фильтрация просроченных товаров по категории
+        /// Открывает форму настройки валюты (вызывается из пункта меню)
         /// </summary>
-        private void comboBoxFiterProductFalse_SelectedIndexChanged(object sender, EventArgs e)
+        private void buttonCurrencySettings_Click(object sender, EventArgs e)
         {
-            comboBoxFiterProductFalse.Items.Clear();
-            using (var db = new AllDB())
-            {
-                foreach (var category in db.Categories.FirstOrDefault(p => p.Id == 1).NamesOfCategory)
-                {
-                    comboBoxFiterProductFalse.Items.Add(category);
-                }
-                comboBoxFiterProductFalse.SelectedIndexChanged += (s, e) =>
-                {
-                    Logger.UserAction(userLogin, $"Фильтрация просроченных товаров по категории: {comboBoxFiterProductFalse.SelectedItem}");
-                    using (var db = new AllDB())
-                    {
-                        var selectedCategory = comboBoxFiterProductFalse.SelectedItem.ToString();
-                        var products = db.Products.Where(p => p.Category == selectedCategory && p.Status == false).Select(p => new
-                        {
-                            p.Name,
-                            p.UniteOfMeasure,
-                            p.Category,
-                            p.Rest,
-                            p.EndDateOfTheDay,
-                            p.FinalyPrice,
-                        }).ToList();
-                        if (!products.Any())
-                        {
-                            MessageBox.Show(Resources.FalseProductNotExist);
-                            return;
-                        }
-                        dgvWarehouseFalse.DataSource = products;
-                        SetupColumnsFalse();
-                    }
-                    ;
-                };
-            }
+            Logger.UserAction(userLogin, "Открытие настроек валюты");
+            new CurrencySettings(userLogin).Show();
+            Hide();
         }
 
-        /// <summary>
-        /// Открывает форму приёмки поставки
-        /// </summary>
         private void принятьПоставкуToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы приёмки поставки");
-            var newAcceptanceOfGoods = new AcceptanceOfGoodsForm(userLogin);
-            newAcceptanceOfGoods.Show();
+            new AcceptanceOfGoodsForm(userLogin).Show();
             Hide();
         }
     }

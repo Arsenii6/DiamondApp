@@ -1,8 +1,4 @@
-﻿using DiamonApp.Classes;
-using DiamonApp.DataBase;
-using DiamondApp.Resourses;
-
-namespace Draft_Diamond_BD
+﻿namespace Draft_Diamond_BD
 {
     /// <summary>
     /// Форма добавления новой карточки товара

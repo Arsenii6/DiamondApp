@@ -1,5 +1,3 @@
-using System.Net;
-using DiamonApp.DataBase;
 using Authorization = Draft_Diamond_BD.Authorization;
 
 namespace DiamonApp

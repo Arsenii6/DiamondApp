@@ -1,11 +1,4 @@
-﻿using DiamonApp.classes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DiamonApp.Classes
+﻿namespace DiamonApp.Classes
 {
     /// <summary>
     /// Представляет запись об отгрузке товаров

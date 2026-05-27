@@ -1,9 +1,4 @@
-﻿using DiamonApp.Classes;
-using DiamonApp.DataBase;
-using DiamondApp.Resourses;
-using Draft_Diamond_BD;
-
-namespace DiamonApp.forms
+﻿namespace DiamonApp.forms
 {
     /// <summary>
     /// Форма добавления новой категории товаров

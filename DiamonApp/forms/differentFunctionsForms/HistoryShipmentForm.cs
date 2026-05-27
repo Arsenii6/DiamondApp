@@ -1,12 +1,4 @@
-﻿using System.Data;
-using DiamonApp.Classes;
-using DiamonApp.DataBase;
-using DiamonApp.Enums;
-using DiamondApp.Resourses;
-using Draft_Diamond_BD;
-using Newtonsoft.Json;
-
-namespace DiamonApp.forms.differentFunctionsForms
+﻿namespace DiamonApp.forms.differentFunctionsForms
 {
     /// <summary>
     /// Форма истории отгрузок
@@ -203,55 +195,87 @@ namespace DiamonApp.forms.differentFunctionsForms
             }
         }
 
+
         /// <summary>
-        /// Экспортирует отчёт в JSON файл
+        /// Экспортирует отчёт в CSV файл
         /// </summary>
         private void buttonExportTheReport_Click(object sender, EventArgs e)
         {
-            Logger.UserAction(userLogin, "Экспорт отчёта в JSON");
+            Logger.UserAction(userLogin, "Экспорт отчёта в CSV");
 
             if (dgvWarehouse.DataSource == null)
             {
                 Logger.UserAction(userLogin, "Ошибка: нет данных для экспорта");
-                MessageBox.Show(Resources.NoDataForExport); return;
+                MessageBox.Show(Resources.NoDataForExport);
+                return;
             }
-            var data = dgvWarehouse.DataSource;
+
             var exportList = new List<object>();
-            if (data is System.Collections.IEnumerable enumerable)
+            if (dgvWarehouse.DataSource is System.Collections.IEnumerable enumerable)
             {
                 foreach (var item in enumerable)
-                {
                     exportList.Add(item);
-                }
             }
 
             if (exportList.Count == 0)
             {
                 Logger.UserAction(userLogin, "Ошибка: невозможно прочитать отгрузки для экспорта");
-                MessageBox.Show(Resources.NotReadingShipments); return;
+                MessageBox.Show(Resources.NotReadingShipments);
+                return;
             }
+
             var saveFile = new SaveFileDialog
             {
-                Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*",
+                Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*",
                 FilterIndex = 1,
                 RestoreDirectory = true,
-                FileName = $"Отгрузки_{DateTime.Now:M}.json"
+                FileName = $"Отгрузки_{DateTime.Now:M}.csv"
             };
-            if (saveFile.ShowDialog() == DialogResult.OK)
+
+            if (saveFile.ShowDialog() != DialogResult.OK)
+                return;
+
+            try
             {
-                try
+                var properties = exportList[0].GetType().GetProperties();
+
+                // Заголовки берём из HeaderText столбцов DataGridView
+                var headers = properties.Select(p =>
                 {
-                    var json = JsonConvert.SerializeObject(exportList, Formatting.Indented);
-                    File.WriteAllText(saveFile.FileName, json);
-                    Logger.UserAction(userLogin, $"Экспортировано {exportList.Count} записей в файл: {saveFile.FileName}");
-                    MessageBox.Show(Resources.Success);
-                }
-                catch (Exception ex)
+                    var col = dgvWarehouse.Columns[p.Name];
+                    return EscapeCsv(col != null ? col.HeaderText : p.Name);
+                });
+
+                var sb = new System.Text.StringBuilder();
+                sb.AppendLine(string.Join(";", headers));
+
+                foreach (var item in exportList)
                 {
-                    Logger.UserAction(userLogin, $"Ошибка при экспорте: {ex.Message}");
-                    MessageBox.Show($"{Resources.ErrorExport} {ex.Message}");
+                    var values = properties.Select(p => EscapeCsv(p.GetValue(item)?.ToString() ?? ""));
+                    sb.AppendLine(string.Join(";", values));
                 }
+
+                // UTF-8 с BOM — корректно открывается в Excel
+                File.WriteAllText(saveFile.FileName, sb.ToString(), System.Text.Encoding.UTF8);
+
+                Logger.UserAction(userLogin, $"Экспортировано {exportList.Count} записей в файл: {saveFile.FileName}");
+                MessageBox.Show(Resources.Success);
             }
+            catch (Exception ex)
+            {
+                Logger.UserAction(userLogin, $"Ошибка при экспорте: {ex.Message}");
+                MessageBox.Show($"{Resources.ErrorExport} {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Экранирует значение для CSV: оборачивает в кавычки, если содержит ; " или перенос строки
+        /// </summary>
+        private static string EscapeCsv(string value)
+        {
+            if (value.Contains(';') || value.Contains('"') || value.Contains('\n'))
+                return $"\"{value.Replace("\"", "\"\"")}\"";
+            return value;
         }
     }
 }

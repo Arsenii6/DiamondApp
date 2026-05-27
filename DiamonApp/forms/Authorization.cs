@@ -1,14 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Forms;
-using DiamonApp;
-using DiamonApp.DataBase;
-using DiamonApp.Enums;
-using DiamondApp.Resourses;
-using DiamondApp.Hash;
-using DiamonApp.Classes;
-
-namespace Draft_Diamond_BD
+﻿namespace Draft_Diamond_BD
 {
     /// <summary>
     /// Форма авторизации пользователей

@@ -2,132 +2,108 @@
 {
     partial class DeleteCard
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem backToolStripMenuItem;
+        private System.Windows.Forms.Label labelTitle;
+        private System.Windows.Forms.Label labelSelect;
+        private System.Windows.Forms.ComboBox comboBoxName;
+        private System.Windows.Forms.Button buttonDeleteCategory;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
+            if (disposing && (components != null)) components.Dispose();
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            labelDeleteCategory = new Label();
-            label1 = new Label();
+            menuStrip1 = new MenuStrip();
+            backToolStripMenuItem = new ToolStripMenuItem();
+            labelTitle = new Label();
+            labelSelect = new Label();
             comboBoxName = new ComboBox();
             buttonDeleteCategory = new Button();
-            menuStrip1 = new MenuStrip();
-            BackToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
-            // labelDeleteCategory
+            // menuStrip1
             // 
-            labelDeleteCategory.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            labelDeleteCategory.AutoSize = true;
-            labelDeleteCategory.Font = new Font("Microsoft Sans Serif", 18F);
-            labelDeleteCategory.Location = new Point(229, 33);
-            labelDeleteCategory.Name = "labelDeleteCategory";
-            labelDeleteCategory.Size = new Size(278, 36);
-            labelDeleteCategory.TabIndex = 1;
-            labelDeleteCategory.Text = "Удалить карточку";
+            menuStrip1.BackColor = Color.White;
+            menuStrip1.ImageScalingSize = new Size(24, 24);
+            menuStrip1.Items.AddRange(new ToolStripItem[] { backToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(460, 33);
+            menuStrip1.TabIndex = 4;
             // 
-            // label1
+            // backToolStripMenuItem
             // 
-            label1.Anchor = AnchorStyles.None;
-            label1.AutoSize = true;
-            label1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            label1.Location = new Point(162, 191);
-            label1.Name = "label1";
-            label1.Size = new Size(104, 50);
-            label1.TabIndex = 16;
-            label1.Text = "Название \r\nкарточки:";
+            backToolStripMenuItem.Name = "backToolStripMenuItem";
+            backToolStripMenuItem.Size = new Size(77, 29);
+            backToolStripMenuItem.Text = "Назад";
+            backToolStripMenuItem.Click += BackToolStripMenuItem_Click;
+            // 
+            // labelTitle
+            // 
+            labelTitle.AutoSize = true;
+            labelTitle.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            labelTitle.Location = new Point(110, 45);
+            labelTitle.Name = "labelTitle";
+            labelTitle.Size = new Size(269, 48);
+            labelTitle.TabIndex = 3;
+            labelTitle.Text = "Удалить товар";
+            // 
+            // labelSelect
+            // 
+            labelSelect.AutoSize = true;
+            labelSelect.Font = new Font("Segoe UI", 11F);
+            labelSelect.Location = new Point(50, 105);
+            labelSelect.Name = "labelSelect";
+            labelSelect.Size = new Size(183, 30);
+            labelSelect.TabIndex = 2;
+            labelSelect.Text = "Выберите товар:";
             // 
             // comboBoxName
             // 
-            comboBoxName.BackColor = SystemColors.ControlDarkDark;
             comboBoxName.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxName.FormattingEnabled = true;
-            comboBoxName.Location = new Point(298, 213);
+            comboBoxName.Font = new Font("Segoe UI", 11F);
+            comboBoxName.Location = new Point(50, 138);
             comboBoxName.Name = "comboBoxName";
-            comboBoxName.Size = new Size(217, 28);
-            comboBoxName.TabIndex = 17;
+            comboBoxName.Size = new Size(360, 38);
+            comboBoxName.TabIndex = 1;
             // 
             // buttonDeleteCategory
             // 
-            buttonDeleteCategory.BackColor = SystemColors.ScrollBar;
+            buttonDeleteCategory.BackColor = Color.Crimson;
+            buttonDeleteCategory.FlatAppearance.BorderSize = 0;
             buttonDeleteCategory.FlatStyle = FlatStyle.Flat;
-            buttonDeleteCategory.Font = new Font("Microsoft Sans Serif", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            buttonDeleteCategory.Location = new Point(242, 368);
-            buttonDeleteCategory.Margin = new Padding(3, 4, 3, 4);
+            buttonDeleteCategory.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            buttonDeleteCategory.ForeColor = Color.White;
+            buttonDeleteCategory.Location = new Point(130, 205);
             buttonDeleteCategory.Name = "buttonDeleteCategory";
-            buttonDeleteCategory.Size = new Size(222, 61);
-            buttonDeleteCategory.TabIndex = 18;
+            buttonDeleteCategory.Size = new Size(200, 44);
+            buttonDeleteCategory.TabIndex = 0;
             buttonDeleteCategory.Text = "Удалить";
             buttonDeleteCategory.UseVisualStyleBackColor = false;
             // 
-            // menuStrip1
-            // 
-            menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { BackToolStripMenuItem });
-            menuStrip1.Location = new Point(0, 0);
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(790, 28);
-            menuStrip1.TabIndex = 19;
-            menuStrip1.Text = "menuStrip1";
-            // 
-            // BackToolStripMenuItem
-            // 
-            BackToolStripMenuItem.Name = "BackToolStripMenuItem";
-            BackToolStripMenuItem.Size = new Size(65, 24);
-            BackToolStripMenuItem.Text = "Назад";
-            BackToolStripMenuItem.Click += BackToolStripMenuItem_Click;
-            // 
             // DeleteCard
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(790, 600);
+            BackColor = Color.LightBlue;
+            ClientSize = new Size(460, 300);
             Controls.Add(buttonDeleteCategory);
             Controls.Add(comboBoxName);
-            Controls.Add(label1);
-            Controls.Add(labelDeleteCategory);
+            Controls.Add(labelSelect);
+            Controls.Add(labelTitle);
             Controls.Add(menuStrip1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MainMenuStrip = menuStrip1;
-            Margin = new Padding(3, 4, 3, 4);
-            MaximizeBox = false;
             Name = "DeleteCard";
-            Text = "Удалить карточку";
+            Text = "Удалить товар";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
-
-        #endregion
-
-        private Label labelDeleteCategory;
-        private Label label1;
-        private ComboBox comboBoxName;
-        private Button buttonDeleteCategory;
-        private MenuStrip menuStrip1;
-        private ToolStripMenuItem BackToolStripMenuItem;
     }
 }

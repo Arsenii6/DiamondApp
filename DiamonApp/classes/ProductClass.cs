@@ -1,7 +1,4 @@
-﻿using DiamonApp.classes;
-using System;
-
-namespace DiamonApp.Classes
+﻿namespace DiamonApp.Classes
 {
     /// <summary>
     /// Представляет товар на складе

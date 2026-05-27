@@ -1,8 +1,4 @@
-﻿using System;
-using DiamonApp.Enums;
-using DiamondApp.Hash;
-
-namespace DiamonApp.Classes
+﻿namespace DiamonApp.Classes
 {
     /// <summary>
     /// Представляет сотрудника системы с учётными данными и должностью

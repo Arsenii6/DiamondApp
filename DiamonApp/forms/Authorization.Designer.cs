@@ -2,125 +2,91 @@
 {
     partial class Authorization
     {
-        
-        private System.Windows.Forms.Button enter;
+        private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.Label labelTitle;
+        private System.Windows.Forms.Label labelLogin;
+        private System.Windows.Forms.Label labelPassword;
         private System.Windows.Forms.TextBox txtLogin;
         private System.Windows.Forms.TextBox txtPassword;
+        private System.Windows.Forms.Button enter;
+        private System.Windows.Forms.Button btnRegister;
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null)) components.Dispose();
+            base.Dispose(disposing);
+        }
 
         private void InitializeComponent()
         {
-            enter = new Button();
-            txtLogin = new TextBox();
-            txtPassword = new TextBox();
-            autorizatoinWorker = new Label();
-            loginWorker = new Label();
-            passwordWorker = new Label();
-            btnRegister = new Button();
+            labelTitle = new System.Windows.Forms.Label();
+            labelLogin = new System.Windows.Forms.Label();
+            labelPassword = new System.Windows.Forms.Label();
+            txtLogin = new System.Windows.Forms.TextBox();
+            txtPassword = new System.Windows.Forms.TextBox();
+            enter = new System.Windows.Forms.Button();
+            btnRegister = new System.Windows.Forms.Button();
             SuspendLayout();
-            // 
-            // enter
-            // 
-            enter.Anchor = AnchorStyles.None;
-            enter.BackColor = SystemColors.ScrollBar;
-            enter.FlatStyle = FlatStyle.Flat;
-            enter.Font = new Font("Microsoft Sans Serif", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            enter.Location = new Point(236, 320);
-            enter.Name = "enter";
-            enter.Size = new Size(192, 49);
-            enter.TabIndex = 0;
-            enter.Text = "Войти";
-            enter.UseVisualStyleBackColor = false;
-            // 
-            // txtLogin
-            // 
-            txtLogin.Anchor = AnchorStyles.None;
-            txtLogin.BackColor = SystemColors.ControlDarkDark;
-            txtLogin.Font = new Font("Microsoft Sans Serif", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            txtLogin.ForeColor = SystemColors.Window;
-            txtLogin.Location = new Point(254, 131);
-            txtLogin.Multiline = true;
+
+            labelTitle.AutoSize = true;
+            labelTitle.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Bold);
+            labelTitle.Location = new System.Drawing.Point(95, 40);
+            labelTitle.Text = "Вход в систему";
+
+            labelLogin.AutoSize = true;
+            labelLogin.Font = new System.Drawing.Font("Segoe UI", 12F);
+            labelLogin.Location = new System.Drawing.Point(60, 120);
+            labelLogin.Text = "Логин:";
+
+            txtLogin.Font = new System.Drawing.Font("Segoe UI", 12F);
+            txtLogin.Location = new System.Drawing.Point(60, 148);
+            txtLogin.Size = new System.Drawing.Size(300, 32);
             txtLogin.Name = "txtLogin";
-            txtLogin.Size = new Size(184, 34);
-            txtLogin.TabIndex = 1;
-            txtLogin.TextAlign = HorizontalAlignment.Center;
-            // 
-            // txtPassword
-            // 
-            txtPassword.Anchor = AnchorStyles.None;
-            txtPassword.BackColor = SystemColors.ControlDarkDark;
-            txtPassword.Font = new Font("Microsoft Sans Serif", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            txtPassword.ForeColor = SystemColors.Window;
-            txtPassword.Location = new Point(254, 192);
-            txtPassword.Multiline = true;
+
+            labelPassword.AutoSize = true;
+            labelPassword.Font = new System.Drawing.Font("Segoe UI", 12F);
+            labelPassword.Location = new System.Drawing.Point(60, 200);
+            labelPassword.Text = "Пароль:";
+
+            txtPassword.Font = new System.Drawing.Font("Segoe UI", 12F);
+            txtPassword.Location = new System.Drawing.Point(60, 228);
+            txtPassword.Size = new System.Drawing.Size(300, 32);
             txtPassword.Name = "txtPassword";
-            txtPassword.PasswordChar = '*';
-            txtPassword.Size = new Size(184, 36);
-            txtPassword.TabIndex = 2;
-            txtPassword.TextAlign = HorizontalAlignment.Center;
-            // 
-            // autorizatoinWorker
-            // 
-            autorizatoinWorker.Anchor = AnchorStyles.None;
-            autorizatoinWorker.AutoSize = true;
-            autorizatoinWorker.Font = new Font("Microsoft Sans Serif", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            autorizatoinWorker.Location = new Point(241, 63);
-            autorizatoinWorker.Name = "autorizatoinWorker";
-            autorizatoinWorker.Size = new Size(247, 32);
-            autorizatoinWorker.TabIndex = 3;
-            autorizatoinWorker.Text = "АВТОРИЗАЦИЯ ";
-            // 
-            // loginWorker
-            // 
-            loginWorker.Anchor = AnchorStyles.None;
-            loginWorker.AutoSize = true;
-            loginWorker.Font = new Font("Microsoft Sans Serif", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            loginWorker.Location = new Point(154, 134);
-            loginWorker.Name = "loginWorker";
-            loginWorker.Size = new Size(88, 29);
-            loginWorker.TabIndex = 4;
-            loginWorker.Text = "Логин:";
-            // 
-            // passwordWorker
-            // 
-            passwordWorker.Anchor = AnchorStyles.None;
-            passwordWorker.AutoSize = true;
-            passwordWorker.Font = new Font("Microsoft Sans Serif", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            passwordWorker.Location = new Point(142, 195);
-            passwordWorker.Name = "passwordWorker";
-            passwordWorker.Size = new Size(102, 29);
-            passwordWorker.TabIndex = 5;
-            passwordWorker.Text = "Пароль:";
-            // 
-            // btnRegister
-            // 
-            btnRegister.Location = new Point(-2, 2);
+            txtPassword.PasswordChar = '●';
+
+            enter.BackColor = System.Drawing.Color.SteelBlue;
+            enter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            enter.FlatAppearance.BorderSize = 0;
+            enter.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            enter.ForeColor = System.Drawing.Color.White;
+            enter.Location = new System.Drawing.Point(60, 290);
+            enter.Size = new System.Drawing.Size(300, 42);
+            enter.Text = "Войти";
+            enter.Name = "enter";
+
+            btnRegister.BackColor = System.Drawing.Color.White;
+            btnRegister.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnRegister.FlatAppearance.BorderColor = System.Drawing.Color.SteelBlue;
+            btnRegister.Font = new System.Drawing.Font("Segoe UI", 11F);
+            btnRegister.ForeColor = System.Drawing.Color.SteelBlue;
+            btnRegister.Location = new System.Drawing.Point(60, 348);
+            btnRegister.Size = new System.Drawing.Size(300, 38);
+            btnRegister.Text = "Регистрация";
             btnRegister.Name = "btnRegister";
-            btnRegister.Size = new Size(174, 29);
-            btnRegister.TabIndex = 6;
-            btnRegister.Text = "Зарегистрироваться ";
-            btnRegister.UseVisualStyleBackColor = true;
-            // 
-            // Authorization
-            // 
-            ClientSize = new Size(662, 461);
+
+            BackColor = System.Drawing.Color.LightBlue;
+            ClientSize = new System.Drawing.Size(420, 430);
             Controls.Add(btnRegister);
-            Controls.Add(passwordWorker);
-            Controls.Add(loginWorker);
-            Controls.Add(autorizatoinWorker);
             Controls.Add(enter);
-            Controls.Add(txtLogin);
             Controls.Add(txtPassword);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
-            MaximizeBox = false;
+            Controls.Add(labelPassword);
+            Controls.Add(txtLogin);
+            Controls.Add(labelLogin);
+            Controls.Add(labelTitle);
             Name = "Authorization";
             Text = "Авторизация";
             ResumeLayout(false);
             PerformLayout();
-
         }
-        private System.Windows.Forms.Label autorizatoinWorker;
-        private System.Windows.Forms.Label loginWorker;
-        private System.Windows.Forms.Label passwordWorker;
-        private System.Windows.Forms.Button btnRegister;
     }
 }

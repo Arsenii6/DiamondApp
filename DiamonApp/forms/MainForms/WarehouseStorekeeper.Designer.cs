@@ -2,213 +2,128 @@
 {
     partial class WarehouseStorekeeper
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        private System.Windows.Forms.Label labelwarehouse;
+        private System.Windows.Forms.MenuStrip menuStripWarehouseProducts;
+        private System.Windows.Forms.ToolStripMenuItem filterToolStripMenuItemFilter;
+        private System.Windows.Forms.ToolStripMenuItem весьСкладToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem категорииToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItemOutput;
+        private System.Windows.Forms.ToolStripMenuItem сменитьАккаунтToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem createShipmentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem принятьПоставкуToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCurrency;
+        private System.Windows.Forms.Label labelLogin;
+        private System.Windows.Forms.Label labelResult;
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
-            {
                 components.Dispose();
-            }
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
-            labelLogin = new Label();
-            menuStrip1 = new MenuStrip();
-            toolStripMenuItem1 = new ToolStripMenuItem();
-            createShipmentToolStripMenuItem = new ToolStripMenuItem();
-            фильтрToolStripMenuItem = new ToolStripMenuItem();
-            весьСкладToolStripMenuItem = new ToolStripMenuItem();
-            категорииToolStripMenuItem = new ToolStripMenuItem();
-            exitToolStripMenuItemOutput = new ToolStripMenuItem();
-            сменитьАккаунтToolStripMenuItem = new ToolStripMenuItem();
-            принятьПоставкуToolStripMenuItem = new ToolStripMenuItem();
-            labelWrittenOffGoods = new Label();
-            labelFilterProductsFalse = new Label();
-            comboBoxFiterProductFalse = new ComboBox();
-            labelResult = new Label();
-            menuStrip1.SuspendLayout();
+            labelwarehouse = new System.Windows.Forms.Label();
+            menuStripWarehouseProducts = new System.Windows.Forms.MenuStrip();
+            filterToolStripMenuItemFilter = new System.Windows.Forms.ToolStripMenuItem();
+            весьСкладToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            категорииToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            exitToolStripMenuItemOutput = new System.Windows.Forms.ToolStripMenuItem();
+            сменитьАккаунтToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            createShipmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            принятьПоставкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItemCurrency = new System.Windows.Forms.ToolStripMenuItem();
+            labelLogin = new System.Windows.Forms.Label();
+            labelResult = new System.Windows.Forms.Label();
+            menuStripWarehouseProducts.SuspendLayout();
             SuspendLayout();
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Microsoft Sans Serif", 18F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            label1.Location = new Point(12, 66);
-            label1.Name = "label1";
-            label1.Size = new Size(121, 36);
-            label1.TabIndex = 0;
-            label1.Text = "Склад:";
-            // 
-            // labelLogin
-            // 
-            labelLogin.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            labelLogin.AutoSize = true;
-            labelLogin.Font = new Font("Microsoft Sans Serif", 12F);
-            labelLogin.Location = new Point(605, 9);
-            labelLogin.Name = "labelLogin";
-            labelLogin.Size = new Size(64, 25);
-            labelLogin.TabIndex = 1;
-            labelLogin.Text = "label2";
-            // 
-            // menuStrip1
-            // 
-            menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, createShipmentToolStripMenuItem, фильтрToolStripMenuItem, exitToolStripMenuItemOutput, сменитьАккаунтToolStripMenuItem, принятьПоставкуToolStripMenuItem });
-            menuStrip1.Location = new Point(0, 0);
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.Padding = new Padding(6, 3, 0, 3);
-            menuStrip1.Size = new Size(854, 30);
-            menuStrip1.TabIndex = 2;
-            menuStrip1.Text = "menuStrip1";
-            // 
-            // toolStripMenuItem1
-            // 
-            toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(14, 24);
-            // 
-            // createShipmentToolStripMenuItem
-            // 
-            createShipmentToolStripMenuItem.Name = "createShipmentToolStripMenuItem";
-            createShipmentToolStripMenuItem.Size = new Size(144, 24);
-            createShipmentToolStripMenuItem.Text = "Создать отгрузку ";
-            // 
-            // фильтрToolStripMenuItem
-            // 
-            фильтрToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { весьСкладToolStripMenuItem, категорииToolStripMenuItem });
-            фильтрToolStripMenuItem.Name = "фильтрToolStripMenuItem";
-            фильтрToolStripMenuItem.Size = new Size(74, 24);
-            фильтрToolStripMenuItem.Text = "Фильтр";
-            // 
-            // весьСкладToolStripMenuItem
-            // 
+
+            menuStripWarehouseProducts.BackColor = System.Drawing.Color.White;
+            menuStripWarehouseProducts.ImageScalingSize = new System.Drawing.Size(20, 20);
+            menuStripWarehouseProducts.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
+            {
+                filterToolStripMenuItemFilter,
+                createShipmentToolStripMenuItem,
+                принятьПоставкуToolStripMenuItem,
+                toolStripMenuItemCurrency,
+                exitToolStripMenuItemOutput,
+                сменитьАккаунтToolStripMenuItem
+            });
+            menuStripWarehouseProducts.Location = new System.Drawing.Point(0, 0);
+            menuStripWarehouseProducts.Name = "menuStripWarehouseProducts";
+            menuStripWarehouseProducts.Size = new System.Drawing.Size(1100, 28);
+            menuStripWarehouseProducts.TabIndex = 1;
+
+            filterToolStripMenuItemFilter.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
+            {
+                весьСкладToolStripMenuItem,
+                категорииToolStripMenuItem
+            });
+            filterToolStripMenuItemFilter.Name = "filterToolStripMenuItemFilter";
+            filterToolStripMenuItemFilter.Text = "Фильтр";
+
             весьСкладToolStripMenuItem.Name = "весьСкладToolStripMenuItem";
-            весьСкладToolStripMenuItem.Size = new Size(166, 26);
             весьСкладToolStripMenuItem.Text = "Весь склад";
-            // 
-            // категорииToolStripMenuItem
-            // 
+
             категорииToolStripMenuItem.Name = "категорииToolStripMenuItem";
-            категорииToolStripMenuItem.Size = new Size(166, 26);
             категорииToolStripMenuItem.Text = "Категории";
-            // 
-            // exitToolStripMenuItemOutput
-            // 
-            exitToolStripMenuItemOutput.Name = "exitToolStripMenuItemOutput";
-            exitToolStripMenuItemOutput.Size = new Size(67, 24);
-            exitToolStripMenuItemOutput.Text = "Выход";
-            // 
-            // сменитьАккаунтToolStripMenuItem
-            // 
-            сменитьАккаунтToolStripMenuItem.Alignment = ToolStripItemAlignment.Right;
-            сменитьАккаунтToolStripMenuItem.Name = "сменитьАккаунтToolStripMenuItem";
-            сменитьАккаунтToolStripMenuItem.Size = new Size(139, 24);
-            сменитьАккаунтToolStripMenuItem.Text = "Сменить аккаунт";
-            // 
-            // принятьПоставкуToolStripMenuItem
-            // 
+
+            createShipmentToolStripMenuItem.Name = "createShipmentToolStripMenuItem";
+            createShipmentToolStripMenuItem.Text = "Создать отгрузку";
+
             принятьПоставкуToolStripMenuItem.Name = "принятьПоставкуToolStripMenuItem";
-            принятьПоставкуToolStripMenuItem.Size = new Size(148, 24);
             принятьПоставкуToolStripMenuItem.Text = "Принять поставку";
             принятьПоставкуToolStripMenuItem.Click += принятьПоставкуToolStripMenuItem_Click;
-            // 
-            // labelWrittenOffGoods
-            // 
-            labelWrittenOffGoods.AutoSize = true;
-            labelWrittenOffGoods.Font = new Font("Segoe UI", 18F);
-            labelWrittenOffGoods.Location = new Point(12, 389);
-            labelWrittenOffGoods.Name = "labelWrittenOffGoods";
-            labelWrittenOffGoods.Size = new Size(286, 41);
-            labelWrittenOffGoods.TabIndex = 16;
-            labelWrittenOffGoods.Text = "Списанные товары:";
-            // 
-            // labelFilterProductsFalse
-            // 
-            labelFilterProductsFalse.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            labelFilterProductsFalse.AutoSize = true;
-            labelFilterProductsFalse.BackColor = SystemColors.ControlLight;
-            labelFilterProductsFalse.Location = new Point(695, 405);
-            labelFilterProductsFalse.Name = "labelFilterProductsFalse";
-            labelFilterProductsFalse.Size = new Size(60, 20);
-            labelFilterProductsFalse.TabIndex = 20;
-            labelFilterProductsFalse.Text = "Фильтр";
-            // 
-            // comboBoxFiterProductFalse
-            // 
-            comboBoxFiterProductFalse.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            comboBoxFiterProductFalse.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxFiterProductFalse.FormattingEnabled = true;
-            comboBoxFiterProductFalse.Location = new Point(695, 402);
-            comboBoxFiterProductFalse.Margin = new Padding(3, 4, 3, 4);
-            comboBoxFiterProductFalse.Name = "comboBoxFiterProductFalse";
-            comboBoxFiterProductFalse.Size = new Size(138, 28);
-            comboBoxFiterProductFalse.TabIndex = 19;
-            comboBoxFiterProductFalse.Click += comboBoxFiterProductFalse_SelectedIndexChanged;
-            // 
-            // labelResult
-            // 
+
+            toolStripMenuItemCurrency.Name = "toolStripMenuItemCurrency";
+            toolStripMenuItemCurrency.Text = "Настроить валюту";
+            toolStripMenuItemCurrency.Click += buttonCurrencySettings_Click;
+
+            exitToolStripMenuItemOutput.Name = "exitToolStripMenuItemOutput";
+            exitToolStripMenuItemOutput.Text = "Выход";
+
+            сменитьАккаунтToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            сменитьАккаунтToolStripMenuItem.Name = "сменитьАккаунтToolStripMenuItem";
+            сменитьАккаунтToolStripMenuItem.Text = "Сменить аккаунт";
+
+            labelLogin.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            labelLogin.AutoSize = true;
+            labelLogin.Font = new System.Drawing.Font("Segoe UI", 11F);
+            labelLogin.Location = new System.Drawing.Point(820, 0);
+            labelLogin.Name = "labelLogin";
+            labelLogin.TabIndex = 2;
+            labelLogin.Text = "Логин:";
+
+            labelwarehouse.AutoSize = true;
+            labelwarehouse.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
+            labelwarehouse.Location = new System.Drawing.Point(20, 42);
+            labelwarehouse.Name = "labelwarehouse";
+            labelwarehouse.TabIndex = 0;
+            labelwarehouse.Text = "Склад:";
+
             labelResult.AutoSize = true;
-            labelResult.Location = new Point(23, 708);
+            labelResult.Font = new System.Drawing.Font("Segoe UI", 10F);
+            labelResult.Location = new System.Drawing.Point(20, 680);
             labelResult.Name = "labelResult";
-            labelResult.Size = new Size(50, 20);
-            labelResult.TabIndex = 21;
-            labelResult.Text = "label2";
-            // 
-            // WarehouseStorekeeper
-            // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(854, 748);
+            labelResult.TabIndex = 8;
+            labelResult.Text = "";
+
+            BackColor = System.Drawing.Color.LightBlue;
+            ClientSize = new System.Drawing.Size(1100, 760);
             Controls.Add(labelResult);
-            Controls.Add(labelFilterProductsFalse);
-            Controls.Add(comboBoxFiterProductFalse);
-            Controls.Add(labelWrittenOffGoods);
             Controls.Add(labelLogin);
-            Controls.Add(label1);
-            Controls.Add(menuStrip1);
-            MainMenuStrip = menuStrip1;
-            Margin = new Padding(3, 4, 3, 4);
+            Controls.Add(labelwarehouse);
+            Controls.Add(menuStripWarehouseProducts);
+            MainMenuStrip = menuStripWarehouseProducts;
             Name = "WarehouseStorekeeper";
             Text = "Склад кладовщика";
-            menuStrip1.ResumeLayout(false);
-            menuStrip1.PerformLayout();
+            menuStripWarehouseProducts.ResumeLayout(false);
+            menuStripWarehouseProducts.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
-
         }
-
-        #endregion
-
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label labelLogin;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem createShipmentToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem фильтрToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem весьСкладToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItemOutput;
-        private ToolStripMenuItem категорииToolStripMenuItem;
-        private ToolStripMenuItem сменитьАккаунтToolStripMenuItem;
-        private Label labelWrittenOffGoods;
-        private Label labelFilterProductsFalse;
-        private ComboBox comboBoxFiterProductFalse;
-        private ToolStripMenuItem принятьПоставкуToolStripMenuItem;
-        private Label labelResult;
     }
 }

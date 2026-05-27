@@ -1,18 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DiamonApp.Classes;
-using DiamonApp.DataBase;
-using DiamondApp.Resourses;
-using Draft_Diamond_BD;
-
-namespace DiamonApp.forms
+﻿namespace DiamonApp.forms
 {
     /// <summary>
     /// Форма удаления карточки товара

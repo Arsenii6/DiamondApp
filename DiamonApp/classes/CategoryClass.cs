@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace DiamonApp.Classes
+﻿namespace DiamonApp.Classes
 {
     /// <summary>
     /// Представляет категорию товаров с набором названий категорий
