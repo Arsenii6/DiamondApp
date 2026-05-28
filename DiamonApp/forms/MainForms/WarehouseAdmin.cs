@@ -5,27 +5,18 @@
         private DataGridView dgvWarehouseTrue;
         private string userLogin;
         private List<double> _seasonPercents = new();
-
         public WarehouseAdmin(string login)
         {
             InitializeComponent();
             userLogin = login;
             labelLogin.Text = "Логин:" + userLogin;
             CreateDataGridView();
-            LoadProductsTrue();
+
+            Task.Run(async () => await LoadProductsTrueAsync()).Wait();
             FilterProducts();
-            весьСкладToolStripMenuItem.Click += (s, a) => LoadProductsTrue();
+
+            весьСкладToolStripMenuItem.Click += async (s, a) => await LoadProductsTrueAsync();
             exitToolStripMenuItemOutput.Click += Exit_Click;
-            addCardToolStripMenuItem.Click += AddCardToolStripMenuItem_Click;
-            NewCategoryToolStripMenuItem.Click += newCategoryToolStripMenuItem_Click;
-            changeCardToolStripMenuItem.Click += changeCardToolStripMenuItem_Click;
-            changeCategoryToolStripMenuItem1.Click += CategoryChangeToolStripMenuItem1_Click;
-            deleteCardToolStripMenuItem.Click += deleteCardToolStripMenuItem_Click;
-            DeleteCategoryToolStripMenuItem2.Click += deleteCategoryToolStripMenuItem2_Click;
-            toolStripMenuItemCollections.Click += toolStripMenuItemCollections_Click;
-            принятьПоставкуToolStripMenuItem.Click += принятьПоставкуToolStripMenuItem_Click;
-            toolStripMenuItemCurrency.Click += toolStripMenuItemCurrency_Click;
-            changeAccountToolStripMenuItem.Click += changeAccountToolStripMenuItem_Click;
 
             Logger.UserAction(userLogin, "Открыта форма администратора склада");
         }
@@ -47,7 +38,7 @@
             dgvWarehouseTrue.CellFormatting += DgvWarehouseTrue_CellFormatting;
             Controls.Add(dgvWarehouseTrue);
         }
-        private void DgvWarehouseTrue_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        private void DgvWarehouseTrue_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex < 0 || e.RowIndex >= _seasonPercents.Count) return;
 
@@ -84,26 +75,41 @@
                     if (alreadyExists) continue;
 
                     var menuItem = new ToolStripMenuItem(category);
-                    menuItem.Click += (s, e) =>
+                    menuItem.Click += async (s, e) =>
                     {
                         Logger.UserAction(userLogin, $"Фильтрация по категории: {category}");
-                        using var db = new AllDB();
-                        var raw = db.Products.Where(p => p.Category == category && p.Status == true).ToList();
+                        await using var db = new AllDB();
+                        var raw = await db.Products.Where(p => p.Category == category && p.Status == true).ToListAsync();
                         BindProductsWithPercents(raw);
                     };
                     категорииToolStripMenuItem.DropDownItems.Add(menuItem);
                 }
             }
         }
-        public void LoadProductsTrue()
+        public async Task LoadProductsTrueAsync()
         {
             Logger.UserAction(userLogin, "Загрузка активных товаров");
-            using var db = new AllDB();
-            ExpirationDateCheck();
-            var raw = db.Products.Where(p => p.Status == true).ToList();
+            await using var db = new AllDB();
+            await UpdateExpiredProductsStatusAsync();
+            var raw = await db.Products.Where(p => p.Status == true).ToListAsync();
             BindProductsWithPercents(raw);
         }
-        private void BindProductsWithPercents(List<DiamonApp.Classes.ProductClass> products)
+        private async Task UpdateExpiredProductsStatusAsync()
+        {
+            await using var db = new AllDB();
+            var expiredProducts = await db.Products
+                .Where(p => p.EndDateOfTheDay < DateTime.Today && p.Status)
+                .ToListAsync();
+
+            foreach (var product in expiredProducts)
+            {
+                product.Status = false;
+                Logger.UserAction(userLogin, $"Товар '{product.Name}' просрочен");
+            }
+
+            await db.SaveChangesAsync();
+        }
+        private void BindProductsWithPercents(List<ProductClass> products)
         {
             _seasonPercents.Clear();
 
@@ -137,96 +143,83 @@
             dgvWarehouseTrue.DataSource = display;
             SetupColumnsTrue();
         }
-        private void ExpirationDateCheck()
-        {
-            using var db = new AllDB();
-            foreach (var product in db.Products)
-            {
-                if (product.EndDateOfTheDay < DateTime.Today)
-                {
-                    product.Status = false;
-                    Logger.UserAction(userLogin, $"Товар '{product.Name}' просрочен");
-                    db.SaveChanges();
-                }
-            }
-        }
         private void SetupColumnsTrue()
         {
             foreach (DataGridViewColumn col in dgvWarehouseTrue.Columns)
                 col.HeaderText = col.HeaderText.Replace("_", " ");
         }
-        private void AddCardToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AddCardToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы добавления карточки");
             new AddCard(userLogin).Show();
             Hide();
         }
-        private void newCategoryToolStripMenuItem_Click(object sender, EventArgs e)
+        private void newCategoryToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы добавления категории");
             new AddCategory(userLogin).Show();
             Hide();
         }
-        private void Exit_Click(object sender, EventArgs e)
+        private void Exit_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Выход из приложения");
             Application.Exit();
         }
-        private void changeAccountToolStripMenuItem_Click(object sender, EventArgs e)
+        private void changeAccountToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Смена аккаунта");
             new Authorization().Show();
             Hide();
         }
-        private void changeCardToolStripMenuItem_Click(object sender, EventArgs e)
+        private void changeCardToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы изменения карточки");
             new ChangeCard(userLogin).Show();
             Hide();
         }
-        private void CategoryChangeToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void CategoryChangeToolStripMenuItem1_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы изменения категории");
             new ChangeCategory(userLogin).Show();
             Hide();
         }
-        private void deleteCardToolStripMenuItem_Click(object sender, EventArgs e)
+        private void deleteCardToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы удаления карточки");
             new DeleteCard(userLogin).Show();
             Hide();
         }
-        private void deleteCategoryToolStripMenuItem2_Click(object sender, EventArgs e)
+        private void deleteCategoryToolStripMenuItem2_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы удаления категории");
             new DeleteCategory(userLogin).Show();
             Hide();
         }
-        private void buttonHistoryShipment_Click(object sender, EventArgs e)
+        private void buttonHistoryShipment_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие истории отгрузок");
             new HistoryShipmentForm(userLogin).Show();
             Hide();
         }
-        private void buttonWrittenOff_Click(object sender, EventArgs e)
+        private void buttonWrittenOff_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие склада списанных товаров");
             new WrittenOffForm(userLogin).Show();
             Hide();
         }
-        private void toolStripMenuItemCollections_Click(object sender, EventArgs e)
+        private void toolStripMenuItemCollections_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы сезонных коллекций");
             new SeasonalCollectionsForm(userLogin).Show();
             Hide();
         }
-        private void toolStripMenuItemCurrency_Click(object sender, EventArgs e)
+        private void toolStripMenuItemCurrency_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие настроек валюты");
             new CurrencySettings(userLogin).Show();
             Hide();
         }
-        private void принятьПоставкуToolStripMenuItem_Click(object sender, EventArgs e)
+        private void принятьПоставкуToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы приёмки поставки");
             new AcceptanceOfGoodsForm(userLogin).Show();
