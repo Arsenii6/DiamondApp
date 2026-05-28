@@ -21,7 +21,7 @@
         public CategoryClass(int id, List<string> namesOfCategory)
         {
             Id = id;
-            NamesOfCategory = namesOfCategory;
+            NamesOfCategory = namesOfCategory ?? new List<string>();
         }
 
         /// <summary>
@@ -29,7 +29,17 @@
         /// </summary>
         public CategoryClass(string namesOfCategory)
         {
-            NamesOfCategory.Add(namesOfCategory);
+            NamesOfCategory = new List<string>();
+            if (!string.IsNullOrEmpty(namesOfCategory))
+                NamesOfCategory.Add(namesOfCategory);
+        }
+
+        /// <summary>
+        /// Конструктор по умолчанию для EF
+        /// </summary>
+        public CategoryClass()
+        {
+            NamesOfCategory = new List<string>();
         }
     }
 }

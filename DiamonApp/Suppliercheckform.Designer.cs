@@ -69,7 +69,6 @@
             buttonSearch.Size = new System.Drawing.Size(30, 38);
             buttonSearch.Name = "buttonSearch";
             buttonSearch.Text = "▶";
-            buttonSearch.Click += buttonSearch_Click;
 
             // Заголовок блока информации
             labelInfoTitle.AutoSize = true;

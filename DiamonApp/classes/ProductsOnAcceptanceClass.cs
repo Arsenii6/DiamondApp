@@ -41,16 +41,21 @@
         public ProductsOnAcceptanceClass(string name, double count, decimal price, string providerName, string loginEmployee)
         {
             Id = Guid.NewGuid();
-            Name = name;
+            Name = name ?? string.Empty;
             Count = count;
             Price = price;
-            ProviderName = providerName;
-            LoginEmployee = loginEmployee;
+            ProviderName = providerName ?? string.Empty;
+            LoginEmployee = loginEmployee ?? string.Empty;
         }
 
         /// <summary>
-        /// Инициализирует пустую запись о приёмке
+        /// Инициализирует пустую запись о приёмке (для EF и десериализации)
         /// </summary>
-        public ProductsOnAcceptanceClass() { }
+        public ProductsOnAcceptanceClass()
+        {
+            Name = string.Empty;
+            ProviderName = string.Empty;
+            LoginEmployee = string.Empty;
+        }
     }
 }

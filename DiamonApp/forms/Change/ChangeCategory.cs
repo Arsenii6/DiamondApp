@@ -1,45 +1,32 @@
 ﻿namespace DiamonApp.forms
 {
-    /// <summary>
-    /// Форма изменения названия категории
-    /// </summary>
     public partial class ChangeCategory : Form
     {
         public string LoginAdmin;
 
-        /// <summary>
-        /// Инициализирует форму изменения категории
-        /// </summary>
         public ChangeCategory(string loginAdmin)
         {
             InitializeComponent();
             comboBoxOldName.Click += comboBoxOldName_SelectedIndexChanged;
             buttonChangeCategory.Click += buttonChangeCategory_Click;
             LoginAdmin = loginAdmin;
-
             Logger.UserAction(LoginAdmin, "Открыта форма изменения категории");
         }
 
-        /// <summary>
-        /// Загружает список категорий в комбобокс
-        /// </summary>
-        private void comboBoxOldName_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBoxOldName_SelectedIndexChanged(object? sender, EventArgs e)
         {
             Logger.UserAction(LoginAdmin, "Загрузка списка категорий в комбобокс");
             comboBoxOldName.Items.Clear();
-            using (var db = new AllDB())
+            using var db = new AllDB();
+            var categories = db.Categories.FirstOrDefault(p => p.Id == 1);
+            if (categories?.NamesOfCategory != null)
             {
-                foreach (var item in db.Categories.FirstOrDefault(p => p.Id == 1).NamesOfCategory)
-                {
+                foreach (var item in categories.NamesOfCategory)
                     comboBoxOldName.Items.Add(item);
-                }
             }
         }
 
-        /// <summary>
-        /// Обрабатывает изменение названия категории
-        /// </summary>
-        private void buttonChangeCategory_Click(object sender, EventArgs e)
+        private async void buttonChangeCategory_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(LoginAdmin, "Нажата кнопка изменения категории");
 
@@ -57,16 +44,36 @@
                 return;
             }
 
-            string oldCategory = comboBoxOldName.SelectedItem.ToString();
+            string oldCategory = comboBoxOldName.SelectedItem.ToString() ?? string.Empty;
             string newCategory = comboBoxNewName.Text.Trim();
+
+            if (string.IsNullOrEmpty(oldCategory))
+            {
+                Logger.UserAction(LoginAdmin, "Ошибка: старая категория пуста");
+                MessageBox.Show(Resources.EnterCategoryName);
+                return;
+            }
 
             Logger.UserAction(LoginAdmin, $"Попытка изменить категорию '{oldCategory}' на '{newCategory}'");
 
-            using (var db = new AllDB())
+            await using var db = new AllDB();
+            var categoryDb = db.Categories.FirstOrDefault(p => p.Id == 1);
+
+            if (categoryDb?.NamesOfCategory != null)
             {
-                var categoryDb = db.Categories.FirstOrDefault(p => p.Id == 1).NamesOfCategory;
-                var index = categoryDb.IndexOf(oldCategory);
-                categoryDb[index] = newCategory;
+                // Исправлено: проверка на null перед IndexOf
+                int index = -1;
+                for (int i = 0; i < categoryDb.NamesOfCategory.Count; i++)
+                {
+                    if (categoryDb.NamesOfCategory[i] == oldCategory)
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+
+                if (index >= 0)
+                    categoryDb.NamesOfCategory[index] = newCategory;
 
                 var products = db.Products.ToList();
                 int updatedProductsCount = 0;
@@ -79,7 +86,7 @@
                     }
                 }
 
-                db.SaveChanges();
+                await db.SaveChangesAsync();
 
                 Logger.UserAction(LoginAdmin, $"Категория '{oldCategory}' изменена на '{newCategory}'. Обновлено товаров: {updatedProductsCount}");
 
@@ -89,10 +96,7 @@
             }
         }
 
-        /// <summary>
-        /// Возврат на форму складского администратора
-        /// </summary>
-        private void backToolStripMenuItem_Click(object sender, EventArgs e)
+        private void backToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(LoginAdmin, "Возврат на форму WarehouseAdmin из формы изменения категории");
             new WarehouseAdmin(LoginAdmin).Show();

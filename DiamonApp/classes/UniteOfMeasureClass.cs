@@ -21,7 +21,7 @@
         public UniteOfMeasureClass(int id, List<string> unitesOfMeasure)
         {
             Id = id;
-            UnitesOfMeasure = unitesOfMeasure;
+            UnitesOfMeasure = unitesOfMeasure ?? new List<string>();
         }
 
         /// <summary>
@@ -29,7 +29,17 @@
         /// </summary>
         public UniteOfMeasureClass(string uniteOfMeasure)
         {
-            UnitesOfMeasure.Add(uniteOfMeasure);
+            UnitesOfMeasure = new List<string>();
+            if (!string.IsNullOrEmpty(uniteOfMeasure))
+                UnitesOfMeasure.Add(uniteOfMeasure);
+        }
+
+        /// <summary>
+        /// Конструктор по умолчанию для EF
+        /// </summary>
+        public UniteOfMeasureClass()
+        {
+            UnitesOfMeasure = new List<string>();
         }
     }
 }

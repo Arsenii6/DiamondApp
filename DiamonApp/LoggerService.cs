@@ -1,18 +1,16 @@
-﻿using System;
+﻿using DiamonApp.Interfaces;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
-namespace DiamonApp.Classes
+namespace DiamonApp.Services
 {
-    /// <summary>
-    /// Класс для логирования событий в приложении
-    /// </summary>
-    public static class Logger
+    public class LoggerService : ILogger
     {
         private static readonly string LogDirectory;
 
-        static Logger()
+        static LoggerService()
         {
             string appDirectory = Application.StartupPath;
             LogDirectory = Path.Combine(appDirectory, "Logs");
@@ -32,12 +30,12 @@ namespace DiamonApp.Classes
             File.AppendAllText(GetLogFilePath(), logEntry + Environment.NewLine);
         }
 
-        public static void UserAction(string userLogin, string action)
+        public void UserAction(string userLogin, string action)
         {
             WriteLog("USER", $"Пользователь '{userLogin}' выполнил: {action}");
         }
 
-        public static void OpenLogFolder()
+        public void OpenLogFolder()
         {
             Process.Start("explorer.exe", LogDirectory);
         }

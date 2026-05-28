@@ -1,28 +1,18 @@
 ﻿namespace DiamonApp.forms
 {
-    /// <summary>
-    /// Форма добавления новой категории товаров
-    /// </summary>
     public partial class AddCategory : Form
     {
         public string LoginAdmin;
 
-        /// <summary>
-        /// Инициализирует форму добавления категории
-        /// </summary>
         public AddCategory(string loginAdmin)
         {
             InitializeComponent();
             buttonAdd.Click += buttonAddCategory_Click;
             LoginAdmin = loginAdmin;
-
             Logger.UserAction(LoginAdmin, "Открыта форма добавления категории");
         }
 
-        /// <summary>
-        /// Обрабатывает добавление новой категории в базу данных
-        /// </summary>
-        private void buttonAddCategory_Click(object sender, EventArgs e)
+        private async void buttonAddCategory_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(LoginAdmin, "Нажата кнопка добавления категории");
 
@@ -36,16 +26,21 @@
 
             Logger.UserAction(LoginAdmin, $"Попытка добавить категорию: '{textBoxName.Text.Trim()}'");
 
-            using (var db = new AllDB())
+            await using var db = new AllDB();
+            var categoryList = db.Categories.FirstOrDefault(p => p.Id == 1);
+
+            if (categoryList != null)
             {
                 var flag = false;
-                foreach (var category in db.Categories.FirstOrDefault(p => p.Id == 1).NamesOfCategory)
+                foreach (var category in categoryList.NamesOfCategory)
                 {
                     if (newCategory == category.ToLower())
                     {
-                        flag = true; break;
+                        flag = true;
+                        break;
                     }
                 }
+
                 if (flag)
                 {
                     Logger.UserAction(LoginAdmin, $"Ошибка: категория '{textBoxName.Text.Trim()}' уже существует");
@@ -53,20 +48,17 @@
                     return;
                 }
 
-                db.Categories.FirstOrDefault(p => p.Id == 1).NamesOfCategory.Add(textBoxName.Text.Trim());
-                Logger.UserAction(LoginAdmin, $"Категория '{textBoxName.Text.Trim()}' успешно добавлена");
+                categoryList.NamesOfCategory.Add(textBoxName.Text.Trim());
+                await db.SaveChangesAsync();
 
+                Logger.UserAction(LoginAdmin, $"Категория '{textBoxName.Text.Trim()}' успешно добавлена");
                 MessageBox.Show(Resources.Success);
                 new WarehouseAdmin(LoginAdmin).Show();
-                db.SaveChanges();
                 Close();
             }
         }
 
-        /// <summary>
-        /// Возврат на главную форму складского администратора
-        /// </summary>
-        private void backToolStripMenuItem_Click(object sender, EventArgs e)
+        private void backToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(LoginAdmin, "Возврат на форму WarehouseAdmin из формы добавления категории");
             new WarehouseAdmin(LoginAdmin).Show();

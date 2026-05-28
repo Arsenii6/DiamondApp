@@ -1,12 +1,9 @@
 ﻿using DiamonApp.Classes;
+using System;
 using System.Windows.Forms;
 
 namespace DiamondApp.forms.differentFunctionsForms
 {
-    /// <summary>
-    /// Диалог подтверждения приёмки поставки.
-    /// При нажатии "Да" вызывает ConfirmAcceptance() у родительской формы.
-    /// </summary>
     public partial class AcceptanceConfirmForm : Form
     {
         private readonly string _userLogin;

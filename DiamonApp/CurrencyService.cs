@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DiamonApp.Interfaces;
+using System;
 using System.Globalization;
 using System.IO;
 using System.Net.Http;
@@ -6,26 +7,23 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DiamonApp.Classes
+namespace DiamonApp.Services
 {
-    /// <summary>
-    /// Менеджер валюты с асинхронным получением курса
-    /// </summary>
-    public static class AppCurrencyManager
+    public class CurrencyService : ICurrencyService
     {
         private static readonly string SettingsFile = Path.Combine(Application.StartupPath, "currency_settings.txt");
 
-        public static string CurrencyCode { get; private set; } = "RUB";
-        public static string CurrencySymbol { get; private set; } = "₽";
-        public static double RateToRub { get; private set; } = 1.0;
-        public static string RateText { get; private set; } = "1 RUB = 1.00 RUB";
+        public string CurrencyCode { get; private set; } = "RUB";
+        public string CurrencySymbol { get; private set; } = "₽";
+        public double RateToRub { get; private set; } = 1.0;
+        public string RateText { get; private set; } = "1 RUB = 1.00 RUB";
 
-        static AppCurrencyManager()
+        public CurrencyService()
         {
             Load();
         }
 
-        public static void Update(string code, double rateToRub, string rateText)
+        public void Update(string code, double rateToRub, string rateText)
         {
             CurrencyCode = code;
             RateToRub = rateToRub;
@@ -39,18 +37,18 @@ namespace DiamonApp.Classes
             Save();
         }
 
-        public static decimal Convert(decimal rubAmount)
+        public decimal Convert(decimal rubAmount)
         {
             if (RateToRub <= 0) return rubAmount;
             return Math.Round(rubAmount / (decimal)RateToRub, 2);
         }
 
-        public static string Format(decimal rubAmount)
+        public string Format(decimal rubAmount)
         {
             return $"{Convert(rubAmount):F2} {CurrencySymbol}";
         }
 
-        public static async Task<(double rate, string text)> FetchRateAsync(string currencyCode)
+        public async Task<(double rate, string text)> FetchRateAsync(string currencyCode)
         {
             if (currencyCode == "RUB")
                 return (1.0, "1 RUB = 1.00 RUB (базовая валюта)");
@@ -71,7 +69,7 @@ namespace DiamonApp.Classes
             return (rubRate, $"1 {currencyCode} = {rubRate:F2} RUB");
         }
 
-        private static void Save()
+        private void Save()
         {
             try
             {
@@ -85,7 +83,7 @@ namespace DiamonApp.Classes
             catch { }
         }
 
-        private static void Load()
+        private void Load()
         {
             try
             {

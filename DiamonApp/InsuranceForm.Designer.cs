@@ -1,108 +1,71 @@
-﻿namespace DiamonApp.forms.differentFunctionsForms
+﻿namespace DiamonApp.Forms.DifferentFunctionsForms
 {
     partial class InsuranceForm
     {
         private System.ComponentModel.IContainer components = null;
-
-        private System.Windows.Forms.Label labelTitle;
-        private System.Windows.Forms.Label labelShipmentName;
-        private System.Windows.Forms.ComboBox comboBoxShipments;
-        private System.Windows.Forms.Label labelInsurance;
-        private System.Windows.Forms.TextBox textBoxInsurance;
-        private System.Windows.Forms.Button buttonApply;
-        private System.Windows.Forms.Button buttonBack;
+        private ComboBox comboBoxShipments;
+        private Button buttonApply;
+        private Button backButton;
+        private Label labelTitle;
+        private Label labelSelect;
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null)) components.Dispose();
+            if (disposing && (components != null))
+                components.Dispose();
             base.Dispose(disposing);
         }
 
         private void InitializeComponent()
         {
-            labelTitle = new System.Windows.Forms.Label();
-            labelShipmentName = new System.Windows.Forms.Label();
-            comboBoxShipments = new System.Windows.Forms.ComboBox();
-            labelInsurance = new System.Windows.Forms.Label();
-            textBoxInsurance = new System.Windows.Forms.TextBox();
-            buttonApply = new System.Windows.Forms.Button();
-            buttonBack = new System.Windows.Forms.Button();
+            comboBoxShipments = new ComboBox();
+            buttonApply = new Button();
+            backButton = new Button();
+            labelTitle = new Label();
+            labelSelect = new Label();
             SuspendLayout();
 
-            // ── Заголовок ─────────────────────────────────────────────────
             labelTitle.AutoSize = true;
-            labelTitle.Font = new System.Drawing.Font("Segoe UI", 22F, System.Drawing.FontStyle.Bold);
-            labelTitle.Location = new System.Drawing.Point(170, 50);
-            labelTitle.Name = "labelTitle";
-            labelTitle.Text = "Страховка";
+            labelTitle.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            labelTitle.Location = new Point(120, 30);
+            labelTitle.Text = "Оформление страховки";
 
-            // ── Название (выпадающий список отгрузок) ─────────────────────
-            labelShipmentName.AutoSize = true;
-            labelShipmentName.Font = new System.Drawing.Font("Segoe UI", 14F);
-            labelShipmentName.Location = new System.Drawing.Point(40, 180);
-            labelShipmentName.Name = "labelShipmentName";
-            labelShipmentName.Text = "Название:";
+            labelSelect.AutoSize = true;
+            labelSelect.Font = new Font("Segoe UI", 12F);
+            labelSelect.Location = new Point(30, 90);
+            labelSelect.Text = "Выберите отгрузку:";
 
-            comboBoxShipments.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            comboBoxShipments.Font = new System.Drawing.Font("Segoe UI", 13F);
-            comboBoxShipments.FormattingEnabled = true;
-            comboBoxShipments.Location = new System.Drawing.Point(180, 176);
-            comboBoxShipments.Name = "comboBoxShipments";
-            comboBoxShipments.Size = new System.Drawing.Size(300, 36);
+            comboBoxShipments.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxShipments.Font = new Font("Segoe UI", 11F);
+            comboBoxShipments.Location = new Point(30, 125);
+            comboBoxShipments.Size = new Size(440, 38);
 
-            // ── Страховка ─────────────────────────────────────────────────
-            labelInsurance.AutoSize = true;
-            labelInsurance.Font = new System.Drawing.Font("Segoe UI", 14F);
-            labelInsurance.Location = new System.Drawing.Point(40, 260);
-            labelInsurance.Name = "labelInsurance";
-            labelInsurance.Text = "Страховка:";
-            labelInsurance.Visible = false;   // скрыт — поле страховки убрано из макета
+            buttonApply.BackColor = Color.SteelBlue;
+            buttonApply.FlatStyle = FlatStyle.Flat;
+            buttonApply.FlatAppearance.BorderSize = 0;
+            buttonApply.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            buttonApply.ForeColor = Color.White;
+            buttonApply.Location = new Point(30, 190);
+            buttonApply.Size = new Size(200, 45);
+            buttonApply.Text = "Оформить страховку";
 
-            textBoxInsurance.Font = new System.Drawing.Font("Segoe UI", 13F);
-            textBoxInsurance.Location = new System.Drawing.Point(180, 256);
-            textBoxInsurance.Name = "textBoxInsurance";
-            textBoxInsurance.Size = new System.Drawing.Size(300, 36);
-            textBoxInsurance.Visible = false;
+            backButton.BackColor = Color.White;
+            backButton.FlatStyle = FlatStyle.Flat;
+            backButton.FlatAppearance.BorderColor = Color.SteelBlue;
+            backButton.Font = new Font("Segoe UI", 12F);
+            backButton.ForeColor = Color.SteelBlue;
+            backButton.Location = new Point(270, 190);
+            backButton.Size = new Size(200, 45);
+            backButton.Text = "Назад";
 
-            // ── Кнопка Оформить ───────────────────────────────────────────
-            buttonApply.BackColor = System.Drawing.Color.White;
-            buttonApply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            buttonApply.FlatAppearance.BorderColor = System.Drawing.Color.DarkGray;
-            buttonApply.FlatAppearance.BorderSize = 1;
-            buttonApply.Font = new System.Drawing.Font("Segoe UI", 16F);
-            buttonApply.Location = new System.Drawing.Point(140, 310);
-            buttonApply.Name = "buttonApply";
-            buttonApply.Size = new System.Drawing.Size(220, 60);
-            buttonApply.Text = "Оформить";
-            buttonApply.UseVisualStyleBackColor = false;
-
-            // ── Кнопка Назад ──────────────────────────────────────────────
-            buttonBack.BackColor = System.Drawing.Color.Transparent;
-            buttonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            buttonBack.FlatAppearance.BorderSize = 0;
-            buttonBack.Font = new System.Drawing.Font("Segoe UI", 10F);
-            buttonBack.ForeColor = System.Drawing.Color.DimGray;
-            buttonBack.Location = new System.Drawing.Point(10, 5);
-            buttonBack.Name = "buttonBack";
-            buttonBack.Size = new System.Drawing.Size(80, 28);
-            buttonBack.Text = "← Назад";
-            buttonBack.UseVisualStyleBackColor = false;
-            buttonBack.Click += BackButton_Click;
-
-            // ── Form ──────────────────────────────────────────────────────
-            AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            BackColor = System.Drawing.Color.LightBlue;
-            ClientSize = new System.Drawing.Size(500, 420);
-            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            BackColor = Color.LightBlue;
+            ClientSize = new Size(500, 280);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
-            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            Controls.Add(buttonBack);
+            Controls.Add(backButton);
             Controls.Add(buttonApply);
-            Controls.Add(textBoxInsurance);
-            Controls.Add(labelInsurance);
             Controls.Add(comboBoxShipments);
-            Controls.Add(labelShipmentName);
+            Controls.Add(labelSelect);
             Controls.Add(labelTitle);
             Name = "InsuranceForm";
             Text = "Страховка";

@@ -1,22 +1,14 @@
 ﻿using DiamonApp.Classes;
-using DiamondApp.Resourses;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace DiamonApp.forms.differentFunctionsForms
+namespace DiamonApp.Forms.DifferentFunctionsForms
 {
-    /// <summary>
-    /// Форма оформления страховки.
-    /// Список строк корзины получает из родительской формы через GetShipmentsForInsurance().
-    /// Страховка привязывается к конкретной строке по Id записи в БД.
-    /// </summary>
     public partial class InsuranceForm : Form
     {
         private readonly string _userLogin;
         private readonly CreatingShipmentForm _parentForm;
-
-        // Id записи из БД → отображаемое название
         private List<(Guid Id, string Display)> _shipments = new();
 
         public InsuranceForm(string userLogin, CreatingShipmentForm parentForm)
@@ -26,7 +18,8 @@ namespace DiamonApp.forms.differentFunctionsForms
             _parentForm = parentForm;
 
             LoadShipments();
-            buttonApply.Click += ButtonApply_Click;
+            buttonApply.Click += ButtonApply_Click!;
+            backButton.Click += BackButton_Click!;
 
             Logger.UserAction(_userLogin, "Открыта форма страховки");
         }
@@ -36,7 +29,6 @@ namespace DiamonApp.forms.differentFunctionsForms
             comboBoxShipments.Items.Clear();
             _shipments.Clear();
 
-            // Получаем актуальный список из родительской формы вместе с Id
             _shipments = _parentForm.GetShipmentsForInsurance();
 
             foreach (var (_, display) in _shipments)
@@ -48,7 +40,7 @@ namespace DiamonApp.forms.differentFunctionsForms
                 MessageBox.Show("Корзина отгрузки пуста. Добавьте товары перед оформлением страховки.");
         }
 
-        private void ButtonApply_Click(object sender, EventArgs e)
+        private void ButtonApply_Click(object? sender, EventArgs e)
         {
             if (comboBoxShipments.SelectedIndex < 0)
             {
@@ -57,10 +49,7 @@ namespace DiamonApp.forms.differentFunctionsForms
             }
 
             var (id, display) = _shipments[comboBoxShipments.SelectedIndex];
-            string insuranceName = display; // страховка = отображаемое имя строки
-
-            // Передаём Id — страховка точно привяжется к нужной строке
-            _parentForm.SetInsurance(id, insuranceName);
+            _parentForm.SetInsurance(id, display);
 
             Logger.UserAction(_userLogin, $"Страховка оформлена: Id={id}");
             MessageBox.Show($"Страховка оформлена для:\n{display}", "Успех",
@@ -68,6 +57,6 @@ namespace DiamonApp.forms.differentFunctionsForms
             Close();
         }
 
-        private void BackButton_Click(object sender, EventArgs e) => Close();
+        private void BackButton_Click(object? sender, EventArgs e) => Close();
     }
 }

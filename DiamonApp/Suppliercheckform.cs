@@ -1,4 +1,5 @@
 ﻿using DiamonApp.Classes;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Net.Http;
 using System.Text;
@@ -7,21 +8,13 @@ using System.Windows.Forms;
 
 namespace DiamondApp.forms.differentFunctionsForms
 {
-    /// <summary>
-    /// Форма проверки контрагента по ИНН через API dadata.ru.
-    /// Показывает информацию о поставщике и предлагает добавить его в приёмку.
-    /// </summary>
     public partial class SupplierCheckForm : Form
     {
         private readonly string _userLogin;
         private readonly AcceptanceOfGoodsForm _parentForm;
-
-        // Данные найденного контрагента
         private string _foundName = "";
         private string _foundInn = "";
 
-        // Токен dadata.ru — бесплатный, 10 000 запросов/день
-        // Замените на свой токен с https://dadata.ru/
         private const string DadataToken = "f96e0e4ba6dfb43f6db60146a3d763662836ba85";
         private const string DadataSecret = "46b253686b7b7d1d9d49822806db6dfff9c4bf2d";
 
@@ -31,17 +24,18 @@ namespace DiamondApp.forms.differentFunctionsForms
             _userLogin = userLogin;
             _parentForm = parentForm;
 
-            // Поиск также по Enter
-            textBoxInn.KeyDown += (s, e) =>
+            textBoxInn.KeyDown += async (s, e) =>
             {
-                if (e.KeyCode == Keys.Enter) buttonSearch_Click(s, e);
+                if (e.KeyCode == Keys.Enter) await buttonSearchClickAsync();
             };
         }
 
-        /// <summary>
-        /// Поиск контрагента по ИНН через dadata.ru
-        /// </summary>
         private async void buttonSearch_Click(object sender, EventArgs e)
+        {
+            await buttonSearchClickAsync();
+        }
+
+        private async Task buttonSearchClickAsync()
         {
             string inn = textBoxInn.Text.Trim();
 
@@ -59,13 +53,11 @@ namespace DiamondApp.forms.differentFunctionsForms
 
             try
             {
-                (string name, string details) = await FindByInnAsync(inn);
-
+                var (name, details) = await FindByInnAsync(inn);
                 _foundName = name;
                 _foundInn = inn;
                 richTextBoxInfo.Text = details;
                 buttonYes.Enabled = !string.IsNullOrEmpty(name);
-
                 Logger.UserAction(_userLogin, $"Проверка ИНН {inn}: найдено '{name}'");
             }
             catch (Exception ex)
@@ -79,63 +71,54 @@ namespace DiamondApp.forms.differentFunctionsForms
             }
         }
 
-        /// <summary>
-        /// Запрашивает информацию о контрагенте по ИНН через dadata.ru.
-        /// Возвращает краткое название и развёрнутое описание.
-        /// </summary>
-        private static async Task<(string name, string details)> FindByInnAsync(string inn)
+        private async Task<(string name, string details)> FindByInnAsync(string inn)
         {
             using var client = new HttpClient();
             client.Timeout = TimeSpan.FromSeconds(10);
             client.DefaultRequestHeaders.Add("Authorization", $"Token {DadataToken}");
             client.DefaultRequestHeaders.Add("X-Secret", DadataSecret);
 
-            var body = System.Text.Json.JsonSerializer.Serialize(new { query = inn });
+            var body = Newtonsoft.Json.JsonConvert.SerializeObject(new { query = inn });
             var content = new StringContent(body, Encoding.UTF8);
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
             var response = await client.PostAsync(
                 "https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party",
                 content);
-
             response.EnsureSuccessStatusCode();
+
             string json = await response.Content.ReadAsStringAsync();
+            var obj = JObject.Parse(json);
+            var suggestions = obj["suggestions"];
 
-            using var doc = JsonDocument.Parse(json);
-            var suggestions = doc.RootElement.GetProperty("suggestions");
-
-            if (suggestions.GetArrayLength() == 0)
+            if (suggestions == null || !suggestions.HasValues)
                 return ("", "Контрагент с таким ИНН не найден.");
 
-            var data = suggestions[0].GetProperty("data");
-            string name = suggestions[0].GetProperty("value").GetString() ?? "";
-            string inn_ = data.GetProperty("inn").GetString() ?? "";
-            string ogrn = TryGet(data, "ogrn");
-            string kpp = TryGet(data, "kpp");
-            string address = TryGet(data.GetProperty("address"), "value");
-            string status = TryGet(data.GetProperty("state"), "status");
-            string opf = TryGet(data.GetProperty("opf"), "short");
+            var data = suggestions[0]?["data"];
+            var address = data?["address"];
+            var state = data?["state"];
+            var opf = data?["opf"];
+
+            string name = suggestions[0]?["value"]?.ToString() ?? "";
+            string inn_ = data?["inn"]?.ToString() ?? "—";
+            string ogrn = data?["ogrn"]?.ToString() ?? "—";
+            string kpp = data?["kpp"]?.ToString() ?? "—";
+            string addr = address?["value"]?.ToString() ?? "—";
+            string stat = state?["status"]?.ToString() ?? "—";
+            string opfShort = opf?["short"]?.ToString() ?? "—";
 
             string details =
                 $"Наименование: {name}\n" +
-                $"ОПФ:          {opf}\n" +
+                $"ОПФ:          {opfShort}\n" +
                 $"ИНН:          {inn_}\n" +
                 $"ОГРН:         {ogrn}\n" +
                 $"КПП:          {kpp}\n" +
-                $"Статус:       {status}\n" +
-                $"Адрес:        {address}";
+                $"Статус:       {stat}\n" +
+                $"Адрес:        {addr}";
 
             return (name, details);
         }
 
-        private static string TryGet(JsonElement element, string key)
-        {
-            try { return element.GetProperty(key).GetString() ?? "—"; }
-            catch { return "—"; }
-        }
-
-        /// <summary>
-        /// "Да" — передаём данные поставщика в родительскую форму и закрываем
-        /// </summary>
         private void buttonYes_Click(object sender, EventArgs e)
         {
             Logger.UserAction(_userLogin, $"Поставщик подтверждён: {_foundName} (ИНН {_foundInn})");
@@ -143,9 +126,6 @@ namespace DiamondApp.forms.differentFunctionsForms
             Close();
         }
 
-        /// <summary>
-        /// "Нет" — просто закрываем форму
-        /// </summary>
         private void buttonNo_Click(object sender, EventArgs e)
         {
             Logger.UserAction(_userLogin, "Проверка по API отменена");
