@@ -1,12 +1,5 @@
-﻿using System;
-using System.Globalization;
-using System.IO;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace DiamonApp.Classes
+﻿using System.Globalization;
+namespace DiamondApp.classes
 {
     /// <summary>
     /// Менеджер валюты с асинхронным получением курса

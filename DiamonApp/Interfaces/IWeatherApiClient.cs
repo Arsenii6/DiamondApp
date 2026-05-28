@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace DiamonApp.Interfaces
+namespace DiamondApp.Interfaces
 {
     public interface IWeatherApiClient
     {

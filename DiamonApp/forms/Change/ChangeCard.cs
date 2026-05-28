@@ -3,7 +3,6 @@
     public partial class ChangeCard : Form
     {
         public string LoginAdmin;
-
         public ChangeCard(string loginAdmin)
         {
             InitializeComponent();
@@ -13,7 +12,6 @@
             LoginAdmin = loginAdmin;
             Logger.UserAction(LoginAdmin, "Открыта форма изменения карточки товара");
         }
-
         private void comboBoxName_SelectedIndexChanged(object? sender, EventArgs e)
         {
             Logger.UserAction(LoginAdmin, "Загрузка списка товаров в комбобокс");
@@ -22,7 +20,6 @@
             foreach (var name in db.Products)
                 comboBoxName.Items.Add(name.Name);
         }
-
         private void comboBoxUniteOfMeasure_SelectedIndexChanged(object? sender, EventArgs e)
         {
             Logger.UserAction(LoginAdmin, "Загрузка единиц измерения в комбобокс");
@@ -35,7 +32,6 @@
                     comboBoxUniteOfMeasure.Items.Add(unite);
             }
         }
-
         private async void buttonChange_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(LoginAdmin, $"Нажата кнопка изменения товара. Выбранный товар: '{comboBoxName.Text}'");
@@ -67,7 +63,6 @@
                 MessageBox.Show(Resources.NotDatabase);
             }
         }
-
         private void BackToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(LoginAdmin, "Возврат на форму WarehouseAdmin из формы изменения карточки");

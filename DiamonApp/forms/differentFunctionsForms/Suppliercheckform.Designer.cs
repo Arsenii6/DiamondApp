@@ -45,7 +45,7 @@
 
             backToolStripMenuItem.Name = "backToolStripMenuItem";
             backToolStripMenuItem.Text = "Назад";
-            backToolStripMenuItem.Click += backToolStripMenuItem_Click;
+
 
             // ИНН контрагента
             labelInn.AutoSize = true;

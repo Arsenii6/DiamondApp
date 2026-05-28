@@ -1,34 +1,20 @@
-﻿using DiamonApp.Classes;
-using DiamonApp.DataBase;
-using DiamonApp.Enums;
-using Draft_Diamond_BD;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-
+﻿using System.Collections;
 namespace DiamonApp.forms.differentFunctionsForms
 {
     public partial class HistoryShipmentForm : Form
     {
-        private DataGridView dgvWarehouse;
+        private DataGridView? dgvWarehouse;
         private string userLogin;
-
         public HistoryShipmentForm(string login)
         {
             InitializeComponent();
             userLogin = login;
             labelLogin.Text = Resources.LoginInMenu + userLogin;
             CreateDataGridView();
-            LoadProducts();
-            comboBoxFiter.Click += (s, a) => LoadStorekeepersInFilter();
-
+            _ = LoadProductsAsync();
+            comboBoxFiter.Click += async (s, a) => await LoadStorekeepersInFilterAsync();
             Logger.UserAction(userLogin, "Открыта форма истории отгрузок");
         }
-
         private void CreateDataGridView()
         {
             dgvWarehouse = new DataGridView
@@ -42,70 +28,86 @@ namespace DiamonApp.forms.differentFunctionsForms
             };
             Controls.Add(dgvWarehouse);
         }
-
-        public void LoadProducts()
+        private async Task LoadProductsAsync()
         {
             Logger.UserAction(userLogin, "Загрузка истории отгрузок");
-            using var db = new AllDB();
-            var products = db.HistoryShipment.Select(p => new
-            {
-                p.DateShipment,
-                p.ProductsName,
-                p.UniteOfMeasure,
-                p.Count,
-                p.SumShipment,
-                p.Profit,
-                p.CustomerName,
-                p.CustomerPlace,
-                p.LoginStorekeeper,
-                p.Id,
-            }).ToList();
-            dgvWarehouse.DataSource = products;
-            SetupColumns();
-        }
+            await using var db = new AllDB();
+            var products = await db.HistoryShipment
+                .Select(p => new
+                {
+                    p.DateShipment,
+                    p.ProductsName,
+                    p.UniteOfMeasure,
+                    p.Count,
+                    p.SumShipment,
+                    p.Profit,
+                    p.CustomerName,
+                    p.CustomerPlace,
+                    p.LoginStorekeeper,
+                    p.Id,
+                })
+                .ToListAsync();
 
-        private void LoadStorekeepersInFilter()
+            if (dgvWarehouse != null)
+            {
+                dgvWarehouse.DataSource = products;
+                SetupColumns();
+            }
+        }
+        private async Task LoadStorekeepersInFilterAsync()
         {
             Logger.UserAction(userLogin, "Загрузка списка кладовщиков для фильтрации");
             var startDate = date1.Value;
             var endDate = date2.Value;
             comboBoxFiter.Items.Clear();
+            await using var db = new AllDB();
+            var employees = await db.Employess.ToListAsync();
 
-            using var db = new AllDB();
-            foreach (var empl in db.Employess.ToList())
+            foreach (var empl in employees)
             {
                 if (empl.Job == JobsEnumcs.Storekeeper)
                     comboBoxFiter.Items.Add(empl.Login);
             }
+            comboBoxFiter.SelectedIndexChanged -= ComboBoxFiter_SelectedIndexChanged;
+            comboBoxFiter.SelectedIndexChanged += ComboBoxFiter_SelectedIndexChanged;
+        }
+        private async void ComboBoxFiter_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            var startDate = date1.Value;
+            var endDate = date2.Value;
+            var selectedLogin = comboBoxFiter.SelectedItem?.ToString();
 
-            comboBoxFiter.SelectedIndexChanged += (s, e) =>
+            if (string.IsNullOrEmpty(selectedLogin))
+                return;
+            Logger.UserAction(userLogin, $"Фильтрация по кладовщику: {selectedLogin}");
+            await using var db = new AllDB();
+            var shipments = await db.HistoryShipment
+                .Where(p => p.LoginStorekeeper == selectedLogin &&
+                           (p.DateShipment.Date >= startDate && p.DateShipment.Date <= endDate))
+                .Select(p => new
+                {
+                    p.DateShipment,
+                    p.ProductsName,
+                    p.UniteOfMeasure,
+                    p.Count,
+                    p.SumShipment,
+                    p.Profit,
+                    p.CustomerName,
+                    p.CustomerPlace,
+                    p.LoginStorekeeper,
+                    p.Id,
+                })
+                .ToListAsync();
+            if (dgvWarehouse != null)
             {
-                Logger.UserAction(userLogin, $"Фильтрация по кладовщику: {comboBoxFiter.SelectedItem}");
-                using var db = new AllDB();
-                var selectedLogin = comboBoxFiter.SelectedItem.ToString();
-                var shipments = db.HistoryShipment
-                    .Where(p => p.LoginStorekeeper == selectedLogin &&
-                               (p.DateShipment.Date >= startDate && p.DateShipment.Date <= endDate))
-                    .Select(p => new
-                    {
-                        p.DateShipment,
-                        p.ProductsName,
-                        p.UniteOfMeasure,
-                        p.Count,
-                        p.SumShipment,
-                        p.Profit,
-                        p.CustomerName,
-                        p.CustomerPlace,
-                        p.LoginStorekeeper,
-                        p.Id,
-                    }).ToList();
                 dgvWarehouse.DataSource = shipments;
                 SetupColumns();
-            };
+            }
         }
-
         private void SetupColumns()
         {
+            if (dgvWarehouse == null) return;
+
             if (dgvWarehouse.Columns["DateShipment"] != null)
                 dgvWarehouse.Columns["DateShipment"].HeaderText = "Дата";
             if (dgvWarehouse.Columns["ProductsName"] != null)
@@ -127,16 +129,14 @@ namespace DiamonApp.forms.differentFunctionsForms
             if (dgvWarehouse.Columns["Id"] != null)
                 dgvWarehouse.Columns["Id"].HeaderText = "ID отгрузки";
         }
-
-        private void buttonListWaredhouse_Click(object sender, EventArgs e)
+        private void buttonListWaredhouse_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Переход на форму складского администратора из истории отгрузок");
             var newWarehouseAdmine = new WarehouseAdmin(userLogin);
             newWarehouseAdmine.Show();
             Close();
         }
-
-        private void buttonShow_Click(object sender, EventArgs e)
+        private async void buttonShow_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, $"Показать отгрузки за период: {date1.Value:d} - {date2.Value:d}");
 
@@ -146,11 +146,10 @@ namespace DiamonApp.forms.differentFunctionsForms
                 MessageBox.Show(Resources.Data1AndData2);
                 return;
             }
-
-            using var db = new AllDB();
+            await using var db = new AllDB();
             var startDate = date1.Value;
             var endDate = date2.Value;
-            var listShip1 = db.HistoryShipment
+            var listShip1 = await db.HistoryShipment
                 .Where(p => p.DateShipment.Date >= startDate && p.DateShipment.Date <= endDate)
                 .Select(p => new
                 {
@@ -164,18 +163,22 @@ namespace DiamonApp.forms.differentFunctionsForms
                     p.CustomerPlace,
                     p.LoginStorekeeper,
                     p.Id,
-                }).ToList();
-            dgvWarehouse.DataSource = listShip1;
-            SetupColumns();
+                })
+                .ToListAsync();
+
+            if (dgvWarehouse != null)
+            {
+                dgvWarehouse.DataSource = listShip1;
+                SetupColumns();
+            }
 
             Logger.UserAction(userLogin, $"Найдено отгрузок: {listShip1.Count}");
         }
-
-        private void buttonExportTheReport_Click(object sender, EventArgs e)
+        private async void buttonExportTheReport_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Экспорт отчёта в CSV");
 
-            if (dgvWarehouse.DataSource == null)
+            if (dgvWarehouse == null || dgvWarehouse.DataSource == null)
             {
                 Logger.UserAction(userLogin, "Ошибка: нет данных для экспорта");
                 MessageBox.Show(Resources.NoDataForExport);
@@ -195,18 +198,15 @@ namespace DiamonApp.forms.differentFunctionsForms
                 MessageBox.Show(Resources.NotReadingShipments);
                 return;
             }
-
             var saveFile = new SaveFileDialog
             {
                 Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*",
                 FilterIndex = 1,
                 RestoreDirectory = true,
-                FileName = $"Отгрузки_{DateTime.Now:M}.csv"
+                FileName = $"Отгрузки_{DateTime.Now:yyyy-MM-dd}.csv"
             };
-
             if (saveFile.ShowDialog() != DialogResult.OK)
                 return;
-
             try
             {
                 var properties = exportList[0].GetType().GetProperties();
@@ -225,7 +225,7 @@ namespace DiamonApp.forms.differentFunctionsForms
                     sb.AppendLine(string.Join(";", values));
                 }
 
-                File.WriteAllText(saveFile.FileName, sb.ToString(), Encoding.UTF8);
+                await File.WriteAllTextAsync(saveFile.FileName, sb.ToString(), Encoding.UTF8);
 
                 Logger.UserAction(userLogin, $"Экспортировано {exportList.Count} записей в файл: {saveFile.FileName}");
                 MessageBox.Show(Resources.Success);
@@ -236,10 +236,9 @@ namespace DiamonApp.forms.differentFunctionsForms
                 MessageBox.Show($"{Resources.ErrorExport} {ex.Message}");
             }
         }
-
         private static string EscapeCsv(string value)
         {
-            if (value.Contains(';') || value.Contains('"') || value.Contains('\n'))
+            if (value.Contains(';') || value.Contains('"') || value.Contains('\n') || value.Contains('\r'))
                 return $"\"{value.Replace("\"", "\"\"")}\"";
             return value;
         }

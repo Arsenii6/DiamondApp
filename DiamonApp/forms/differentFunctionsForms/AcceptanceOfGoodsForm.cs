@@ -4,7 +4,6 @@
     {
         private DataGridView? dgvWarehouse;  
         private string UserLogin;
-
         public AcceptanceOfGoodsForm(string userLogin)
         {
             InitializeComponent();
@@ -16,7 +15,6 @@
 
             Logger.UserAction(UserLogin, "Открыта форма приёмки товаров");
         }
-
         private void CreateDataGridView()
         {
             dgvWarehouse = new DataGridView
@@ -34,7 +32,6 @@
             };
             Controls.Add(dgvWarehouse);
         }
-
         public void LoadProducts()
         {
             Logger.UserAction(UserLogin, "Загрузка списка товаров в DataGridView");
@@ -54,7 +51,6 @@
                 SetupColumns();
             }
         }
-
         private void SetupColumns()
         {
             if (dgvWarehouse == null) return;
@@ -70,7 +66,6 @@
             if (dgvWarehouse.Columns["LoginEmployee"] != null)
                 dgvWarehouse.Columns["LoginEmployee"].HeaderText = "Кто принял";
         }
-
         private void buttonAddToBusket_Click(object sender, EventArgs e)
         {
             Logger.UserAction(UserLogin, "Нажата кнопка добавления товара в корзину приёмки");
@@ -97,7 +92,6 @@
                 MessageBox.Show(Resources.PurchasePrice);
                 return;
             }
-
             var productOnAcceptance = new ProductsOnAcceptanceClass(
                 comboBoxName.Text,
                 (double)numCount.Value,
@@ -111,7 +105,6 @@
             Logger.UserAction(UserLogin, $"Товар '{comboBoxName.Text}' добавлен в корзину");
             LoadProducts();
         }
-
         private void comboBoxName_SelectedIndexChanged(object? sender, EventArgs e)
         {
             Logger.UserAction(UserLogin, "Загрузка списка товаров в комбобокс");
@@ -120,20 +113,17 @@
             foreach (var card in db.Products)
                 comboBoxName.Items.Add(card.Name);
         }
-
         private void buttonCheckApi_Click(object sender, EventArgs e)
         {
             Logger.UserAction(UserLogin, "Открытие формы проверки контрагента по API");
             var checkForm = new SupplierCheckForm(UserLogin, this);
             checkForm.ShowDialog();
         }
-
         public void SetSupplierFromApi(string supplierName, string inn)
         {
             comboBoxProviderName.Text = supplierName;
             Logger.UserAction(UserLogin, $"Поставщик из API: {supplierName}, ИНН: {inn}");
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             Logger.UserAction(UserLogin, "Открытие формы подтверждения приёмки");
@@ -148,7 +138,6 @@
             var confirmForm = new AcceptanceConfirmForm(UserLogin, this);
             confirmForm.ShowDialog();
         }
-
         public void ConfirmAcceptance()
         {
             using var db = new AllDB();
@@ -174,7 +163,6 @@
             db.SaveChanges();
             LoadProducts();
         }
-
         private void сменитьАккаунтToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(UserLogin, "Смена аккаунта из формы приёмки");
@@ -182,7 +170,6 @@
             authForm.Show();
             Hide();
         }
-
         private void назадToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(UserLogin, "Возврат из формы приёмки");
@@ -196,7 +183,6 @@
 
             Hide();
         }
-
         private async void buttonImport_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(UserLogin, "Импорт товаров из JSON");

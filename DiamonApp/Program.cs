@@ -13,5 +13,8 @@ namespace DiamonApp
             ApplicationConfiguration.Initialize();
             Application.Run(new Authorization());
         }
+
     }
+
+
 }

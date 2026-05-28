@@ -5,7 +5,6 @@
         private readonly string _userLogin;
         private readonly string[] _currencyCodes = { "RUB", "USD", "EUR" };
         private readonly string[] _currencyNames = { "Рубли (RUB)", "Доллары (USD)", "Евро (EUR)" };
-
         public CurrencySettings(string userLogin)
         {
             InitializeComponent();
@@ -21,7 +20,6 @@
 
             Logger.UserAction(_userLogin, "Открыта форма настройки валюты");
         }
-
         private async Task UpdateRateAsync()
         {
             if (comboBoxCurrency.SelectedIndex < 0)
@@ -29,11 +27,9 @@
                 MessageBox.Show("Выберите валюту из списка.");
                 return;
             }
-
             string selectedCode = _currencyCodes[comboBoxCurrency.SelectedIndex];
             buttonUpdate.Enabled = false;
             labelRate.Text = "Загрузка...";
-
             try
             {
                 var (rate, rateText) = await AppCurrencyManager.FetchRateAsync(selectedCode);
@@ -53,7 +49,6 @@
                 buttonUpdate.Enabled = true;
             }
         }
-
         private void BackToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(_userLogin, "Возврат из настроек валюты");

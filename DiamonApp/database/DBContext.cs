@@ -21,16 +21,12 @@ namespace DiamonApp.DataBase
 
         public AllDB()
         {
-            Logger.UserAction("System", "Инициализация базы данных AllDB");
             Database.EnsureCreated();
-            Logger.UserAction("System", "Database.EnsureCreated() выполнен");
 
             Task.Run(async () => await EnsureExistAsync()).Wait();
             Task.Run(async () => await AddUnitesOfMeasureAsync()).Wait();
             Task.Run(async () => await AddDataCategoriesAsync()).Wait();
             Task.Run(async () => await AddDataProductsAsync()).Wait();
-
-            Logger.UserAction("System", "Инициализация базы данных AllDB завершена");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -126,59 +122,43 @@ namespace DiamonApp.DataBase
 
         private async Task EnsureExistAsync()
         {
-            Logger.UserAction("System", "EnsureExist: проверка наличия администратора");
             if (!await Employess.AnyAsync(w => w.Login == "777"))
             {
-                Logger.UserAction("System", "EnsureExist: администратор '777' не найден, добавляю");
                 await Employess.AddAsync(new EmployeeClass("Admin", "One", "777", SimpleHash.HashSHA256("777"), Enums.JobsEnumcs.Administrator));
-                Logger.UserAction("System", "EnsureExist: администратор '777' добавлен");
             }
 
-            Logger.UserAction("System", "EnsureExist: проверка наличия кладовщика");
             if (!await Employess.AnyAsync(w => w.Login == "12"))
             {
-                Logger.UserAction("System", "EnsureExist: кладовщик '12' не найден, добавляю");
                 await Employess.AddAsync(new EmployeeClass("Кладовщик", "Коробков", "12", SimpleHash.HashSHA256("12"), Enums.JobsEnumcs.Storekeeper));
-                Logger.UserAction("System", "EnsureExist: кладовщик '12' добавлен");
             }
 
             await SaveChangesAsync();
-            Logger.UserAction("System", "EnsureExist: изменения сохранены");
         }
 
         private async Task AddDataCategoriesAsync()
         {
-            Logger.UserAction("System", "AddDataCategories: проверка наличия категорий");
             if (!await Categories.AnyAsync())
             {
-                Logger.UserAction("System", "AddDataCategories: категории не найдены, добавляю стандартные");
                 var newListOfCategories = new List<string>() { "Кольцо", "Серьги", "Колье", "Браслет", "Брошь" };
                 await Categories.AddAsync(new CategoryClass(1, newListOfCategories));
-                Logger.UserAction("System", $"AddDataCategories: добавлено {newListOfCategories.Count} категорий");
+                await SaveChangesAsync();
             }
-            await SaveChangesAsync();
         }
 
         private async Task AddUnitesOfMeasureAsync()
         {
-            Logger.UserAction("System", "AddUnitesOfMeasure: проверка наличия единиц измерения");
             if (!await UniteOfMeasures.AnyAsync())
             {
-                Logger.UserAction("System", "AddUnitesOfMeasure: единицы измерения не найдены, добавляю стандартные");
                 var newListOfUnits = new List<string>() { "Штуки", "Граммы" };
                 await UniteOfMeasures.AddAsync(new UniteOfMeasureClass(1, newListOfUnits));
-                Logger.UserAction("System", $"AddUnitesOfMeasure: добавлено {newListOfUnits.Count} единиц измерения");
+                await SaveChangesAsync();
             }
-            await SaveChangesAsync();
         }
 
         private async Task AddDataProductsAsync()
         {
-            Logger.UserAction("System", "AddDataProducts: проверка наличия товаров");
             if (!await Products.AnyAsync())
             {
-                Logger.UserAction("System", "AddDataProducts: товары не найдены, добавляю стандартные");
-
                 var categories = await Categories.ToListAsync();
                 var allNamesLinq = new List<string>();
                 foreach (var category in categories)
@@ -208,13 +188,12 @@ namespace DiamonApp.DataBase
                 });
 
                 await SaveChangesAsync();
-                Logger.UserAction("System", "AddDataProducts: товары успешно добавлены в базу данных");
             }
         }
 
         // ========== АСИНХРОННЫЕ МЕТОДЫ ДЛЯ ИСПОЛЬЗОВАНИЯ В ФОРМАХ ==========
 
-        public async Task<ProductClass> GetProductByNameAsync(string name)
+        public async Task<ProductClass?> GetProductByNameAsync(string name)
         {
             return await Products.FirstOrDefaultAsync(p => p.Name == name);
         }
@@ -234,7 +213,7 @@ namespace DiamonApp.DataBase
             return await Products.Where(p => p.Category == category && p.Status).ToListAsync();
         }
 
-        public async Task<EmployeeClass> GetEmployeeByLoginAsync(string login)
+        public async Task<EmployeeClass?> GetEmployeeByLoginAsync(string login)
         {
             return await Employess.FirstOrDefaultAsync(e => e.Login == login);
         }
@@ -295,6 +274,11 @@ namespace DiamonApp.DataBase
             var items = await ProductsOnAcceptance.ToListAsync();
             ProductsOnAcceptance.RemoveRange(items);
             await SaveChangesAsync();
+        }
+
+        public async Task<List<ProductsOnShipmentClass>> GetShipmentCartWithRegionAsync()
+        {
+            return await ProductsOnShipments.ToListAsync();
         }
     }
 }

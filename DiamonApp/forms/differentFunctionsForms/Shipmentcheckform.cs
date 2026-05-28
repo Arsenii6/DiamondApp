@@ -1,28 +1,13 @@
-﻿using DiamonApp.Classes;
-using System;
-using System.Net.Http;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace DiamonApp.forms.differentFunctionsForms
+﻿namespace DiamonApp.forms.differentFunctionsForms
 {
-    /// <summary>
-    /// Форма проверки контрагента по ИНН для отгрузки.
-    /// Аналогична SupplierCheckForm, но вопрос "Хотите отгрузить товар этому клиенту?"
-    /// </summary>
     public partial class ShipmentCheckForm : Form
     {
         private readonly string _userLogin;
         private readonly CreatingShipmentForm _parentForm;
-
         private string _foundName = "";
         private string _foundInn = "";
-
         private const string DadataToken = "f96e0e4ba6dfb43f6db60146a3d763662836ba85";
         private const string DadataSecret = "46b253686b7b7d1d9d49822806db6dfff9c4bf2d";
-
         public ShipmentCheckForm(string userLogin, CreatingShipmentForm parentForm)
         {
             InitializeComponent();
@@ -34,7 +19,6 @@ namespace DiamonApp.forms.differentFunctionsForms
                 if (e.KeyCode == Keys.Enter) buttonSearch_Click(s, e);
             };
         }
-
         private async void buttonSearch_Click(object sender, EventArgs e)
         {
             string inn = textBoxInn.Text.Trim();
@@ -44,13 +28,11 @@ namespace DiamonApp.forms.differentFunctionsForms
                 MessageBox.Show("Введите корректный ИНН (10 или 12 цифр).");
                 return;
             }
-
             buttonSearch.Enabled = false;
             richTextBoxInfo.Text = "Загрузка...";
             buttonYes.Enabled = false;
             _foundName = "";
             _foundInn = "";
-
             try
             {
                 (string name, string details) = await FindByInnAsync(inn);
@@ -70,18 +52,15 @@ namespace DiamonApp.forms.differentFunctionsForms
                 buttonSearch.Enabled = true;
             }
         }
-
         private static async Task<(string name, string details)> FindByInnAsync(string inn)
         {
             using var client = new HttpClient();
             client.Timeout = TimeSpan.FromSeconds(10);
             client.DefaultRequestHeaders.Add("Authorization", $"Token {DadataToken}");
             client.DefaultRequestHeaders.Add("X-Secret", DadataSecret);
-
             var body = System.Text.Json.JsonSerializer.Serialize(new { query = inn });
             var content = new StringContent(body, Encoding.UTF8);
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
-
             var response = await client.PostAsync(
                 "https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party",
                 content);
@@ -102,7 +81,6 @@ namespace DiamonApp.forms.differentFunctionsForms
             string addr = TryGet(data.GetProperty("address"), "value");
             string stat = TryGet(data.GetProperty("state"), "status");
             string opf = TryGet(data.GetProperty("opf"), "short");
-
             string details =
                 $"Наименование: {name}\n" +
                 $"ОПФ:          {opf}\n" +
@@ -114,26 +92,22 @@ namespace DiamonApp.forms.differentFunctionsForms
 
             return (name, details);
         }
-
         private static string TryGet(JsonElement element, string key)
         {
             try { return element.GetProperty(key).GetString() ?? "—"; }
             catch { return "—"; }
         }
-
         private void buttonYes_Click(object sender, EventArgs e)
         {
             Logger.UserAction(_userLogin, $"Контрагент подтверждён: {_foundName} (ИНН {_foundInn})");
             _parentForm.SetCustomerFromApi(_foundName, _foundInn);
             Close();
         }
-
         private void buttonNo_Click(object sender, EventArgs e)
         {
             Logger.UserAction(_userLogin, "Проверка по API отменена");
             Close();
         }
-
         private void backToolStripMenuItem_Click(object sender, EventArgs e) => Close();
     }
 }

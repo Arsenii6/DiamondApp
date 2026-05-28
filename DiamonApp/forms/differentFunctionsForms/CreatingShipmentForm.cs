@@ -1,17 +1,6 @@
-﻿using DiamonApp.Classes;
-using DiamonApp.DataBase;
-using DiamonApp.Forms.DifferentFunctionsForms;
-using Draft_Diamond_BD;
+﻿using DiamonApp.Forms.DifferentFunctionsForms;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DiamonApp.forms.differentFunctionsForms
 {
     public partial class CreatingShipmentForm : Form
@@ -28,7 +17,6 @@ namespace DiamonApp.forms.differentFunctionsForms
             ["Санкт-Петербург"] = (59.9343, 30.3351),
             ["Новосибирск"] = (54.9924, 82.9086),
         };
-
         public CreatingShipmentForm(string userLogin)
         {
             InitializeComponent();
@@ -50,7 +38,6 @@ namespace DiamonApp.forms.differentFunctionsForms
 
             Logger.UserAction(UserLogin, "Открыта форма создания отгрузки");
         }
-
         private void CreateDataGridView()
         {
             dgvWarehouse = new DataGridView
@@ -72,7 +59,6 @@ namespace DiamonApp.forms.differentFunctionsForms
             dgvWarehouse.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             Controls.Add(dgvWarehouse);
         }
-
         public void LoadProducts()
         {
             using var db = new AllDB();
@@ -99,7 +85,6 @@ namespace DiamonApp.forms.differentFunctionsForms
                     Контейнер = container,
                 });
             }
-
             if (dgvWarehouse != null)
             {
                 dgvWarehouse.DataSource = list;
@@ -107,7 +92,6 @@ namespace DiamonApp.forms.differentFunctionsForms
                     col.HeaderText = col.HeaderText.Replace("_", " ");
             }
         }
-
         private void comboBoxName_SelectedIndexChanged(object? sender, EventArgs e)
         {
             comboBoxName.Items.Clear();
@@ -115,7 +99,6 @@ namespace DiamonApp.forms.differentFunctionsForms
             foreach (var card in db.Products)
                 comboBoxName.Items.Add(card.Name);
         }
-
         private void comboBoxUniteOfMeasure_SelectedIndexChanged(object? sender, EventArgs e)
         {
             comboBoxUniteOfMeasure.Items.Clear();
@@ -127,7 +110,6 @@ namespace DiamonApp.forms.differentFunctionsForms
                     comboBoxUniteOfMeasure.Items.Add(u);
             }
         }
-
         private void buttonAddToBusket_Click(object sender, EventArgs e)
         {
             using var db = new AllDB();
@@ -137,33 +119,28 @@ namespace DiamonApp.forms.differentFunctionsForms
                 MessageBox.Show(Resources.EnterProductName);
                 return;
             }
-
             if (comboBoxUniteOfMeasure.SelectedItem == null ||
                 comboBoxUniteOfMeasure.Text != db.Products.FirstOrDefault(p => p.Name == comboBoxName.Text)?.UniteOfMeasure)
             {
                 MessageBox.Show(Resources.ChoseUniteOfMeasure);
                 return;
             }
-
             var product = db.Products.FirstOrDefault(p => p.Name == comboBoxName.Text);
             if (!int.TryParse(numCount.Text, out int qty) || qty <= 0 || qty > product?.Rest)
             {
                 MessageBox.Show(Resources.NumberCount);
                 return;
             }
-
             if (string.IsNullOrWhiteSpace(_verifiedCustomerName))
             {
                 MessageBox.Show("Сначала проверьте контрагента по API (кнопка «Проверить»).");
                 return;
             }
-
             if (string.IsNullOrWhiteSpace(comboBoxCustomerPlace.Text))
             {
                 MessageBox.Show(Resources.EnterAddressDelivery);
                 return;
             }
-
             var entry = new ProductsOnShipmentClass(
                 comboBoxName.Text,
                 (int)numCount.Value,
@@ -181,7 +158,6 @@ namespace DiamonApp.forms.differentFunctionsForms
             Logger.UserAction(UserLogin, $"'{comboBoxName.Text}' добавлен, регион: {entry.Region}");
             LoadProducts();
         }
-
         private void buttonVerify_Click(object sender, EventArgs e)
         {
             var checkForm = new ShipmentCheckForm(UserLogin, this);
@@ -200,7 +176,6 @@ namespace DiamonApp.forms.differentFunctionsForms
             var insuranceForm = new InsuranceForm(UserLogin, this);
             insuranceForm.ShowDialog();
         }
-
         public void SetInsurance(Guid shipmentId, string insuranceName)
         {
             using var db = new AllDB();
@@ -213,7 +188,6 @@ namespace DiamonApp.forms.differentFunctionsForms
                 LoadProducts();
             }
         }
-
         public List<(Guid Id, string Display)> GetShipmentsForInsurance()
         {
             var result = new List<(Guid, string)>();
@@ -224,7 +198,6 @@ namespace DiamonApp.forms.differentFunctionsForms
             }
             return result;
         }
-
         private async void weatherToolStripMenuItem_Click(object sender, EventArgs e)
         {
             weatherToolStripMenuItem.Enabled = false;
@@ -252,7 +225,6 @@ namespace DiamonApp.forms.differentFunctionsForms
                 weatherToolStripMenuItem.Text = "Загрузка погоды";
             }
         }
-
         private static async Task<string> FetchWeatherAsync(double lat, double lon)
         {
             using var client = new HttpClient();
@@ -273,7 +245,6 @@ namespace DiamonApp.forms.differentFunctionsForms
 
             return $"{temp:F0}°C, ветер {wind:F0} м/с, влажность {humidity}%";
         }
-
         private static double? ParseTemperature(string text)
         {
             if (string.IsNullOrWhiteSpace(text) || text == "—") return null;
@@ -287,7 +258,6 @@ namespace DiamonApp.forms.differentFunctionsForms
             catch { }
             return null;
         }
-
         private void buttonShipment_Click(object sender, EventArgs e)
         {
             using var db = new AllDB();
@@ -299,7 +269,6 @@ namespace DiamonApp.forms.differentFunctionsForms
             var confirmForm = new ShipmentConfirmForm(UserLogin, this);
             confirmForm.ShowDialog();
         }
-
         public void ConfirmShipment()
         {
             using var db = new AllDB();
@@ -339,14 +308,12 @@ namespace DiamonApp.forms.differentFunctionsForms
             storekeeperForm.Show();
             Close();
         }
-
         private void BackToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             var storekeeperForm = new WarehouseStorekeeper(UserLogin);
             storekeeperForm.Show();
             Hide();
         }
-
         private void сменитьАккаунтToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             var authForm = new Authorization();

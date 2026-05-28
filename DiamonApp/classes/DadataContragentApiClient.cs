@@ -1,12 +1,6 @@
-﻿using DiamonApp.Interfaces;
+﻿using DiamondApp.Interfaces;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DiamonApp.Services
+namespace DiamondApp.classes
 {
     public class DadataContragentApiClient : IContragentApiClient
     {

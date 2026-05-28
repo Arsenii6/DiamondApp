@@ -2,9 +2,8 @@
 {
     public partial class WrittenOffForm : Form
     {
-        private DataGridView? dgvWrittenOff;  // Добавлен ? - теперь поле может быть null
+        private DataGridView? dgvWrittenOff;
         private readonly string _userLogin;
-
         public WrittenOffForm(string userLogin)
         {
             InitializeComponent();
@@ -13,7 +12,6 @@
             LoadWrittenOff();
             Logger.UserAction(_userLogin, "Открыта форма списанных товаров");
         }
-
         private void CreateDataGridView()
         {
             dgvWrittenOff = new DataGridView
@@ -31,13 +29,11 @@
             };
             Controls.Add(dgvWrittenOff);
         }
-
         private void LoadWrittenOff()
         {
             Logger.UserAction(_userLogin, "Загрузка списанных товаров");
             using var db = new AllDB();
             var productsFalse = db.Products.Where(p => p.Status == false).ToList();
-
             var data = productsFalse.Select(p => new
             {
                 Название = p.Name,
@@ -47,7 +43,6 @@
                 Сезон_до = p.EndDateOfTheDay,
                 Убыток = AppCurrencyManager.Format(p.FinalyPrice),
             }).ToList();
-
             if (dgvWrittenOff != null)
             {
                 dgvWrittenOff.DataSource = data;
@@ -55,7 +50,6 @@
                 foreach (DataGridViewColumn col in dgvWrittenOff.Columns)
                     col.HeaderText = col.HeaderText.Replace("_", " ");
             }
-
             decimal totalSum = productsFalse.Sum(p => p.PurchasePrice);
             decimal totalLoss = productsFalse.Sum(p => p.FinalyPrice);
             int count = productsFalse.Count;
@@ -66,7 +60,6 @@
 
             Logger.UserAction(_userLogin, $"Списанных товаров: {count}, убыток: {AppCurrencyManager.Format(totalLoss)}");
         }
-
         private void backToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Logger.UserAction(_userLogin, "Возврат на форму администратора");

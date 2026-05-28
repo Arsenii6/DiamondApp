@@ -11,8 +11,8 @@ namespace DiamonApp.Classes
         public string CustomerName { get; set; } = string.Empty;
         public string CustomerPlace { get; set; } = string.Empty;
         public string LoginStorekeeper { get; set; } = string.Empty;
-        public string Region { get; set; } = "Москва";      // Новое поле
-        public string Insurance { get; set; } = "—";        // Новое поле
+        public string Region { get; set; } = "Москва";
+        public string Insurance { get; set; } = "—";
 
         public ProductsOnShipmentClass(string name, int count, decimal sum,
             string customerName, string customerPlace, string loginStorekeeper)

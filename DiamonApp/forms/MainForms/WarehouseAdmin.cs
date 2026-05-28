@@ -1,13 +1,4 @@
-﻿using DiamonApp.Classes;
-using DiamonApp.DataBase;
-using DiamonApp.Forms.DifferentFunctionsForms;
-using Draft_Diamond_BD;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
-
-namespace Draft_Diamond_BD
+﻿namespace Draft_Diamond_BD
 {
     public partial class WarehouseAdmin : Form
     {
@@ -38,7 +29,6 @@ namespace Draft_Diamond_BD
 
             Logger.UserAction(userLogin, "Открыта форма администратора склада");
         }
-
         private void CreateDataGridView()
         {
             dgvWarehouseTrue = new DataGridView
@@ -57,7 +47,6 @@ namespace Draft_Diamond_BD
             dgvWarehouseTrue.CellFormatting += DgvWarehouseTrue_CellFormatting;
             Controls.Add(dgvWarehouseTrue);
         }
-
         private void DgvWarehouseTrue_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex < 0 || e.RowIndex >= _seasonPercents.Count) return;
@@ -79,7 +68,6 @@ namespace Draft_Diamond_BD
                 color.G - 20 < 0 ? 0 : color.G - 20,
                 color.B - 20 < 0 ? 0 : color.B - 20);
         }
-
         private void FilterProducts()
         {
             Logger.UserAction(userLogin, "Фильтрация продуктов по категориям");
@@ -107,7 +95,6 @@ namespace Draft_Diamond_BD
                 }
             }
         }
-
         public void LoadProductsTrue()
         {
             Logger.UserAction(userLogin, "Загрузка активных товаров");
@@ -116,7 +103,6 @@ namespace Draft_Diamond_BD
             var raw = db.Products.Where(p => p.Status == true).ToList();
             BindProductsWithPercents(raw);
         }
-
         private void BindProductsWithPercents(List<DiamonApp.Classes.ProductClass> products)
         {
             _seasonPercents.Clear();
@@ -151,7 +137,6 @@ namespace Draft_Diamond_BD
             dgvWarehouseTrue.DataSource = display;
             SetupColumnsTrue();
         }
-
         private void ExpirationDateCheck()
         {
             using var db = new AllDB();
@@ -165,96 +150,82 @@ namespace Draft_Diamond_BD
                 }
             }
         }
-
         private void SetupColumnsTrue()
         {
             foreach (DataGridViewColumn col in dgvWarehouseTrue.Columns)
                 col.HeaderText = col.HeaderText.Replace("_", " ");
         }
-
         private void AddCardToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы добавления карточки");
             new AddCard(userLogin).Show();
             Hide();
         }
-
         private void newCategoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы добавления категории");
             new AddCategory(userLogin).Show();
             Hide();
         }
-
         private void Exit_Click(object sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Выход из приложения");
             Application.Exit();
         }
-
         private void changeAccountToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Смена аккаунта");
             new Authorization().Show();
             Hide();
         }
-
         private void changeCardToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы изменения карточки");
             new ChangeCard(userLogin).Show();
             Hide();
         }
-
         private void CategoryChangeToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы изменения категории");
             new ChangeCategory(userLogin).Show();
             Hide();
         }
-
         private void deleteCardToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы удаления карточки");
             new DeleteCard(userLogin).Show();
             Hide();
         }
-
         private void deleteCategoryToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы удаления категории");
             new DeleteCategory(userLogin).Show();
             Hide();
         }
-
         private void buttonHistoryShipment_Click(object sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие истории отгрузок");
             new HistoryShipmentForm(userLogin).Show();
             Hide();
         }
-
         private void buttonWrittenOff_Click(object sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие склада списанных товаров");
             new WrittenOffForm(userLogin).Show();
             Hide();
         }
-
         private void toolStripMenuItemCollections_Click(object sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы сезонных коллекций");
             new SeasonalCollectionsForm(userLogin).Show();
             Hide();
         }
-
         private void toolStripMenuItemCurrency_Click(object sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие настроек валюты");
             new CurrencySettings(userLogin).Show();
             Hide();
         }
-
         private void принятьПоставкуToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы приёмки поставки");

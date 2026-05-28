@@ -1,14 +1,4 @@
-﻿using DiamonApp.Classes;
-using DiamonApp.DataBase;
-using DiamonApp.Enums;
-using DiamonApp.Forms.DifferentFunctionsForms;
-using Draft_Diamond_BD;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
-
-namespace Draft_Diamond_BD
+﻿namespace Draft_Diamond_BD
 {
     public partial class WarehouseStorekeeper : Form
     {
@@ -16,7 +6,6 @@ namespace Draft_Diamond_BD
         private DataGridView dgvWarehouseFalse;
         private string userLogin;
         private List<double> _seasonPercents = new();
-
         public WarehouseStorekeeper(string login)
         {
             InitializeComponent();
@@ -35,7 +24,6 @@ namespace Draft_Diamond_BD
 
             Logger.UserAction(userLogin, "Открыта форма кладовщика");
         }
-
         private void CreateDataGridViewTrue()
         {
             dgvWarehouseTrue = new DataGridView
@@ -54,7 +42,6 @@ namespace Draft_Diamond_BD
             dgvWarehouseTrue.CellFormatting += DgvWarehouseTrue_CellFormatting;
             Controls.Add(dgvWarehouseTrue);
         }
-
         private void CreateDataGridViewFalse()
         {
             dgvWarehouseFalse = new DataGridView
@@ -71,7 +58,6 @@ namespace Draft_Diamond_BD
                 Font = new System.Drawing.Font("Segoe UI", 10F),
             };
             Controls.Add(dgvWarehouseFalse);
-
             var lbl = new Label
             {
                 AutoSize = true,
@@ -81,7 +67,6 @@ namespace Draft_Diamond_BD
             };
             Controls.Add(lbl);
         }
-
         private void FilterProducts()
         {
             Logger.UserAction(userLogin, "Фильтрация продуктов по категориям");
@@ -109,7 +94,6 @@ namespace Draft_Diamond_BD
                 }
             }
         }
-
         private void ExpirationDateCheck()
         {
             using var db = new AllDB();
@@ -123,7 +107,6 @@ namespace Draft_Diamond_BD
                 }
             }
         }
-
         public void LoadProductsTrue()
         {
             Logger.UserAction(userLogin, "Загрузка активных товаров");
@@ -133,7 +116,6 @@ namespace Draft_Diamond_BD
             BindProductsWithPercents(raw);
             LoadProductsFalse();
         }
-
         private void BindProductsWithPercents(List<DiamonApp.Classes.ProductClass> products)
         {
             _seasonPercents.Clear();
@@ -168,7 +150,6 @@ namespace Draft_Diamond_BD
             dgvWarehouseTrue.DataSource = display;
             SetupColumnsTrue();
         }
-
         private void DgvWarehouseTrue_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex < 0 || e.RowIndex >= _seasonPercents.Count) return;
@@ -190,13 +171,11 @@ namespace Draft_Diamond_BD
                 Math.Max(0, color.G - 20),
                 Math.Max(0, color.B - 20));
         }
-
         private void SetupColumnsTrue()
         {
             foreach (DataGridViewColumn col in dgvWarehouseTrue.Columns)
                 col.HeaderText = col.HeaderText.Replace("_", " ");
         }
-
         public void LoadProductsFalse()
         {
             Logger.UserAction(userLogin, "Загрузка просроченных товаров");
@@ -217,13 +196,11 @@ namespace Draft_Diamond_BD
                 dgvWarehouseFalse.DataSource = productsload;
                 SetupColumnsFalse();
             }
-
             decimal sum = productsFalse.Sum(p => p.FinalyPrice);
             labelResult.Text = Resources.Result + AppCurrencyManager.Format(sum);
             Logger.UserAction(userLogin, $"Сумма просроченных товаров: {sum}");
         }
-
-        private void SetupColumnsFalse()
+       private void SetupColumnsFalse()
         {
             if (dgvWarehouseFalse.Columns["Name"] != null)
                 dgvWarehouseFalse.Columns["Name"].HeaderText = "Название";
@@ -238,34 +215,29 @@ namespace Draft_Diamond_BD
             if (dgvWarehouseFalse.Columns["EndDateOfTheDay"] != null)
                 dgvWarehouseFalse.Columns["EndDateOfTheDay"].HeaderText = "Дата окончания";
         }
-
         private void CreateShipmentToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы создания отгрузки");
             new CreatingShipmentForm(userLogin).Show();
             Hide();
         }
-
         private void Exit_Click(object sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Выход из приложения");
             Application.Exit();
         }
-
         private void changeAccountToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Смена аккаунта");
             new Authorization().Show();
             Close();
         }
-
         private void buttonCurrencySettings_Click(object sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие настроек валюты");
             new CurrencySettings(userLogin).Show();
             Hide();
         }
-
         private void принятьПоставкуToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы приёмки поставки");

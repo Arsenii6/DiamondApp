@@ -1,10 +1,5 @@
-﻿using DiamonApp.Interfaces;
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Windows.Forms;
-
-namespace DiamonApp.Services
+﻿using DiamondApp.Interfaces;
+namespace DiamondApp.classes
 {
     public class LoggerService : ILogger
     {

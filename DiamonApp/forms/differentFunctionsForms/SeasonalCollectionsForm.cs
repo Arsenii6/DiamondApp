@@ -10,14 +10,12 @@ namespace Draft_Diamond_BD
     public partial class SeasonalCollectionsForm : Form
     {
         private readonly string _userLogin;
-
         public SeasonalCollectionsForm(string userLogin)
         {
             InitializeComponent();
             _userLogin = userLogin;
             Logger.UserAction(_userLogin, "Открыта форма сезонных коллекций");
         }
-
         private void comboBoxTypeProduct_Click(object sender, EventArgs e)
         {
             comboBoxTypeProduct.Items.Clear();
@@ -27,7 +25,6 @@ namespace Draft_Diamond_BD
             foreach (var category in first.NamesOfCategory)
                 comboBoxTypeProduct.Items.Add(category);
         }
-
         private async void buttonSave_Click(object sender, EventArgs e)
         {
             Logger.UserAction(_userLogin, "Сохранение настроек сезона");
@@ -42,14 +39,12 @@ namespace Draft_Diamond_BD
                 MessageBox.Show(Resources.EnterSeason);
                 return;
             }
-
             await using var db = new AllDB();
             int.TryParse(comboBoxSeasonDuration.Text, out int month);
             int discountBeforeEnd = (int)numDiscountBeforeEnd.Value;
             double discount = (double)numDiscount.Value;
             var today = DateTime.Today.AddMonths(month);
             int productCount = 0;
-
             var products = db.Products.Where(p => p.Category == comboBoxTypeProduct.Text).ToList();
             foreach (var product in products)
             {
@@ -61,11 +56,9 @@ namespace Draft_Diamond_BD
                 productCount++;
             }
             await db.SaveChangesAsync();
-
             Logger.UserAction(_userLogin, $"Обновлено {productCount} товаров в категории '{comboBoxTypeProduct.Text}', сезон до {today:d}");
             MessageBox.Show(Resources.Success);
         }
-
         private void backToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Logger.UserAction(_userLogin, "Возврат на форму администратора");

@@ -1,13 +1,6 @@
-﻿using DiamonApp.Interfaces;
-using System;
+﻿using DiamondApp.Interfaces;
 using System.Globalization;
-using System.IO;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace DiamonApp.Services
+namespace DiamondApp.classes
 {
     public class CurrencyService : ICurrencyService
     {

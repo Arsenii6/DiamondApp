@@ -1,12 +1,4 @@
-﻿using DiamonApp.Classes;
-using DiamonApp.DataBase;
-using DiamonApp.Enums;
-using DiamondApp.Hash;
-using System;
-using System.Linq;
-using System.Windows.Forms;
-
-namespace DiamonApp
+﻿namespace DiamonApp
 {
     public partial class Registration : Form
     {
@@ -17,16 +9,13 @@ namespace DiamonApp
             btnAuthorization.Click += btnAuthorization_Click;
             Logger.UserAction("System", "Открыта форма регистрации");
         }
-
         private async void btnCreate_Click(object sender, EventArgs e)
         {
             var login = textBoxLogin.Text.Trim();
             var password = textBoxPassword.Text.Trim();
             var name = textBoxName.Text.Trim();
             var surname = textBoxSurname.Text.Trim();
-
             Logger.UserAction(login, $"Попытка регистрации нового пользователя: {name} {surname}");
-
             if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password) ||
                 string.IsNullOrEmpty(name) || string.IsNullOrEmpty(surname))
             {
@@ -34,7 +23,6 @@ namespace DiamonApp
                 MessageBox.Show(Resources.EnterTheCorrectInformation);
                 return;
             }
-
             await using var db = new AllDB();
             var existingUser = db.Employess.FirstOrDefault(w => w.Login == login);
             if (existingUser != null)
@@ -43,21 +31,16 @@ namespace DiamonApp
                 MessageBox.Show(Resources.SuchLogin);
                 return;
             }
-
             var newWorker = new EmployeeClass(name, surname, login,
                 SimpleHash.HashSHA256(password), JobsEnumcs.Storekeeper);
-
             await db.Employess.AddAsync(newWorker);
             await db.SaveChangesAsync();
-
             Logger.UserAction(login, $"Пользователь {login} успешно зарегистрирован");
             MessageBox.Show(Resources.Success);
-
             var authForm = new Authorization();
             authForm.Show();
             Hide();
         }
-
         private void btnAuthorization_Click(object sender, EventArgs e)
         {
             Logger.UserAction("System", "Переход на форму авторизации из формы регистрации");
