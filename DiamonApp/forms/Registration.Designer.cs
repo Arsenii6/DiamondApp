@@ -14,98 +14,141 @@
         private System.Windows.Forms.TextBox textBoxPassword;
         private System.Windows.Forms.Button buttonRegister;
         private System.Windows.Forms.Button btnAuthorization;
-
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null)) components.Dispose();
             base.Dispose(disposing);
         }
-
         private void InitializeComponent()
         {
-            labelTitle = new System.Windows.Forms.Label();
-            labelName = new System.Windows.Forms.Label();
-            labelSurname = new System.Windows.Forms.Label();
-            labelLogin = new System.Windows.Forms.Label();
-            labelPassword = new System.Windows.Forms.Label();
-            textBoxName = new System.Windows.Forms.TextBox();
-            textBoxSurname = new System.Windows.Forms.TextBox();
-            textBoxLogin = new System.Windows.Forms.TextBox();
-            textBoxPassword = new System.Windows.Forms.TextBox();
-            buttonRegister = new System.Windows.Forms.Button();
-            btnAuthorization = new System.Windows.Forms.Button();
+            labelTitle = new Label();
+            labelName = new Label();
+            labelSurname = new Label();
+            labelLogin = new Label();
+            labelPassword = new Label();
+            textBoxName = new TextBox();
+            textBoxSurname = new TextBox();
+            textBoxLogin = new TextBox();
+            textBoxPassword = new TextBox();
+            buttonRegister = new Button();
+            btnAuthorization = new Button();
             SuspendLayout();
-
+            // 
+            // labelTitle
+            // 
             labelTitle.AutoSize = true;
-            labelTitle.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Bold);
-            labelTitle.Location = new System.Drawing.Point(75, 35);
+            labelTitle.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            labelTitle.Location = new Point(75, 35);
+            labelTitle.Name = "labelTitle";
+            labelTitle.Size = new Size(268, 54);
+            labelTitle.TabIndex = 10;
             labelTitle.Text = "Регистрация";
-
-            // Имя
+            // 
+            // labelName
+            // 
             labelName.AutoSize = true;
-            labelName.Font = new System.Drawing.Font("Segoe UI", 11F);
-            labelName.Location = new System.Drawing.Point(50, 105);
+            labelName.Font = new Font("Segoe UI", 11F);
+            labelName.Location = new Point(50, 95);
+            labelName.Name = "labelName";
+            labelName.Size = new Size(60, 30);
+            labelName.TabIndex = 9;
             labelName.Text = "Имя:";
-            textBoxName.Font = new System.Drawing.Font("Segoe UI", 11F);
-            textBoxName.Location = new System.Drawing.Point(50, 128);
-            textBoxName.Size = new System.Drawing.Size(300, 30);
-            textBoxName.Name = "textBoxName";
-
-            // Фамилия
+            // 
+            // labelSurname
+            // 
             labelSurname.AutoSize = true;
-            labelSurname.Font = new System.Drawing.Font("Segoe UI", 11F);
-            labelSurname.Location = new System.Drawing.Point(50, 175);
+            labelSurname.Font = new Font("Segoe UI", 11F);
+            labelSurname.Location = new Point(50, 168);
+            labelSurname.Name = "labelSurname";
+            labelSurname.Size = new Size(109, 30);
+            labelSurname.TabIndex = 7;
             labelSurname.Text = "Фамилия:";
-            textBoxSurname.Font = new System.Drawing.Font("Segoe UI", 11F);
-            textBoxSurname.Location = new System.Drawing.Point(50, 198);
-            textBoxSurname.Size = new System.Drawing.Size(300, 30);
-            textBoxSurname.Name = "textBoxSurname";
-
-            // Логин
+            // 
+            // labelLogin
+            // 
             labelLogin.AutoSize = true;
-            labelLogin.Font = new System.Drawing.Font("Segoe UI", 11F);
-            labelLogin.Location = new System.Drawing.Point(50, 245);
+            labelLogin.Font = new Font("Segoe UI", 11F);
+            labelLogin.Location = new Point(50, 238);
+            labelLogin.Name = "labelLogin";
+            labelLogin.Size = new Size(80, 30);
+            labelLogin.TabIndex = 5;
             labelLogin.Text = "Логин:";
-            textBoxLogin.Font = new System.Drawing.Font("Segoe UI", 11F);
-            textBoxLogin.Location = new System.Drawing.Point(50, 268);
-            textBoxLogin.Size = new System.Drawing.Size(300, 30);
-            textBoxLogin.Name = "textBoxLogin";
-
-            // Пароль
+            // 
+            // labelPassword
+            // 
             labelPassword.AutoSize = true;
-            labelPassword.Font = new System.Drawing.Font("Segoe UI", 11F);
-            labelPassword.Location = new System.Drawing.Point(50, 315);
+            labelPassword.Font = new Font("Segoe UI", 11F);
+            labelPassword.Location = new Point(50, 308);
+            labelPassword.Name = "labelPassword";
+            labelPassword.Size = new Size(94, 30);
+            labelPassword.TabIndex = 3;
             labelPassword.Text = "Пароль:";
-            textBoxPassword.Font = new System.Drawing.Font("Segoe UI", 11F);
-            textBoxPassword.Location = new System.Drawing.Point(50, 338);
-            textBoxPassword.Size = new System.Drawing.Size(300, 30);
+            // 
+            // textBoxName
+            // 
+            textBoxName.Font = new Font("Segoe UI", 11F);
+            textBoxName.Location = new Point(50, 128);
+            textBoxName.Name = "textBoxName";
+            textBoxName.Size = new Size(300, 37);
+            textBoxName.TabIndex = 8;
+            // 
+            // textBoxSurname
+            // 
+            textBoxSurname.Font = new Font("Segoe UI", 11F);
+            textBoxSurname.Location = new Point(50, 198);
+            textBoxSurname.Name = "textBoxSurname";
+            textBoxSurname.Size = new Size(300, 37);
+            textBoxSurname.TabIndex = 6;
+            // 
+            // textBoxLogin
+            // 
+            textBoxLogin.Font = new Font("Segoe UI", 11F);
+            textBoxLogin.Location = new Point(50, 268);
+            textBoxLogin.Name = "textBoxLogin";
+            textBoxLogin.Size = new Size(300, 37);
+            textBoxLogin.TabIndex = 4;
+            // 
+            // textBoxPassword
+            // 
+            textBoxPassword.Font = new Font("Segoe UI", 11F);
+            textBoxPassword.Location = new Point(50, 338);
             textBoxPassword.Name = "textBoxPassword";
             textBoxPassword.PasswordChar = '●';
-
-            // Кнопка Зарегистрировать
-            buttonRegister.BackColor = System.Drawing.Color.SteelBlue;
-            buttonRegister.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            textBoxPassword.Size = new Size(300, 37);
+            textBoxPassword.TabIndex = 2;
+            // 
+            // buttonRegister
+            // 
+            buttonRegister.BackColor = Color.SteelBlue;
             buttonRegister.FlatAppearance.BorderSize = 0;
-            buttonRegister.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            buttonRegister.ForeColor = System.Drawing.Color.White;
-            buttonRegister.Location = new System.Drawing.Point(50, 395);
-            buttonRegister.Size = new System.Drawing.Size(300, 42);
+            buttonRegister.FlatStyle = FlatStyle.Flat;
+            buttonRegister.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            buttonRegister.ForeColor = Color.White;
+            buttonRegister.Location = new Point(50, 395);
             buttonRegister.Name = "buttonRegister";
+            buttonRegister.Size = new Size(300, 42);
+            buttonRegister.TabIndex = 1;
             buttonRegister.Text = "Зарегистрироваться";
-
-            // Кнопка назад к авторизации
-            btnAuthorization.BackColor = System.Drawing.Color.White;
-            btnAuthorization.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            btnAuthorization.FlatAppearance.BorderColor = System.Drawing.Color.SteelBlue;
-            btnAuthorization.Font = new System.Drawing.Font("Segoe UI", 11F);
-            btnAuthorization.ForeColor = System.Drawing.Color.SteelBlue;
-            btnAuthorization.Location = new System.Drawing.Point(50, 452);
-            btnAuthorization.Size = new System.Drawing.Size(300, 38);
+            buttonRegister.UseVisualStyleBackColor = false;
+            // 
+            // btnAuthorization
+            // 
+            btnAuthorization.BackColor = Color.White;
+            btnAuthorization.FlatAppearance.BorderColor = Color.SteelBlue;
+            btnAuthorization.FlatStyle = FlatStyle.Flat;
+            btnAuthorization.Font = new Font("Segoe UI", 11F);
+            btnAuthorization.ForeColor = Color.SteelBlue;
+            btnAuthorization.Location = new Point(50, 452);
             btnAuthorization.Name = "btnAuthorization";
+            btnAuthorization.Size = new Size(300, 38);
+            btnAuthorization.TabIndex = 0;
             btnAuthorization.Text = "← Назад к входу";
-
-            BackColor = System.Drawing.Color.LightBlue;
-            ClientSize = new System.Drawing.Size(400, 520);
+            btnAuthorization.UseVisualStyleBackColor = false;
+            // 
+            // Registration
+            // 
+            BackColor = Color.LightBlue;
+            ClientSize = new Size(400, 520);
             Controls.Add(btnAuthorization);
             Controls.Add(buttonRegister);
             Controls.Add(textBoxPassword);

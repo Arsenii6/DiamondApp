@@ -3,7 +3,6 @@
     partial class WrittenOffForm
     {
         private System.ComponentModel.IContainer components = null;
-
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem backToolStripMenuItem;
         private System.Windows.Forms.Label labelTitle;
@@ -13,14 +12,12 @@
         private System.Windows.Forms.Label labelCountValue;
         private System.Windows.Forms.Label labelLoss;
         private System.Windows.Forms.Label labelLossValue;
-
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
                 components.Dispose();
             base.Dispose(disposing);
         }
-
         private void InitializeComponent()
         {
             menuStrip1 = new MenuStrip();

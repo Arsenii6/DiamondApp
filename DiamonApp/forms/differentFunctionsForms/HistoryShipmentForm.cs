@@ -184,14 +184,12 @@ namespace DiamonApp.forms.differentFunctionsForms
                 MessageBox.Show(Resources.NoDataForExport);
                 return;
             }
-
             var exportList = new List<object>();
             if (dgvWarehouse.DataSource is IEnumerable enumerable)
             {
                 foreach (var item in enumerable)
                     exportList.Add(item);
             }
-
             if (exportList.Count == 0)
             {
                 Logger.UserAction(userLogin, "Ошибка: невозможно прочитать отгрузки для экспорта");
@@ -224,7 +222,6 @@ namespace DiamonApp.forms.differentFunctionsForms
                     var values = properties.Select(p => EscapeCsv(p.GetValue(item)?.ToString() ?? ""));
                     sb.AppendLine(string.Join(";", values));
                 }
-
                 await File.WriteAllTextAsync(saveFile.FileName, sb.ToString(), Encoding.UTF8);
 
                 Logger.UserAction(userLogin, $"Экспортировано {exportList.Count} записей в файл: {saveFile.FileName}");

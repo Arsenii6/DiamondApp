@@ -9,13 +9,11 @@
         private System.Windows.Forms.Label labelSelect;
         private System.Windows.Forms.ComboBox comboBoxName;
         private System.Windows.Forms.Button buttonDeleteCategory;
-
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null)) components.Dispose();
             base.Dispose(disposing);
         }
-
         private void InitializeComponent()
         {
             menuStrip1 = new MenuStrip();

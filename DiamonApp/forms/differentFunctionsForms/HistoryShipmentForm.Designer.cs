@@ -16,13 +16,11 @@
         private System.Windows.Forms.ComboBox comboBoxFiter;
         private System.Windows.Forms.Button buttonExportTheReport;
         private System.Windows.Forms.Button buttonListWaredhouse;
-
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null)) components.Dispose();
             base.Dispose(disposing);
         }
-
         private void InitializeComponent()
         {
             menuStrip1 = new MenuStrip();

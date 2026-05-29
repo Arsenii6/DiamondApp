@@ -2,7 +2,7 @@
 {
     public partial class AcceptanceOfGoodsForm : Form
     {
-        private DataGridView? dgvWarehouse;  
+        private DataGridView? dgvWarehouse;
         private string UserLogin;
         public AcceptanceOfGoodsForm(string userLogin)
         {
@@ -12,7 +12,8 @@
             CreateDataGridView();
             LoadProducts();
             comboBoxName.Click += comboBoxName_SelectedIndexChanged!;
-
+            buttonAddToBusket.Click += buttonAddToBusket_Click!;
+            buttonConfirm.Click += buttonConfirm_Click!;
             Logger.UserAction(UserLogin, "Открыта форма приёмки товаров");
         }
         private void CreateDataGridView()
@@ -44,7 +45,6 @@
                 p.ProviderName,
                 p.LoginEmployee,
             }).ToList();
-
             if (dgvWarehouse != null)
             {
                 dgvWarehouse.DataSource = acceptance;
@@ -101,9 +101,12 @@
             );
             db.ProductsOnAcceptance.Add(productOnAcceptance);
             db.SaveChanges();
-
             Logger.UserAction(UserLogin, $"Товар '{comboBoxName.Text}' добавлен в корзину");
             LoadProducts();
+            comboBoxName.SelectedItem = null;
+            numCount.Value = 0;
+            numPrice.Value = 0;
+            comboBoxProviderName.Text = string.Empty;
         }
         private void comboBoxName_SelectedIndexChanged(object? sender, EventArgs e)
         {
@@ -124,7 +127,7 @@
             comboBoxProviderName.Text = supplierName;
             Logger.UserAction(UserLogin, $"Поставщик из API: {supplierName}, ИНН: {inn}");
         }
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonConfirm_Click(object sender, EventArgs e)
         {
             Logger.UserAction(UserLogin, "Открытие формы подтверждения приёмки");
 
@@ -181,7 +184,7 @@
             else
                 new WarehouseStorekeeper(UserLogin).Show();
 
-            Hide();
+            Close();
         }
         private async void buttonImport_Click(object? sender, EventArgs e)
         {

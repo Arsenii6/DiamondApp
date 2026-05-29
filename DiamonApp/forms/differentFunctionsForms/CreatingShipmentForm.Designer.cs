@@ -9,7 +9,6 @@
         private System.Windows.Forms.ToolStripMenuItem insuranceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem weatherToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem сменитьАккаунтToolStripMenuItem;
-        private System.Windows.Forms.Label labelLogin;
         private System.Windows.Forms.Label labelCreatingShipment;
         private System.Windows.Forms.Label labelBusket;
         private System.Windows.Forms.Label labelName;
@@ -32,246 +31,299 @@
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null)) components.Dispose();
+            if (disposing && (components != null))
+                components.Dispose();
             base.Dispose(disposing);
         }
-
         private void InitializeComponent()
         {
-            menuStrip1 = new System.Windows.Forms.MenuStrip();
-            BackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            insuranceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            weatherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            сменитьАккаунтToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            labelLogin = new System.Windows.Forms.Label();
-            labelCreatingShipment = new System.Windows.Forms.Label();
-            labelBusket = new System.Windows.Forms.Label();
-            labelName = new System.Windows.Forms.Label();
-            comboBoxName = new System.Windows.Forms.ComboBox();
-            labelUniteOfMeasure = new System.Windows.Forms.Label();
-            comboBoxUniteOfMeasure = new System.Windows.Forms.ComboBox();
-            labelCount = new System.Windows.Forms.Label();
-            numCount = new System.Windows.Forms.NumericUpDown();
-            labelSumProduct = new System.Windows.Forms.Label();
-            numSumProduct = new System.Windows.Forms.NumericUpDown();
-            labelRegion = new System.Windows.Forms.Label();
-            comboBoxRegion = new System.Windows.Forms.ComboBox();
-            labelCustomerPlace = new System.Windows.Forms.Label();
-            comboBoxCustomerPlace = new System.Windows.Forms.ComboBox();
-            labelCustomerName = new System.Windows.Forms.Label();
-            comboBoxCustomerName = new System.Windows.Forms.ComboBox();
-            buttonVerify = new System.Windows.Forms.Button();
-            buttonShipment = new System.Windows.Forms.Button();
-            buttonAddToBusket = new System.Windows.Forms.Button();
+            menuStrip1 = new MenuStrip();
+            BackToolStripMenuItem = new ToolStripMenuItem();
+            insuranceToolStripMenuItem = new ToolStripMenuItem();
+            weatherToolStripMenuItem = new ToolStripMenuItem();
+            сменитьАккаунтToolStripMenuItem = new ToolStripMenuItem();
+            labelCreatingShipment = new Label();
+            labelBusket = new Label();
+            labelName = new Label();
+            comboBoxName = new ComboBox();
+            labelUniteOfMeasure = new Label();
+            comboBoxUniteOfMeasure = new ComboBox();
+            labelCount = new Label();
+            numCount = new NumericUpDown();
+            labelSumProduct = new Label();
+            numSumProduct = new NumericUpDown();
+            labelRegion = new Label();
+            comboBoxRegion = new ComboBox();
+            labelCustomerPlace = new Label();
+            comboBoxCustomerPlace = new ComboBox();
+            labelCustomerName = new Label();
+            comboBoxCustomerName = new ComboBox();
+            buttonVerify = new Button();
+            buttonShipment = new Button();
+            buttonAddToBusket = new Button();
+            labelLogin = new Label();
             menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)numCount).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numSumProduct).BeginInit();
+            ((ISupportInitialize)numCount).BeginInit();
+            ((ISupportInitialize)numSumProduct).BeginInit();
             SuspendLayout();
-
-            // ── MenuStrip ─────────────────────────────────────────────────
-            menuStrip1.BackColor = System.Drawing.Color.White;
-            menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
-            {
-                BackToolStripMenuItem,
-                insuranceToolStripMenuItem,
-                weatherToolStripMenuItem,
-                сменитьАккаунтToolStripMenuItem,
-            });
-            menuStrip1.Location = new System.Drawing.Point(0, 0);
+            // 
+            // menuStrip1
+            // 
+            menuStrip1.BackColor = Color.White;
+            menuStrip1.ImageScalingSize = new Size(24, 24);
+            menuStrip1.Items.AddRange(new ToolStripItem[] { BackToolStripMenuItem, insuranceToolStripMenuItem, weatherToolStripMenuItem, сменитьАккаунтToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new System.Drawing.Size(1600, 28);
-
+            menuStrip1.Size = new Size(1773, 33);
+            menuStrip1.TabIndex = 0;
+            // 
+            // BackToolStripMenuItem
+            // 
             BackToolStripMenuItem.Name = "BackToolStripMenuItem";
+            BackToolStripMenuItem.Size = new Size(77, 29);
             BackToolStripMenuItem.Text = "Назад";
             BackToolStripMenuItem.Click += BackToolStripMenuItem_Click;
-
+            // 
+            // insuranceToolStripMenuItem
+            // 
             insuranceToolStripMenuItem.Name = "insuranceToolStripMenuItem";
+            insuranceToolStripMenuItem.Size = new Size(202, 29);
             insuranceToolStripMenuItem.Text = "Оформить страховку";
-
+            insuranceToolStripMenuItem.Click += InsuranceToolStripMenuItem_Click;
+            // 
+            // weatherToolStripMenuItem
+            // 
             weatherToolStripMenuItem.Name = "weatherToolStripMenuItem";
+            weatherToolStripMenuItem.Size = new Size(167, 29);
             weatherToolStripMenuItem.Text = "Загрузка погоды";
             weatherToolStripMenuItem.Click += weatherToolStripMenuItem_Click;
-
-            сменитьАккаунтToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            // 
+            // сменитьАккаунтToolStripMenuItem
+            // 
+            сменитьАккаунтToolStripMenuItem.Alignment = ToolStripItemAlignment.Right;
             сменитьАккаунтToolStripMenuItem.Name = "сменитьАккаунтToolStripMenuItem";
+            сменитьАккаунтToolStripMenuItem.Size = new Size(164, 29);
             сменитьАккаунтToolStripMenuItem.Text = "Сменить аккаунт";
             сменитьАккаунтToolStripMenuItem.Click += сменитьАккаунтToolStripMenuItem_Click;
-
-            // ── Логин ─────────────────────────────────────────────────────
-            labelLogin.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            labelLogin.AutoSize = true;
-            labelLogin.Font = new System.Drawing.Font("Segoe UI", 11F);
-            labelLogin.Location = new System.Drawing.Point(1200, 0);
-            labelLogin.Name = "labelLogin";
-            labelLogin.Text = "Логин:";
-
-            // ── Заголовок левой зоны ──────────────────────────────────────
+            // 
+            // labelCreatingShipment
+            // 
             labelCreatingShipment.AutoSize = true;
-            labelCreatingShipment.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
-            labelCreatingShipment.Location = new System.Drawing.Point(30, 38);
+            labelCreatingShipment.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            labelCreatingShipment.Location = new Point(30, 40);
             labelCreatingShipment.Name = "labelCreatingShipment";
+            labelCreatingShipment.Size = new Size(317, 48);
+            labelCreatingShipment.TabIndex = 2;
             labelCreatingShipment.Text = "Создать отгрузку";
-
-            // ── Заголовок правой зоны ─────────────────────────────────────
+            // 
+            // labelBusket
+            // 
             labelBusket.AutoSize = true;
-            labelBusket.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
-            labelBusket.Location = new System.Drawing.Point(620, 38);
+            labelBusket.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            labelBusket.Location = new Point(620, 40);
             labelBusket.Name = "labelBusket";
+            labelBusket.Size = new Size(146, 48);
+            labelBusket.TabIndex = 3;
             labelBusket.Text = "Список";
-
-            // ═════════════════════════════════════════════════════════════
-            // ЛЕВАЯ ЗОНА: лейбл x=30, контрол x=210, ширина=350
-            //             правый край контрола: 210+350 = 560
-            // ПРАВАЯ ЗОНА: таблица x=600, ширина=980 (600+980=1580)
-            // Зазор между зонами: 600-560 = 40px — гарантированно не перекрываются
-            // ═════════════════════════════════════════════════════════════
-
-            int lx = 30;    // x лейбла
-            int cx = 210;   // x контрола
-            int cw = 350;   // ширина контрола → правый край = 210+350 = 560
-            int ch = 32;    // высота контрола
-            int sy = 80;    // стартовый Y первого поля
-            int dy = 62;    // шаг Y между полями
-
-            // Название
+            // 
+            // labelName
+            // 
             labelName.AutoSize = true;
-            labelName.Font = new System.Drawing.Font("Segoe UI", 12F);
-            labelName.Location = new System.Drawing.Point(lx, sy + 4);
+            labelName.Font = new Font("Segoe UI", 12F);
+            labelName.Location = new Point(30, 100);
+            labelName.Name = "labelName";
+            labelName.Size = new Size(125, 32);
+            labelName.TabIndex = 4;
             labelName.Text = "Название:";
-            comboBoxName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            comboBoxName.Font = new System.Drawing.Font("Segoe UI", 11F);
-            comboBoxName.FormattingEnabled = true;
-            comboBoxName.Location = new System.Drawing.Point(cx, sy);
+            // 
+            // comboBoxName
+            // 
+            comboBoxName.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxName.Font = new Font("Segoe UI", 11F);
+            comboBoxName.Location = new Point(210, 100);
             comboBoxName.Name = "comboBoxName";
-            comboBoxName.Size = new System.Drawing.Size(cw, ch);
-            sy += dy;
-
-            // Ед. измерения
+            comboBoxName.Size = new Size(350, 38);
+            comboBoxName.TabIndex = 5;
+            comboBoxName.Click += comboBoxName_SelectedIndexChanged;
+            // 
+            // labelUniteOfMeasure
+            // 
             labelUniteOfMeasure.AutoSize = true;
-            labelUniteOfMeasure.Font = new System.Drawing.Font("Segoe UI", 12F);
-            labelUniteOfMeasure.Location = new System.Drawing.Point(lx, sy + 4);
+            labelUniteOfMeasure.Font = new Font("Segoe UI", 12F);
+            labelUniteOfMeasure.Location = new Point(30, 150);
+            labelUniteOfMeasure.Name = "labelUniteOfMeasure";
+            labelUniteOfMeasure.Size = new Size(178, 32);
+            labelUniteOfMeasure.TabIndex = 6;
             labelUniteOfMeasure.Text = "Ед. измерения:";
-            comboBoxUniteOfMeasure.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            comboBoxUniteOfMeasure.Font = new System.Drawing.Font("Segoe UI", 11F);
-            comboBoxUniteOfMeasure.FormattingEnabled = true;
-            comboBoxUniteOfMeasure.Location = new System.Drawing.Point(cx, sy);
+            // 
+            // comboBoxUniteOfMeasure
+            // 
+            comboBoxUniteOfMeasure.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxUniteOfMeasure.Font = new Font("Segoe UI", 11F);
+            comboBoxUniteOfMeasure.Location = new Point(210, 150);
             comboBoxUniteOfMeasure.Name = "comboBoxUniteOfMeasure";
-            comboBoxUniteOfMeasure.Size = new System.Drawing.Size(cw, ch);
-            sy += dy;
-
-            // Количество
+            comboBoxUniteOfMeasure.Size = new Size(350, 38);
+            comboBoxUniteOfMeasure.TabIndex = 7;
+            comboBoxUniteOfMeasure.Click += comboBoxUniteOfMeasure_SelectedIndexChanged;
+            // 
+            // labelCount
+            // 
             labelCount.AutoSize = true;
-            labelCount.Font = new System.Drawing.Font("Segoe UI", 12F);
-            labelCount.Location = new System.Drawing.Point(lx, sy + 4);
+            labelCount.Font = new Font("Segoe UI", 12F);
+            labelCount.Location = new Point(30, 200);
+            labelCount.Name = "labelCount";
+            labelCount.Size = new Size(149, 32);
+            labelCount.TabIndex = 8;
             labelCount.Text = "Количество:";
-            numCount.Font = new System.Drawing.Font("Segoe UI", 11F);
-            numCount.Location = new System.Drawing.Point(cx, sy);
+            // 
+            // numCount
+            // 
+            numCount.Font = new Font("Segoe UI", 11F);
+            numCount.Location = new Point(210, 200);
+            numCount.Maximum = new decimal(new int[] { 99999, 0, 0, 0 });
             numCount.Name = "numCount";
-            numCount.Size = new System.Drawing.Size(cw, ch);
-            numCount.Minimum = 0;
-            numCount.Maximum = 99999;
-            sy += dy;
-
-            // Сумма
+            numCount.Size = new Size(350, 37);
+            numCount.TabIndex = 9;
+            // 
+            // labelSumProduct
+            // 
             labelSumProduct.AutoSize = true;
-            labelSumProduct.Font = new System.Drawing.Font("Segoe UI", 12F);
-            labelSumProduct.Location = new System.Drawing.Point(lx, sy + 4);
+            labelSumProduct.Font = new Font("Segoe UI", 12F);
+            labelSumProduct.Location = new Point(30, 250);
             labelSumProduct.Name = "labelSumProduct";
+            labelSumProduct.Size = new Size(92, 32);
+            labelSumProduct.TabIndex = 10;
             labelSumProduct.Text = "Сумма:";
-            numSumProduct.Font = new System.Drawing.Font("Segoe UI", 11F);
-            numSumProduct.Location = new System.Drawing.Point(cx, sy);
+            // 
+            // numSumProduct
+            // 
+            numSumProduct.Font = new Font("Segoe UI", 11F);
+            numSumProduct.Location = new Point(210, 250);
+            numSumProduct.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
             numSumProduct.Name = "numSumProduct";
-            numSumProduct.Size = new System.Drawing.Size(cw, ch);
-            numSumProduct.Maximum = 99999999;
-            sy += dy;
-
-            // Регион
+            numSumProduct.Size = new Size(350, 37);
+            numSumProduct.TabIndex = 11;
+            // 
+            // labelRegion
+            // 
             labelRegion.AutoSize = true;
-            labelRegion.Font = new System.Drawing.Font("Segoe UI", 12F);
-            labelRegion.Location = new System.Drawing.Point(lx, sy + 4);
+            labelRegion.Font = new Font("Segoe UI", 12F);
+            labelRegion.Location = new Point(30, 300);
+            labelRegion.Name = "labelRegion";
+            labelRegion.Size = new Size(96, 32);
+            labelRegion.TabIndex = 12;
             labelRegion.Text = "Регион:";
-            comboBoxRegion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            comboBoxRegion.Font = new System.Drawing.Font("Segoe UI", 11F);
+            // 
+            // comboBoxRegion
+            // 
+            comboBoxRegion.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxRegion.Font = new Font("Segoe UI", 11F);
             comboBoxRegion.Items.AddRange(new object[] { "Москва", "Санкт-Петербург", "Новосибирск" });
-            comboBoxRegion.Location = new System.Drawing.Point(cx, sy);
+            comboBoxRegion.Location = new Point(210, 300);
             comboBoxRegion.Name = "comboBoxRegion";
-            comboBoxRegion.Size = new System.Drawing.Size(cw, ch);
-            sy += dy;
-
-            // Куда
+            comboBoxRegion.Size = new Size(350, 38);
+            comboBoxRegion.TabIndex = 13;
+            // 
+            // labelCustomerPlace
+            // 
             labelCustomerPlace.AutoSize = true;
-            labelCustomerPlace.Font = new System.Drawing.Font("Segoe UI", 12F);
-            labelCustomerPlace.Location = new System.Drawing.Point(lx, sy + 4);
+            labelCustomerPlace.Font = new Font("Segoe UI", 12F);
+            labelCustomerPlace.Location = new Point(30, 350);
+            labelCustomerPlace.Name = "labelCustomerPlace";
+            labelCustomerPlace.Size = new Size(70, 32);
+            labelCustomerPlace.TabIndex = 14;
             labelCustomerPlace.Text = "Куда:";
-            comboBoxCustomerPlace.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
-            comboBoxCustomerPlace.Font = new System.Drawing.Font("Segoe UI", 11F);
-            comboBoxCustomerPlace.FormattingEnabled = true;
-            comboBoxCustomerPlace.Location = new System.Drawing.Point(cx, sy);
+            // 
+            // comboBoxCustomerPlace
+            // 
+            comboBoxCustomerPlace.Font = new Font("Segoe UI", 11F);
+            comboBoxCustomerPlace.Location = new Point(210, 350);
             comboBoxCustomerPlace.Name = "comboBoxCustomerPlace";
-            comboBoxCustomerPlace.Size = new System.Drawing.Size(cw, ch);
-
-            // Скрытые контролы
-            labelCustomerName.Visible = false;
+            comboBoxCustomerPlace.Size = new Size(350, 38);
+            comboBoxCustomerPlace.TabIndex = 15;
+            // 
+            // labelCustomerName
+            // 
+            labelCustomerName.AutoSize = true;
+            labelCustomerName.Font = new Font("Segoe UI", 12F);
+            labelCustomerName.Location = new Point(30, 400);
             labelCustomerName.Name = "labelCustomerName";
-            comboBoxCustomerName.Visible = false;
+            labelCustomerName.Size = new Size(161, 32);
+            labelCustomerName.TabIndex = 21;
+            labelCustomerName.Text = "Имя клиента:";
+            labelCustomerName.Visible = false;
+            // 
+            // comboBoxCustomerName
+            // 
+            comboBoxCustomerName.Location = new Point(210, 400);
             comboBoxCustomerName.Name = "comboBoxCustomerName";
-            comboBoxCustomerName.Location = new System.Drawing.Point(cx, 4);
-            comboBoxCustomerName.Size = new System.Drawing.Size(cw, ch);
-
-            // ── Кнопки ────────────────────────────────────────────────────
-            // sy сейчас = Y после поля "Куда"
-            int btnY = sy + dy + 10;
-
-            // Проверить — левая зона
-            buttonVerify.BackColor = System.Drawing.Color.White;
-            buttonVerify.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            buttonVerify.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
-            buttonVerify.Font = new System.Drawing.Font("Segoe UI", 13F);
-            buttonVerify.Location = new System.Drawing.Point(30, btnY);
+            comboBoxCustomerName.Size = new Size(350, 33);
+            comboBoxCustomerName.TabIndex = 17;
+            comboBoxCustomerName.Visible = false;
+            // 
+            // buttonVerify
+            // 
+            buttonVerify.BackColor = Color.White;
+            buttonVerify.FlatAppearance.BorderColor = Color.Gray;
+            buttonVerify.FlatStyle = FlatStyle.Flat;
+            buttonVerify.Font = new Font("Segoe UI", 13F);
+            buttonVerify.Location = new Point(80, 559);
             buttonVerify.Name = "buttonVerify";
-            buttonVerify.Size = new System.Drawing.Size(230, 52);
-            buttonVerify.Text = "Проверить";
+            buttonVerify.Size = new Size(247, 52);
+            buttonVerify.TabIndex = 18;
+            buttonVerify.Text = "Проверить по API";
             buttonVerify.UseVisualStyleBackColor = false;
             buttonVerify.Click += buttonVerify_Click;
-
-            // Добавить в список — правая зона, над Отгрузить
-            buttonAddToBusket.BackColor = System.Drawing.Color.SteelBlue;
-            buttonAddToBusket.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            buttonAddToBusket.FlatAppearance.BorderSize = 0;
-            buttonAddToBusket.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            buttonAddToBusket.ForeColor = System.Drawing.Color.White;
-            buttonAddToBusket.Location = new System.Drawing.Point(760, btnY - 60);
-            buttonAddToBusket.Name = "buttonAddToBusket";
-            buttonAddToBusket.Size = new System.Drawing.Size(280, 46);
-            buttonAddToBusket.Text = "Добавить в список";
-            buttonAddToBusket.UseVisualStyleBackColor = false;
-            buttonAddToBusket.Click += buttonAddToBusket_Click;
-
-            // Отгрузить — правая зона
-            buttonShipment.BackColor = System.Drawing.Color.White;
-            buttonShipment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            buttonShipment.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
-            buttonShipment.Font = new System.Drawing.Font("Segoe UI", 13F);
-            buttonShipment.Location = new System.Drawing.Point(900, btnY);
+            // 
+            // buttonShipment
+            // 
+            buttonShipment.BackColor = Color.White;
+            buttonShipment.FlatAppearance.BorderColor = Color.Gray;
+            buttonShipment.FlatStyle = FlatStyle.Flat;
+            buttonShipment.Font = new Font("Segoe UI", 13F);
+            buttonShipment.Location = new Point(914, 559);
             buttonShipment.Name = "buttonShipment";
-            buttonShipment.Size = new System.Drawing.Size(230, 52);
+            buttonShipment.Size = new Size(230, 52);
+            buttonShipment.TabIndex = 20;
             buttonShipment.Text = "Отгрузить";
             buttonShipment.UseVisualStyleBackColor = false;
             buttonShipment.Click += buttonShipment_Click;
-
-            // ── Form ──────────────────────────────────────────────────────
-            int formH = btnY + 72;
-            AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            BackColor = System.Drawing.Color.LightBlue;
-            ClientSize = new System.Drawing.Size(1600, formH);
-            MinimumSize = new System.Drawing.Size(1600, formH + 40);
-            Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            Name = "CreatingShipmentForm";
-            Text = "Создать отгрузку";
-            Controls.Add(buttonAddToBusket);
+            // 
+            // buttonAddToBusket
+            // 
+            buttonAddToBusket.BackColor = Color.SteelBlue;
+            buttonAddToBusket.FlatAppearance.BorderSize = 0;
+            buttonAddToBusket.FlatStyle = FlatStyle.Flat;
+            buttonAddToBusket.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            buttonAddToBusket.ForeColor = Color.White;
+            buttonAddToBusket.Location = new Point(67, 481);
+            buttonAddToBusket.Name = "buttonAddToBusket";
+            buttonAddToBusket.Size = new Size(280, 46);
+            buttonAddToBusket.TabIndex = 19;
+            buttonAddToBusket.Text = "Добавить в список";
+            buttonAddToBusket.UseVisualStyleBackColor = false;
+            buttonAddToBusket.Click += buttonAddToBusket_Click;
+            // 
+            // labelLogin
+            // 
+            labelLogin.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            labelLogin.AutoSize = true;
+            labelLogin.Font = new Font("Segoe UI", 11F);
+            labelLogin.Location = new Point(1622, 33);
+            labelLogin.Name = "labelLogin";
+            labelLogin.Size = new Size(80, 30);
+            labelLogin.TabIndex = 22;
+            labelLogin.Text = "Логин:";
+            // 
+            // CreatingShipmentForm
+            // 
+            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.LightBlue;
+            ClientSize = new Size(1773, 754);
+            Controls.Add(labelLogin);
             Controls.Add(buttonShipment);
+            Controls.Add(buttonAddToBusket);
             Controls.Add(buttonVerify);
             Controls.Add(comboBoxCustomerName);
             Controls.Add(labelCustomerName);
@@ -289,15 +341,17 @@
             Controls.Add(labelName);
             Controls.Add(labelBusket);
             Controls.Add(labelCreatingShipment);
-            Controls.Add(labelLogin);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
+            Name = "CreatingShipmentForm";
+            Text = "Создать отгрузку";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)numCount).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numSumProduct).EndInit();
+            ((ISupportInitialize)numCount).EndInit();
+            ((ISupportInitialize)numSumProduct).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
+        private Label labelLogin;
     }
 }

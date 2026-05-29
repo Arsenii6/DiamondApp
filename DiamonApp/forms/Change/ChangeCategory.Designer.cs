@@ -17,7 +17,6 @@
             if (disposing && (components != null)) components.Dispose();
             base.Dispose(disposing);
         }
-
         private void InitializeComponent()
         {
             menuStrip1 = new MenuStrip();

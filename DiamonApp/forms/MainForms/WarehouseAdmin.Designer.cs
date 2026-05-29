@@ -29,14 +29,12 @@
         private System.Windows.Forms.Button buttonWrittenOff;
         private System.Windows.Forms.Label labelResult;
         private Microsoft.Data.Sqlite.SqliteCommand sqliteCommand1;
-
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
                 components.Dispose();
             base.Dispose(disposing);
         }
-
         private void InitializeComponent()
         {
             labelwarehouse = new Label();
@@ -99,6 +97,7 @@
             addCardToolStripMenuItem.Name = "addCardToolStripMenuItem";
             addCardToolStripMenuItem.Size = new Size(203, 34);
             addCardToolStripMenuItem.Text = "Карточку";
+            addCardToolStripMenuItem.Click += new EventHandler(AddCardToolStripMenuItem_Click);  // ДОБАВЛЕНО!
             // 
             // NewCategoryToolStripMenuItem
             // 
@@ -243,7 +242,7 @@
             buttonWrittenOff.FlatStyle = FlatStyle.Flat;
             buttonWrittenOff.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
             buttonWrittenOff.ForeColor = Color.White;
-            buttonWrittenOff.Location = new Point(20, 680);
+            buttonWrittenOff.Location = new Point(12, 669);
             buttonWrittenOff.Name = "buttonWrittenOff";
             buttonWrittenOff.Size = new Size(340, 55);
             buttonWrittenOff.TabIndex = 5;
@@ -265,7 +264,7 @@
             sqliteCommand1.CommandTimeout = 30;
             sqliteCommand1.Connection = null;
             sqliteCommand1.Transaction = null;
-            sqliteCommand1.UpdatedRowSource = System.Data.UpdateRowSource.None;
+            sqliteCommand1.UpdatedRowSource = UpdateRowSource.None;
             // 
             // WarehouseAdmin
             // 

@@ -1,12 +1,4 @@
 ﻿using DiamonApp.classes;
-using DiamonApp.Classes;
-using DiamondApp.classes;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace DiamonApp.DataBase
 {
     public class AllDB : DbContext
@@ -18,7 +10,6 @@ namespace DiamonApp.DataBase
         public DbSet<ProductsOnShipmentClass> ProductsOnShipments { get; set; }
         public DbSet<ProductsOnAcceptanceClass> ProductsOnAcceptance { get; set; }
         public DbSet<UniteOfMeasureClass> UniteOfMeasures { get; set; }
-
         public AllDB()
         {
             Database.EnsureCreated();
@@ -28,12 +19,10 @@ namespace DiamonApp.DataBase
             Task.Run(async () => await AddDataCategoriesAsync()).Wait();
             Task.Run(async () => await AddDataProductsAsync()).Wait();
         }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Data Source=allDataBase.db");
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ProductClass>().ToTable("Products");
@@ -119,7 +108,6 @@ namespace DiamonApp.DataBase
                 entity.Property(p => p.LoginEmployee);
             });
         }
-
         private async Task EnsureExistAsync()
         {
             if (!await Employess.AnyAsync(w => w.Login == "777"))
@@ -134,7 +122,6 @@ namespace DiamonApp.DataBase
 
             await SaveChangesAsync();
         }
-
         private async Task AddDataCategoriesAsync()
         {
             if (!await Categories.AnyAsync())
@@ -144,7 +131,6 @@ namespace DiamonApp.DataBase
                 await SaveChangesAsync();
             }
         }
-
         private async Task AddUnitesOfMeasureAsync()
         {
             if (!await UniteOfMeasures.AnyAsync())
@@ -154,7 +140,6 @@ namespace DiamonApp.DataBase
                 await SaveChangesAsync();
             }
         }
-
         private async Task AddDataProductsAsync()
         {
             if (!await Products.AnyAsync())
@@ -165,18 +150,15 @@ namespace DiamonApp.DataBase
                 {
                     allNamesLinq.AddRange(category.NamesOfCategory);
                 }
-
                 var units = await UniteOfMeasures.ToListAsync();
                 var allUnitsLinq = new List<string>();
                 foreach (var unite in units)
                 {
                     allUnitsLinq.AddRange(unite.UnitesOfMeasure);
                 }
-
                 var dateEnd = new DateTime(2060, 12, 12);
                 var dateNow = DateTime.Now;
                 var admin = await Employess.FirstOrDefaultAsync(p => p.Login == "777");
-
                 await Products.AddRangeAsync(new ProductClass[]
                 {
                     new ProductClass( "Какое то кольцо", allUnitsLinq[0], 45000m, allNamesLinq[0], 30, admin?.Login ?? "777", dateEnd, ((dateEnd.Year - dateNow.Year)*12)+(dateEnd.Month - dateNow.Month), 0, 0, true),
@@ -190,46 +172,37 @@ namespace DiamonApp.DataBase
                 await SaveChangesAsync();
             }
         }
-
-        // ========== АСИНХРОННЫЕ МЕТОДЫ ДЛЯ ИСПОЛЬЗОВАНИЯ В ФОРМАХ ==========
-
         public async Task<ProductClass?> GetProductByNameAsync(string name)
         {
             return await Products.FirstOrDefaultAsync(p => p.Name == name);
         }
-
         public async Task<List<ProductClass>> GetActiveProductsAsync()
         {
             return await Products.Where(p => p.Status).ToListAsync();
         }
 
-        public async Task<List<ProductClass>> GetExpiredProductsAsync()
+       public async Task<List<ProductClass>> GetExpiredProductsAsync()
         {
             return await Products.Where(p => !p.Status).ToListAsync();
         }
-
         public async Task<List<ProductClass>> GetProductsByCategoryAsync(string category)
         {
             return await Products.Where(p => p.Category == category && p.Status).ToListAsync();
         }
-
         public async Task<EmployeeClass?> GetEmployeeByLoginAsync(string login)
         {
             return await Employess.FirstOrDefaultAsync(e => e.Login == login);
         }
-
         public async Task<List<string>> GetAllCategoriesAsync()
         {
             var categoryEntity = await Categories.FirstOrDefaultAsync(p => p.Id == 1);
             return categoryEntity?.NamesOfCategory ?? new List<string>();
         }
-
         public async Task<List<string>> GetAllUnitsAsync()
         {
             var unitsEntity = await UniteOfMeasures.FirstOrDefaultAsync(p => p.Id == 1);
             return unitsEntity?.UnitesOfMeasure ?? new List<string>();
         }
-
         public async Task<int> UpdateExpiredProductsStatusAsync()
         {
             var expiredProducts = await Products
@@ -244,38 +217,32 @@ namespace DiamonApp.DataBase
             await SaveChangesAsync();
             return expiredProducts.Count;
         }
-
         public async Task<List<HistoryShipment>> GetShipmentsByDateRangeAsync(DateTime start, DateTime end)
         {
             return await HistoryShipment
                 .Where(s => s.DateShipment.Date >= start && s.DateShipment.Date <= end)
                 .ToListAsync();
         }
-
         public async Task<List<ProductsOnShipmentClass>> GetShipmentCartAsync()
         {
             return await ProductsOnShipments.ToListAsync();
         }
-
         public async Task ClearShipmentCartAsync()
         {
             var items = await ProductsOnShipments.ToListAsync();
             ProductsOnShipments.RemoveRange(items);
             await SaveChangesAsync();
         }
-
         public async Task<List<ProductsOnAcceptanceClass>> GetAcceptanceCartAsync()
         {
             return await ProductsOnAcceptance.ToListAsync();
         }
-
         public async Task ClearAcceptanceCartAsync()
         {
             var items = await ProductsOnAcceptance.ToListAsync();
             ProductsOnAcceptance.RemoveRange(items);
             await SaveChangesAsync();
         }
-
         public async Task<List<ProductsOnShipmentClass>> GetShipmentCartWithRegionAsync()
         {
             return await ProductsOnShipments.ToListAsync();

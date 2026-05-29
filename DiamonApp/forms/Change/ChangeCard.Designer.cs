@@ -13,13 +13,11 @@
         private System.Windows.Forms.Label labelUnite;
         private System.Windows.Forms.ComboBox comboBoxUniteOfMeasure;
         private System.Windows.Forms.Button buttonChange;
-
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null)) components.Dispose();
             base.Dispose(disposing);
         }
-
         private void InitializeComponent()
         {
             menuStrip1 = new MenuStrip();

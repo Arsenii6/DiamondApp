@@ -1,9 +1,6 @@
-﻿using System.Globalization;
-namespace DiamondApp.classes
+﻿using Newtonsoft.Json.Linq;
+namespace DiamonApp.Classes
 {
-    /// <summary>
-    /// Менеджер валюты с асинхронным получением курса
-    /// </summary>
     public static class AppCurrencyManager
     {
         private static readonly string SettingsFile = Path.Combine(Application.StartupPath, "currency_settings.txt");
@@ -13,11 +10,11 @@ namespace DiamondApp.classes
         public static double RateToRub { get; private set; } = 1.0;
         public static string RateText { get; private set; } = "1 RUB = 1.00 RUB";
 
+        public static event EventHandler? CurrencyChanged;
         static AppCurrencyManager()
         {
             Load();
         }
-
         public static void Update(string code, double rateToRub, string rateText)
         {
             CurrencyCode = code;
@@ -30,19 +27,17 @@ namespace DiamondApp.classes
                 _ => "₽"
             };
             Save();
+            CurrencyChanged?.Invoke(null, EventArgs.Empty);
         }
-
         public static decimal Convert(decimal rubAmount)
         {
             if (RateToRub <= 0) return rubAmount;
             return Math.Round(rubAmount / (decimal)RateToRub, 2);
         }
-
         public static string Format(decimal rubAmount)
         {
             return $"{Convert(rubAmount):F2} {CurrencySymbol}";
         }
-
         public static async Task<(double rate, string text)> FetchRateAsync(string currencyCode)
         {
             if (currencyCode == "RUB")
@@ -50,20 +45,15 @@ namespace DiamondApp.classes
 
             using var client = new HttpClient();
             client.Timeout = TimeSpan.FromSeconds(10);
-
             string url = $"https://open.er-api.com/v6/latest/{currencyCode}";
             string response = await client.GetStringAsync(url);
-
-            using var doc = JsonDocument.Parse(response);
-            var root = doc.RootElement;
-
-            if (root.GetProperty("result").GetString() != "success")
+            var json = JObject.Parse(response);
+            if (json["result"]?.ToString() != "success")
                 throw new Exception("API вернул ошибку");
 
-            double rubRate = root.GetProperty("rates").GetProperty("RUB").GetDouble();
+            double rubRate = json["rates"]?["RUB"]?.Value<double>() ?? 0;
             return (rubRate, $"1 {currencyCode} = {rubRate:F2} RUB");
         }
-
         private static void Save()
         {
             try
@@ -71,13 +61,12 @@ namespace DiamondApp.classes
                 File.WriteAllLines(SettingsFile, new[]
                 {
                     CurrencyCode,
-                    RateToRub.ToString(CultureInfo.InvariantCulture),
+                    RateToRub.ToString(),
                     RateText
                 });
             }
             catch { }
         }
-
         private static void Load()
         {
             try
@@ -86,7 +75,7 @@ namespace DiamondApp.classes
                 string[] lines = File.ReadAllLines(SettingsFile);
                 if (lines.Length < 3) return;
                 CurrencyCode = lines[0].Trim();
-                RateToRub = double.Parse(lines[1].Trim(), CultureInfo.InvariantCulture);
+                RateToRub = double.Parse(lines[1].Trim());
                 RateText = lines[2].Trim();
                 CurrencySymbol = CurrencyCode switch
                 {

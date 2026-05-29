@@ -1,6 +1,6 @@
 ﻿using DiamonApp.Forms.DifferentFunctionsForms;
-using Newtonsoft.Json.Linq;
 using System.Globalization;
+using Newtonsoft.Json.Linq;
 namespace DiamonApp.forms.differentFunctionsForms
 {
     public partial class CreatingShipmentForm : Form
@@ -10,7 +10,6 @@ namespace DiamonApp.forms.differentFunctionsForms
         private string _verifiedInn = "";
         private string _verifiedCustomerName = "";
         private Dictionary<string, string> _weatherCache = new();
-
         private static readonly Dictionary<string, (double lat, double lon)> RegionCoords = new()
         {
             ["Москва"] = (55.7558, 37.6176),
@@ -32,17 +31,13 @@ namespace DiamonApp.forms.differentFunctionsForms
 
             LoadProducts();
 
-            comboBoxName.Click += comboBoxName_SelectedIndexChanged!;
-            comboBoxUniteOfMeasure.Click += comboBoxUniteOfMeasure_SelectedIndexChanged!;
-            insuranceToolStripMenuItem.Click += InsuranceToolStripMenuItem_Click!;
-
             Logger.UserAction(UserLogin, "Открыта форма создания отгрузки");
         }
         private void CreateDataGridView()
         {
             dgvWarehouse = new DataGridView
             {
-                Location = new Point(600, 74),
+                Location = new Point(620, 104),
                 Size = new Size(980, 440),
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
                 BackgroundColor = Color.White,
@@ -110,7 +105,7 @@ namespace DiamonApp.forms.differentFunctionsForms
                     comboBoxUniteOfMeasure.Items.Add(u);
             }
         }
-        private void buttonAddToBusket_Click(object sender, EventArgs e)
+        private void buttonAddToBusket_Click(object? sender, EventArgs e)
         {
             using var db = new AllDB();
 
@@ -141,6 +136,7 @@ namespace DiamonApp.forms.differentFunctionsForms
                 MessageBox.Show(Resources.EnterAddressDelivery);
                 return;
             }
+
             var entry = new ProductsOnShipmentClass(
                 comboBoxName.Text,
                 (int)numCount.Value,
@@ -158,19 +154,17 @@ namespace DiamonApp.forms.differentFunctionsForms
             Logger.UserAction(UserLogin, $"'{comboBoxName.Text}' добавлен, регион: {entry.Region}");
             LoadProducts();
         }
-        private void buttonVerify_Click(object sender, EventArgs e)
+        private void buttonVerify_Click(object? sender, EventArgs e)
         {
             var checkForm = new ShipmentCheckForm(UserLogin, this);
             checkForm.ShowDialog();
         }
-
         public void SetCustomerFromApi(string customerName, string inn)
         {
             _verifiedCustomerName = customerName;
             _verifiedInn = inn;
             comboBoxCustomerName.Text = customerName;
         }
-
         private void InsuranceToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             var insuranceForm = new InsuranceForm(UserLogin, this);
@@ -198,7 +192,7 @@ namespace DiamonApp.forms.differentFunctionsForms
             }
             return result;
         }
-        private async void weatherToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void weatherToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             weatherToolStripMenuItem.Enabled = false;
             weatherToolStripMenuItem.Text = "Загрузка...";
@@ -258,7 +252,7 @@ namespace DiamonApp.forms.differentFunctionsForms
             catch { }
             return null;
         }
-        private void buttonShipment_Click(object sender, EventArgs e)
+        private void buttonShipment_Click(object? sender, EventArgs e)
         {
             using var db = new AllDB();
             if (!db.ProductsOnShipments.Any())
@@ -288,7 +282,6 @@ namespace DiamonApp.forms.differentFunctionsForms
                 }
                 db.SaveChanges();
             }
-
             var history = new HistoryShipment(
                 productsNames.ToString(), "",
                 DateTime.Today, (int)numCount.Value,

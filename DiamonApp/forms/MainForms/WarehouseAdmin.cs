@@ -11,12 +11,13 @@
             userLogin = login;
             labelLogin.Text = "Логин:" + userLogin;
             CreateDataGridView();
-
             Task.Run(async () => await LoadProductsTrueAsync()).Wait();
             FilterProducts();
 
             весьСкладToolStripMenuItem.Click += async (s, a) => await LoadProductsTrueAsync();
             exitToolStripMenuItemOutput.Click += Exit_Click;
+
+            AppCurrencyManager.CurrencyChanged += async (s, e) => await LoadProductsTrueAsync();
 
             Logger.UserAction(userLogin, "Открыта форма администратора склада");
         }
@@ -41,10 +42,8 @@
         private void DgvWarehouseTrue_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex < 0 || e.RowIndex >= _seasonPercents.Count) return;
-
             double percent = _seasonPercents[e.RowIndex];
             var row = dgvWarehouseTrue.Rows[e.RowIndex];
-
             System.Drawing.Color color;
             if (percent > 50)
                 color = System.Drawing.Color.FromArgb(144, 238, 144);
@@ -52,7 +51,6 @@
                 color = System.Drawing.Color.FromArgb(255, 255, 102);
             else
                 color = System.Drawing.Color.FromArgb(255, 102, 102);
-
             row.DefaultCellStyle.BackColor = color;
             row.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(
                 color.R - 20 < 0 ? 0 : color.R - 20,
@@ -73,7 +71,6 @@
                         if (existingItem.Text == category) { alreadyExists = true; break; }
                     }
                     if (alreadyExists) continue;
-
                     var menuItem = new ToolStripMenuItem(category);
                     menuItem.Click += async (s, e) =>
                     {
@@ -106,7 +103,6 @@
                 product.Status = false;
                 Logger.UserAction(userLogin, $"Товар '{product.Name}' просрочен");
             }
-
             await db.SaveChangesAsync();
         }
         private void BindProductsWithPercents(List<ProductClass> products)
@@ -126,7 +122,6 @@
 
                 if (percent < 0) percent = 0;
                 _seasonPercents.Add(percent);
-
                 return new
                 {
                     Название = p.Name,
@@ -151,14 +146,14 @@
         private void AddCardToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы добавления карточки");
-            new AddCard(userLogin).Show();
-            Hide();
+            var addCardForm = new AddCard(userLogin);
+            addCardForm.Show();
         }
         private void newCategoryToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы добавления категории");
-            new AddCategory(userLogin).Show();
-            Hide();
+            var addCategoryForm = new AddCategory(userLogin);
+            addCategoryForm.Show();
         }
         private void Exit_Click(object? sender, EventArgs e)
         {
@@ -168,62 +163,63 @@
         private void changeAccountToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Смена аккаунта");
-            new Authorization().Show();
-            Hide();
+            var authForm = new Authorization();
+            authForm.Show();
+            Close();
         }
         private void changeCardToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы изменения карточки");
-            new ChangeCard(userLogin).Show();
-            Hide();
+            var changeCardForm = new ChangeCard(userLogin);
+            changeCardForm.Show();
         }
         private void CategoryChangeToolStripMenuItem1_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы изменения категории");
-            new ChangeCategory(userLogin).Show();
-            Hide();
+            var changeCategoryForm = new ChangeCategory(userLogin);
+            changeCategoryForm.Show();
         }
         private void deleteCardToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы удаления карточки");
-            new DeleteCard(userLogin).Show();
-            Hide();
+            var deleteCardForm = new DeleteCard(userLogin);
+            deleteCardForm.Show();
         }
         private void deleteCategoryToolStripMenuItem2_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы удаления категории");
-            new DeleteCategory(userLogin).Show();
-            Hide();
+            var deleteCategoryForm = new DeleteCategory(userLogin);
+            deleteCategoryForm.Show();
         }
         private void buttonHistoryShipment_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие истории отгрузок");
-            new HistoryShipmentForm(userLogin).Show();
-            Hide();
+            var historyForm = new HistoryShipmentForm(userLogin);
+            historyForm.Show();
         }
         private void buttonWrittenOff_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие склада списанных товаров");
-            new WrittenOffForm(userLogin).Show();
-            Hide();
+            var writtenOffForm = new WrittenOffForm(userLogin);
+            writtenOffForm.Show();
         }
         private void toolStripMenuItemCollections_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы сезонных коллекций");
-            new SeasonalCollectionsForm(userLogin).Show();
-            Hide();
+            var collectionsForm = new SeasonalCollectionsForm(userLogin);
+            collectionsForm.Show();
         }
         private void toolStripMenuItemCurrency_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие настроек валюты");
-            new CurrencySettings(userLogin).Show();
-            Hide();
+            var currencyForm = new CurrencySettings(userLogin);
+            currencyForm.ShowDialog();
         }
         private void принятьПоставкуToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы приёмки поставки");
-            new AcceptanceOfGoodsForm(userLogin).Show();
-            Hide();
+            var acceptanceForm = new AcceptanceOfGoodsForm(userLogin);
+            acceptanceForm.Show();
         }
     }
 }

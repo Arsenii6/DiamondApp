@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DiamondApp.Interfaces
+﻿namespace DiamondApp.Interfaces
 {
     public interface ILogger
     {

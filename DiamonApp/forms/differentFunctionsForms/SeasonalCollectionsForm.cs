@@ -4,7 +4,6 @@ using Draft_Diamond_BD;
 using System;
 using System.Linq;
 using System.Windows.Forms;
-
 namespace Draft_Diamond_BD
 {
     public partial class SeasonalCollectionsForm : Form

@@ -3,7 +3,6 @@
     partial class AcceptanceConfirmForm
     {
         private System.ComponentModel.IContainer components = null;
-
         private System.Windows.Forms.Label labelQuestion;
         private System.Windows.Forms.Button buttonYes;
         private System.Windows.Forms.Button buttonNo;
@@ -13,7 +12,6 @@
             if (disposing && (components != null)) components.Dispose();
             base.Dispose(disposing);
         }
-
         private void InitializeComponent()
         {
             labelQuestion = new System.Windows.Forms.Label();
@@ -21,7 +19,6 @@
             buttonNo = new System.Windows.Forms.Button();
             SuspendLayout();
 
-            // Вопрос
             labelQuestion.AutoSize = false;
             labelQuestion.Font = new System.Drawing.Font("Segoe UI", 14F);
             labelQuestion.ForeColor = System.Drawing.Color.DarkBlue;
@@ -30,7 +27,6 @@
             labelQuestion.Text = "Вы уверены, что хотите добавить данную поставку?";
             labelQuestion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
-            // Кнопка Да
             buttonYes.BackColor = System.Drawing.Color.LightGreen;
             buttonYes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             buttonYes.FlatAppearance.BorderSize = 0;
@@ -41,7 +37,6 @@
             buttonYes.Text = "Да";
             buttonYes.Click += buttonYes_Click;
 
-            // Кнопка Нет
             buttonNo.BackColor = System.Drawing.Color.IndianRed;
             buttonNo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             buttonNo.FlatAppearance.BorderSize = 0;
@@ -53,7 +48,6 @@
             buttonNo.Text = "Нет";
             buttonNo.Click += buttonNo_Click;
 
-            // Form
             BackColor = System.Drawing.Color.LightBlue;
             ClientSize = new System.Drawing.Size(600, 220);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

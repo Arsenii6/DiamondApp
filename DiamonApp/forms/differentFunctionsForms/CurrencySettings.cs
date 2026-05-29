@@ -16,7 +16,7 @@
             labelRate.Text = AppCurrencyManager.RateText;
 
             buttonUpdate.Click += async (s, e) => await UpdateRateAsync();
-            backToolStripMenuItem.Click += BackToolStripMenuItem_Click!;
+            backToolStripMenuItem.Click += BackToolStripMenuItem_Click;
 
             Logger.UserAction(_userLogin, "Открыта форма настройки валюты");
         }
@@ -52,13 +52,7 @@
         private void BackToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(_userLogin, "Возврат из настроек валюты");
-            using var db = new AllDB();
-            var emp = db.Employess.FirstOrDefault(p => p.Login == _userLogin);
-            if (emp != null && emp.Job == JobsEnumcs.Administrator)
-                new WarehouseAdmin(_userLogin).Show();
-            else
-                new WarehouseStorekeeper(_userLogin).Show();
-            Hide();
+            Close();
         }
     }
 }

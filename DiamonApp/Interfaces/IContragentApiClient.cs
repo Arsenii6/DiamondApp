@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace DiamondApp.Interfaces
+﻿namespace DiamondApp.Interfaces
 {
     public interface IContragentApiClient
     {

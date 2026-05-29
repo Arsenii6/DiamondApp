@@ -3,7 +3,6 @@
     public partial class DeleteCategory : Form
     {
         public string LoginAdmin;
-
         public DeleteCategory(string loginAdmin)
         {
             InitializeComponent();

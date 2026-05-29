@@ -23,96 +23,136 @@
 
         private void InitializeComponent()
         {
-            menuStrip1 = new System.Windows.Forms.MenuStrip();
-            backToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            labelInn = new System.Windows.Forms.Label();
-            textBoxInn = new System.Windows.Forms.TextBox();
-            buttonSearch = new System.Windows.Forms.Button();
-            labelInfoTitle = new System.Windows.Forms.Label();
-            richTextBoxInfo = new System.Windows.Forms.RichTextBox();
-            labelQuestion = new System.Windows.Forms.Label();
-            buttonYes = new System.Windows.Forms.Button();
-            buttonNo = new System.Windows.Forms.Button();
+            menuStrip1 = new MenuStrip();
+            backToolStripMenuItem = new ToolStripMenuItem();
+            labelInn = new Label();
+            textBoxInn = new TextBox();
+            buttonSearch = new Button();
+            labelInfoTitle = new Label();
+            richTextBoxInfo = new RichTextBox();
+            labelQuestion = new Label();
+            buttonYes = new Button();
+            buttonNo = new Button();
             menuStrip1.SuspendLayout();
             SuspendLayout();
-
-            menuStrip1.BackColor = System.Drawing.Color.White;
-            menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { backToolStripMenuItem });
-            menuStrip1.Location = new System.Drawing.Point(0, 0);
+            // 
+            // menuStrip1
+            // 
+            menuStrip1.BackColor = Color.White;
+            menuStrip1.ImageScalingSize = new Size(24, 24);
+            menuStrip1.Items.AddRange(new ToolStripItem[] { backToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new System.Drawing.Size(580, 28);
-
+            menuStrip1.Size = new Size(580, 33);
+            menuStrip1.TabIndex = 8;
+            // 
+            // backToolStripMenuItem
+            // 
             backToolStripMenuItem.Name = "backToolStripMenuItem";
+            backToolStripMenuItem.Size = new Size(77, 29);
             backToolStripMenuItem.Text = "Назад";
             backToolStripMenuItem.Click += backToolStripMenuItem_Click;
-
+            // 
+            // labelInn
+            // 
             labelInn.AutoSize = true;
-            labelInn.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold);
-            labelInn.Location = new System.Drawing.Point(30, 45);
+            labelInn.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
+            labelInn.Location = new Point(-6, 45);
+            labelInn.Name = "labelInn";
+            labelInn.Size = new Size(246, 36);
+            labelInn.TabIndex = 7;
             labelInn.Text = "ИНН контрагента:";
-
-            textBoxInn.Font = new System.Drawing.Font("Segoe UI", 13F);
-            textBoxInn.Location = new System.Drawing.Point(230, 42);
-            textBoxInn.Size = new System.Drawing.Size(300, 34);
-            textBoxInn.Name = "textBoxInn";
+            // 
+            // textBoxInn
+            // 
+            textBoxInn.Font = new Font("Segoe UI", 13F);
+            textBoxInn.Location = new Point(246, 42);
             textBoxInn.MaxLength = 12;
-
-            buttonSearch.BackColor = System.Drawing.Color.SteelBlue;
-            buttonSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            textBoxInn.Name = "textBoxInn";
+            textBoxInn.Size = new Size(284, 42);
+            textBoxInn.TabIndex = 6;
+            // 
+            // buttonSearch
+            // 
+            buttonSearch.BackColor = Color.SteelBlue;
             buttonSearch.FlatAppearance.BorderSize = 0;
-            buttonSearch.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
-            buttonSearch.ForeColor = System.Drawing.Color.White;
-            buttonSearch.Location = new System.Drawing.Point(540, 40);
-            buttonSearch.Size = new System.Drawing.Size(30, 38);
+            buttonSearch.FlatStyle = FlatStyle.Flat;
+            buttonSearch.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            buttonSearch.ForeColor = Color.White;
+            buttonSearch.Location = new Point(540, 40);
             buttonSearch.Name = "buttonSearch";
+            buttonSearch.Size = new Size(30, 38);
+            buttonSearch.TabIndex = 5;
             buttonSearch.Text = "▶";
+            buttonSearch.UseVisualStyleBackColor = false;
             buttonSearch.Click += buttonSearch_Click;
-
+            // 
+            // labelInfoTitle
+            // 
             labelInfoTitle.AutoSize = true;
-            labelInfoTitle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            labelInfoTitle.Location = new System.Drawing.Point(30, 95);
+            labelInfoTitle.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            labelInfoTitle.Location = new Point(20, 87);
+            labelInfoTitle.Name = "labelInfoTitle";
+            labelInfoTitle.Size = new Size(346, 32);
+            labelInfoTitle.TabIndex = 4;
             labelInfoTitle.Text = "Информация о поставщике";
-
-            richTextBoxInfo.BackColor = System.Drawing.Color.AliceBlue;
-            richTextBoxInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            richTextBoxInfo.Font = new System.Drawing.Font("Segoe UI", 11F);
-            richTextBoxInfo.Location = new System.Drawing.Point(20, 122);
+            // 
+            // richTextBoxInfo
+            // 
+            richTextBoxInfo.BackColor = Color.AliceBlue;
+            richTextBoxInfo.BorderStyle = BorderStyle.FixedSingle;
+            richTextBoxInfo.Font = new Font("Segoe UI", 11F);
+            richTextBoxInfo.Location = new Point(20, 122);
             richTextBoxInfo.Name = "richTextBoxInfo";
             richTextBoxInfo.ReadOnly = true;
-            richTextBoxInfo.Size = new System.Drawing.Size(540, 270);
+            richTextBoxInfo.Size = new Size(540, 270);
+            richTextBoxInfo.TabIndex = 3;
             richTextBoxInfo.Text = "";
-
+            // 
+            // labelQuestion
+            // 
             labelQuestion.AutoSize = true;
-            labelQuestion.Font = new System.Drawing.Font("Segoe UI", 12F);
-            labelQuestion.Location = new System.Drawing.Point(30, 410);
+            labelQuestion.Font = new Font("Segoe UI", 12F);
+            labelQuestion.Location = new Point(30, 410);
+            labelQuestion.Name = "labelQuestion";
+            labelQuestion.Size = new Size(449, 32);
+            labelQuestion.TabIndex = 2;
             labelQuestion.Text = "Хотите отгрузить товар этому клиенту?";
-
-            buttonYes.BackColor = System.Drawing.Color.LightGreen;
-            buttonYes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            buttonYes.FlatAppearance.BorderSize = 0;
-            buttonYes.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            buttonYes.Location = new System.Drawing.Point(80, 450);
-            buttonYes.Size = new System.Drawing.Size(160, 52);
-            buttonYes.Name = "buttonYes";
-            buttonYes.Text = "Да";
+            // 
+            // buttonYes
+            // 
+            buttonYes.BackColor = Color.LightGreen;
             buttonYes.Enabled = false;
+            buttonYes.FlatAppearance.BorderSize = 0;
+            buttonYes.FlatStyle = FlatStyle.Flat;
+            buttonYes.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            buttonYes.Location = new Point(80, 450);
+            buttonYes.Name = "buttonYes";
+            buttonYes.Size = new Size(160, 52);
+            buttonYes.TabIndex = 1;
+            buttonYes.Text = "Да";
+            buttonYes.UseVisualStyleBackColor = false;
             buttonYes.Click += buttonYes_Click;
-
-            buttonNo.BackColor = System.Drawing.Color.IndianRed;
-            buttonNo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            // 
+            // buttonNo
+            // 
+            buttonNo.BackColor = Color.IndianRed;
             buttonNo.FlatAppearance.BorderSize = 0;
-            buttonNo.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            buttonNo.ForeColor = System.Drawing.Color.White;
-            buttonNo.Location = new System.Drawing.Point(340, 450);
-            buttonNo.Size = new System.Drawing.Size(160, 52);
+            buttonNo.FlatStyle = FlatStyle.Flat;
+            buttonNo.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            buttonNo.ForeColor = Color.White;
+            buttonNo.Location = new Point(340, 450);
             buttonNo.Name = "buttonNo";
+            buttonNo.Size = new Size(160, 52);
+            buttonNo.TabIndex = 0;
             buttonNo.Text = "Нет";
+            buttonNo.UseVisualStyleBackColor = false;
             buttonNo.Click += buttonNo_Click;
-
-            BackColor = System.Drawing.Color.LightBlue;
-            ClientSize = new System.Drawing.Size(580, 530);
-            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            MaximizeBox = false;
+            // 
+            // ShipmentCheckForm
+            // 
+            BackColor = Color.LightBlue;
+            ClientSize = new Size(580, 530);
             Controls.Add(buttonNo);
             Controls.Add(buttonYes);
             Controls.Add(labelQuestion);
@@ -122,7 +162,9 @@
             Controls.Add(textBoxInn);
             Controls.Add(labelInn);
             Controls.Add(menuStrip1);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             MainMenuStrip = menuStrip1;
+            MaximizeBox = false;
             Name = "ShipmentCheckForm";
             Text = "Проверка по API";
             menuStrip1.ResumeLayout(false);

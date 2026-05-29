@@ -17,9 +17,14 @@
             Task.Run(async () => await LoadProductsTrueAsync()).Wait();
             весьСкладToolStripMenuItem.Click += async (s, e) => await LoadProductsTrueAsync();
             exitToolStripMenuItemOutput.Click += Exit_Click;
+            createShipmentToolStripMenuItem.Click += CreateShipmentToolStripMenuItem_Click;
+            принятьПоставкуToolStripMenuItem.Click += принятьПоставкуToolStripMenuItem_Click;
+            toolStripMenuItemCurrency.Click += buttonCurrencySettings_Click;
+            сменитьАккаунтToolStripMenuItem.Click += changeAccountToolStripMenuItem_Click;
+            AppCurrencyManager.CurrencyChanged += async (s, e) => await LoadProductsTrueAsync();
+
             Logger.UserAction(userLogin, "Открыта форма кладовщика");
         }
-
         private void CreateDataGridViewTrue()
         {
             dgvWarehouseTrue = new DataGridView
@@ -123,7 +128,6 @@
                 int daysLeft = (int)(p.EndDateOfTheDay - DateTime.Today).TotalDays;
                 int totalDays = p.UntilTheEndOfTheSeason * 7;
                 double percent;
-
                 if (totalDays > 0)
                     percent = (double)daysLeft / totalDays * 100.0;
                 else
@@ -131,7 +135,6 @@
 
                 if (percent < 0) percent = 0;
                 _seasonPercents.Add(percent);
-
                 return new
                 {
                     Название = p.Name,
@@ -144,7 +147,6 @@
                     Итоговая_стоимость = AppCurrencyManager.Format(p.FinalyPrice),
                 };
             }).ToList();
-
             dgvWarehouseTrue.DataSource = display;
             SetupColumnsTrue();
         }
@@ -154,14 +156,12 @@
 
             double percent = _seasonPercents[e.RowIndex];
             System.Drawing.Color color;
-
             if (percent > 50)
                 color = System.Drawing.Color.FromArgb(144, 238, 144);
             else if (percent >= 25)
                 color = System.Drawing.Color.FromArgb(255, 255, 102);
             else
                 color = System.Drawing.Color.FromArgb(255, 102, 102);
-
             var row = dgvWarehouseTrue.Rows[e.RowIndex];
             row.DefaultCellStyle.BackColor = color;
             row.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(
@@ -214,12 +214,10 @@
             if (dgvWarehouseFalse.Columns["EndDateOfTheDay"] != null)
                 dgvWarehouseFalse.Columns["EndDateOfTheDay"].HeaderText = "Дата окончания";
         }
-
         private void CreateShipmentToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы создания отгрузки");
             new CreatingShipmentForm(userLogin).Show();
-            Hide();
         }
         private void Exit_Click(object? sender, EventArgs e)
         {
@@ -235,14 +233,13 @@
         private void buttonCurrencySettings_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие настроек валюты");
-            new CurrencySettings(userLogin).Show();
-            Hide();
+            var currencyForm = new CurrencySettings(userLogin);
+            currencyForm.ShowDialog();
         }
         private void принятьПоставкуToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(userLogin, "Открытие формы приёмки поставки");
             new AcceptanceOfGoodsForm(userLogin).Show();
-            Hide();
         }
     }
 }

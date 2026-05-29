@@ -3,7 +3,6 @@
     public partial class AddCategory : Form
     {
         public string LoginAdmin;
-
         public AddCategory(string loginAdmin)
         {
             InitializeComponent();
@@ -11,7 +10,6 @@
             LoginAdmin = loginAdmin;
             Logger.UserAction(LoginAdmin, "Открыта форма добавления категории");
         }
-
         private async void buttonAddCategory_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(LoginAdmin, "Нажата кнопка добавления категории");
@@ -23,9 +21,7 @@
                 MessageBox.Show(Resources.EnterCategoryName);
                 return;
             }
-
             Logger.UserAction(LoginAdmin, $"Попытка добавить категорию: '{textBoxName.Text.Trim()}'");
-
             await using var db = new AllDB();
             var categoryList = db.Categories.FirstOrDefault(p => p.Id == 1);
 
@@ -40,24 +36,20 @@
                         break;
                     }
                 }
-
                 if (flag)
                 {
                     Logger.UserAction(LoginAdmin, $"Ошибка: категория '{textBoxName.Text.Trim()}' уже существует");
                     MessageBox.Show(Resources.CategoryIsExisting);
                     return;
                 }
-
                 categoryList.NamesOfCategory.Add(textBoxName.Text.Trim());
                 await db.SaveChangesAsync();
-
                 Logger.UserAction(LoginAdmin, $"Категория '{textBoxName.Text.Trim()}' успешно добавлена");
                 MessageBox.Show(Resources.Success);
                 new WarehouseAdmin(LoginAdmin).Show();
                 Close();
             }
         }
-
         private void backToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             Logger.UserAction(LoginAdmin, "Возврат на форму WarehouseAdmin из формы добавления категории");

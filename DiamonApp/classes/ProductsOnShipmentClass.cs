@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DiamonApp.Classes
+﻿namespace DiamonApp.Classes
 {
     public class ProductsOnShipmentClass
     {
@@ -13,7 +11,6 @@ namespace DiamonApp.Classes
         public string LoginStorekeeper { get; set; } = string.Empty;
         public string Region { get; set; } = "Москва";
         public string Insurance { get; set; } = "—";
-
         public ProductsOnShipmentClass(string name, int count, decimal sum,
             string customerName, string customerPlace, string loginStorekeeper)
         {
@@ -27,7 +24,6 @@ namespace DiamonApp.Classes
             Region = "Москва";
             Insurance = "—";
         }
-
         public ProductsOnShipmentClass()
         {
             Name = string.Empty;
