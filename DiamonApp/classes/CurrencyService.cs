@@ -9,7 +9,7 @@ namespace DiamondApp.classes
         public string CurrencySymbol { get; private set; } = "₽";
         public double RateToRub { get; private set; } = 1.0;
         public string RateText { get; private set; } = "1 RUB = 1.00 RUB";
-        public CurrencyService()
+        public CurrencyService(ICurrencyService @object)
         {
             Load();
         }

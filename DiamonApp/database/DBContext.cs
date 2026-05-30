@@ -42,21 +42,18 @@ namespace DiamonApp.DataBase
                 entity.Property(p => p.FinalyPrice);
                 entity.Property(p => p.Status);
             });
-
             modelBuilder.Entity<UniteOfMeasureClass>().ToTable("UniteOfMeasures");
             modelBuilder.Entity<UniteOfMeasureClass>(entity =>
             {
                 entity.HasKey(p => p.Id);
                 entity.Property(p => p.UnitesOfMeasure);
             });
-
             modelBuilder.Entity<CategoryClass>().ToTable("Categories");
             modelBuilder.Entity<CategoryClass>(entity =>
             {
                 entity.HasKey(p => p.Id);
                 entity.Property(p => p.NamesOfCategory);
             });
-
             modelBuilder.Entity<EmployeeClass>().ToTable("Employess");
             modelBuilder.Entity<EmployeeClass>(entity =>
             {
@@ -67,7 +64,6 @@ namespace DiamonApp.DataBase
                 entity.Property(p => p.Password);
                 entity.Property(p => p.Job);
             });
-
             modelBuilder.Entity<HistoryShipment>().ToTable("HistoryShipment");
             modelBuilder.Entity<HistoryShipment>(entity =>
             {
@@ -82,7 +78,6 @@ namespace DiamonApp.DataBase
                 entity.Property(p => p.CustomerPlace);
                 entity.Property(p => p.LoginStorekeeper);
             });
-
             modelBuilder.Entity<ProductsOnShipmentClass>().ToTable("ProductsOnShipmentClass");
             modelBuilder.Entity<ProductsOnShipmentClass>(entity =>
             {
@@ -96,7 +91,6 @@ namespace DiamonApp.DataBase
                 entity.Property(p => p.Region);
                 entity.Property(p => p.Insurance);
             });
-
             modelBuilder.Entity<ProductsOnAcceptanceClass>().ToTable("ProductsOnAcceptanceClass");
             modelBuilder.Entity<ProductsOnAcceptanceClass>(entity =>
             {
@@ -166,12 +160,38 @@ namespace DiamonApp.DataBase
                     new ProductClass( "Какое то колье", allUnitsLinq[0], 45000m, allNamesLinq[2], 30, admin?.Login ?? "777", dateEnd, ((dateEnd.Year - dateNow.Year)*12)+(dateEnd.Month - dateNow.Month), 0, 0, true),
                     new ProductClass( "Какой то браслет", allUnitsLinq[0], 45000m, allNamesLinq[3], 30, admin?.Login ?? "777", dateEnd, ((dateEnd.Year - dateNow.Year)*12)+(dateEnd.Month - dateNow.Month), 0, 0, true),
                     new ProductClass( "Какая то брошь", allUnitsLinq[0], 45000m, allNamesLinq[4], 30, admin?.Login ?? "777", dateEnd, ((dateEnd.Year - dateNow.Year)*12)+(dateEnd.Month - dateNow.Month), 0, 0, true),
-                    new ProductClass( "Какая то брошь(просроченный)", allUnitsLinq[0], 45000m, allNamesLinq[4], 30, admin?.Login ?? "777", new DateTime(2021, 12, 12), 0, 0, 0, false)
+                    new ProductClass( "Какая то брошь(просроченный)", allUnitsLinq[0], 45000m, allNamesLinq[4], 30, admin?.Login ?? "777", new DateTime(2021, 12, 12), 0, 0, 0, false),
+                    new ProductClass( "Кольцо 'Изумруд'", allUnitsLinq[0], 125000m, allNamesLinq[0], 25, admin?.Login ?? "777",
+                        DateTime.Today.AddDays(400), 52, 0, 0, true),
+                    new ProductClass( "Серьги 'Жемчуг'", allUnitsLinq[0], 89000m, allNamesLinq[1], 18, admin?.Login ?? "777",
+                        DateTime.Today.AddDays(365), 48, 0, 0, true),
+                    new ProductClass( "Колье 'Королевское'", allUnitsLinq[0], 350000m, allNamesLinq[2], 5, admin?.Login ?? "777",
+                        DateTime.Today.AddDays(550), 72, 0, 0, true),
+
+                    new ProductClass( "Браслет 'Летний'", allUnitsLinq[0], 45000m, allNamesLinq[3], 42, admin?.Login ?? "777",
+                        DateTime.Today.AddDays(60), 12, 0, 0, true),
+                    new ProductClass( "Брошь 'Осенняя'", allUnitsLinq[0], 67000m, allNamesLinq[4], 15, admin?.Login ?? "777",
+                        DateTime.Today.AddDays(45), 8, 0, 0, true),
+                    new ProductClass( "Кольцо 'Топаз'", allUnitsLinq[0], 78000m, allNamesLinq[0], 12, admin?.Login ?? "777",
+                        DateTime.Today.AddDays(90), 16, 0, 0, true),
+
+                    new ProductClass( "Серьги 'Хрусталь'", allUnitsLinq[0], 34000m, allNamesLinq[1], 8, admin?.Login ?? "777",
+                        DateTime.Today.AddDays(14), 4, 0, 0, true),
+                    new ProductClass( "Колье 'Сапфир'", allUnitsLinq[0], 180000m, allNamesLinq[2], 3, admin?.Login ?? "777",
+                        DateTime.Today.AddDays(7), 2, 0, 0, true),
+                    new ProductClass( "Браслет 'Зимний'", allUnitsLinq[0], 55000m, allNamesLinq[3], 20, admin?.Login ?? "777",
+                        DateTime.Today.AddDays(3), 1, 0, 0, true),
+                    new ProductClass( "Брошь 'Аметист'", allUnitsLinq[0], 92000m, allNamesLinq[4], 6, admin?.Login ?? "777",
+                        DateTime.Today.AddDays(10), 2, 0, 0, true),
+                    new ProductClass( "Кольцо 'Лунный камень'", allUnitsLinq[0], 63000m, allNamesLinq[0], 4, admin?.Login ?? "777",
+                        DateTime.Today.AddDays(1), 1, 0, 0, true),
                 });
 
                 await SaveChangesAsync();
             }
         }
+
+
         public async Task<ProductClass?> GetProductByNameAsync(string name)
         {
             return await Products.FirstOrDefaultAsync(p => p.Name == name);
@@ -180,8 +200,7 @@ namespace DiamonApp.DataBase
         {
             return await Products.Where(p => p.Status).ToListAsync();
         }
-
-       public async Task<List<ProductClass>> GetExpiredProductsAsync()
+        public async Task<List<ProductClass>> GetExpiredProductsAsync()
         {
             return await Products.Where(p => !p.Status).ToListAsync();
         }
